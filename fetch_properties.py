@@ -3,6 +3,10 @@ import urllib.parse
 import json
 import pyarrow as pa
 import pyarrow.parquet as pq
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 
 def fetch_properties(api_token, limit=50, offset=0):
@@ -73,8 +77,7 @@ def save_to_parquet(properties, filename):
 
 
 def execute_fetch_properties():
-    # Example usage
-    api_token = "K2xpU2owcTFYZmVTbEZWNEJaYytWdz09OkJMMHNkakhGeGMyV3dnYUVkTkNsVjJtNlNZRFllUkFqOjA1MjVkMGVlNDg3Nzg1NmNiODRkODI1ZTM1ZDM2YzIzOWM1ZTA5ZjRmNDg1YmI2MjlmZjEwNDBiNjU5Y2FlZjE="
+    api_token = os.getenv('OTC_API_KEY')
 
     properties = fetch_all_properties(api_token)
 

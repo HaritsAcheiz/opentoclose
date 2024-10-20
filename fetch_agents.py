@@ -4,6 +4,10 @@ import json
 import pyarrow as pa
 import pyarrow.parquet as pq
 import pandas as pd
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 
 def fetch_agents(api_token, limit=50, offset=0):
@@ -71,8 +75,7 @@ def save_to_parquet(agents, filename):
 
 
 def execute_fetch_agents():
-    # Example usage
-    api_token = "K2xpU2owcTFYZmVTbEZWNEJaYytWdz09OkJMMHNkakhGeGMyV3dnYUVkTkNsVjJtNlNZRFllUkFqOjA1MjVkMGVlNDg3Nzg1NmNiODRkODI1ZTM1ZDM2YzIzOWM1ZTA5ZjRmNDg1YmI2MjlmZjEwNDBiNjU5Y2FlZjE="
+    api_token = os.getenv('OTC_API_KEY')
 
     agents = fetch_all_agents(api_token)
 
