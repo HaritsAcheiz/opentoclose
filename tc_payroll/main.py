@@ -2,7 +2,7 @@ import duckdb
 import time
 import json
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, date
 import csv
 
 na_filler = datetime(1990, 1, 1, 0, 0, 0)
@@ -50,6 +50,21 @@ def extract_transaction_source(properties_file_path):
         conn.close()
 
 
+def update_agent_provided_by(transaction_df, agents_file_path):
+    try:
+        agents_df = pd.read_csv(agents_file_path, usecols=['Title', 'Agent Provided by'])
+        transaction_df = transaction_df.merge(agents_df, how='left', left_on='empower_agent_name', right_on='Title')
+        transaction_df.drop(columns=['agent_provided_by', 'Title'], inplace=True)
+        transaction_df.rename(columns={'Agent Provided by': 'agent_provided_by'}, inplace=True)
+
+        print('Done')
+        return transaction_df
+
+    except Exception as e:
+        print(f"Error processing data: {e}")
+        return None
+
+
 def add_tc_commission_rate(transaction_df):
     transaction_df.rename({'tc_commission_rate': 'tc_commission_rate_1'}, axis=1, inplace=True)
     transaction_df['tc_commission_rate'] = transaction_df.apply(lambda x: 70/100 if x['agent_provided_by'] == 'TC' else x['tc_commission_rate_1']/100, axis=1)
@@ -58,19 +73,19 @@ def add_tc_commission_rate(transaction_df):
     return transaction_df
 
 
-def get_period(date, mode):
-    if isinstance(date, str):
+def get_period(selected_date, mode):
+    if isinstance(selected_date, str):
         try:
-            date = pd.to_datetime(date)
+            closing_date = pd.to_datetime(selected_date)
         except ValueError:
             print("Invalid date format")
-            date = None
-    if pd.isna(date):
-        result = date
+            closing_date = None
+    if pd.isna(selected_date):
+        result = selected_date
     else:
-        year = date.year
-        month = date.month
-        day = date.day
+        year = selected_date.year
+        month = selected_date.month
+        day = selected_date.day
         if mode == 'start':
             if day >= 1 and day <= 15:
                 result = datetime(year, month, 1)
@@ -90,9 +105,21 @@ def get_period(date, mode):
 
 
 def add_period(transaction_df):
-    transaction_df['closing_date']
-    transaction_df['period_start'] = transaction_df['closing_date'].apply(lambda x: get_period(x, mode='start'))
-    transaction_df['period_end'] = transaction_df['closing_date'].apply(lambda x: get_period(x, mode='end'))
+    transaction_df['listing_period_start'] = transaction_df['listing_paid_date'].apply(lambda x: get_period(x, mode='start'))
+    transaction_df['listing_period_end'] = transaction_df['listing_paid_date'].apply(lambda x: get_period(x, mode='end'))
+    transaction_df['listing_periode'] = transaction_df.apply(lambda x: x['listing_period_start'].strftime('%Y %b %d').upper() + ' - ' + x['listing_period_end'].strftime('%Y %b %d').upper(), axis=1)
+
+    transaction_df['ctc_period_start'] = transaction_df['ctc_paid_date'].apply(lambda x: get_period(x, mode='start'))
+    transaction_df['ctc_period_end'] = transaction_df['ctc_paid_date'].apply(lambda x: get_period(x, mode='end'))
+    transaction_df['ctc_periode'] = transaction_df.apply(lambda x: x['ctc_period_start'].strftime('%Y %b %d').upper() + ' - ' + x['ctc_period_end'].strftime('%Y %b %d').upper(), axis=1)
+
+    transaction_df['compliance_period_start'] = transaction_df['compliance_paid_date'].apply(lambda x: get_period(x, mode='start'))
+    transaction_df['compliance_period_end'] = transaction_df['compliance_paid_date'].apply(lambda x: get_period(x, mode='end'))
+    transaction_df['compliance_periode'] = transaction_df.apply(lambda x: x['compliance_period_start'].strftime('%Y %b %d').upper() + ' - ' + x['compliance_period_end'].strftime('%Y %b %d').upper(), axis=1)
+
+    transaction_df['offer_prep_period_start'] = transaction_df['offer_prep_paid_date'].apply(lambda x: get_period(x, mode='start'))
+    transaction_df['offer_prep_period_end'] = transaction_df['offer_prep_paid_date'].apply(lambda x: get_period(x, mode='end'))
+    transaction_df['offer_prep_periode'] = transaction_df.apply(lambda x: x['offer_prep_period_start'].strftime('%Y %b %d').upper() + ' - ' + x['offer_prep_period_end'].strftime('%Y %b %d').upper(), axis=1)
 
     return transaction_df
 
@@ -100,7 +127,7 @@ def add_period(transaction_df):
 def add_listing_paid_amount(transaction_df):
     global na_filler
     transaction_df.rename({'listing_paid_amount': 'listing_paid_amount_1'}, axis=1, inplace=True)
-    transaction_df['listing_paid_amount'] = transaction_df.apply(lambda x: x['listing_paid_amount_1'] if ((x['listing_paid_date'] != na_filler) & (x['listing_paid_date'] >= x['period_start']) & (x['listing_paid_date'] <= x['period_end'])) else 0, axis=1)
+    transaction_df['listing_paid_amount'] = transaction_df.apply(lambda x: x['listing_paid_amount_1'] if ((x['listing_paid_date'] != na_filler) & (x['listing_paid_date'] >= x['listing_period_start']) & (x['listing_paid_date'] <= x['listing_period_end'])) else 0, axis=1)
     transaction_df.drop(columns='listing_paid_amount_1', inplace=True)
 
     return transaction_df
@@ -109,7 +136,7 @@ def add_listing_paid_amount(transaction_df):
 def add_ctc_paid_amount(transaction_df):
     global na_filler
     transaction_df.rename({'ctc_paid_amount': 'ctc_paid_amount_1'}, axis=1, inplace=True)
-    transaction_df['ctc_paid_amount'] = transaction_df.apply(lambda x: x['ctc_paid_amount_1'] if ((x['ctc_paid_date'] != na_filler) & (x['ctc_paid_date'] >= x['period_start']) & (x['ctc_paid_date'] <= x['period_end'])) else 0, axis=1)
+    transaction_df['ctc_paid_amount'] = transaction_df.apply(lambda x: x['ctc_paid_amount_1'] if ((x['ctc_paid_date'] != na_filler) & (x['ctc_paid_date'] >= x['ctc_period_start']) & (x['ctc_paid_date'] <= x['ctc_period_end'])) else 0, axis=1)
     transaction_df.drop(columns='ctc_paid_amount_1', inplace=True)
 
     return transaction_df
@@ -118,9 +145,28 @@ def add_ctc_paid_amount(transaction_df):
 def add_compliance_paid_amount(transaction_df):
     global na_filler
     transaction_df.rename({'compliance_paid_amount': 'compliance_paid_amount_1'}, axis=1, inplace=True)
-    transaction_df['compliance_paid_amount'] = transaction_df.apply(lambda x: x['compliance_paid_amount_1'] if ((x['compliance_paid_date'] != na_filler) & (x['compliance_paid_date'] >= x['period_start']) & (x['compliance_paid_date'] <= x['period_end'])) else 0, axis=1)
+    transaction_df['compliance_paid_amount'] = transaction_df.apply(lambda x: x['compliance_paid_amount_1'] if ((x['compliance_paid_date'] != na_filler) & (x['compliance_paid_date'] >= x['compliance_period_start']) & (x['compliance_paid_date'] <= x['compliance_period_end'])) else 0, axis=1)
     transaction_df.drop(columns='compliance_paid_amount_1', inplace=True)
 
+    return transaction_df
+
+
+def add_offer_prep_paid_amount(transaction_df):
+    global na_filler
+    transaction_df.rename({'offer_prep_paid_amount': 'offer_prep_paid_amount_1'}, axis=1, inplace=True)
+    transaction_df['offer_prep_paid_amount'] = transaction_df.apply(lambda x: x['offer_prep_paid_amount_1'] if ((x['offer_prep_paid_date'] != na_filler) & (x['offer_prep_paid_date'] >= x['offer_prep_period_start']) & (x['offer_prep_paid_date'] <= x['offer_prep_period_end'])) else 0, axis=1)
+    transaction_df.drop(columns='offer_prep_paid_amount_1', inplace=True)
+
+    return transaction_df
+
+
+def add_total_actual(transaction_df):
+    transaction_df['total_actual'] = transaction_df.apply(lambda x: x['compliance_paid_amount_1'] if ((x['compliance_paid_date'] != na_filler) & (x['compliance_paid_date'] >= x['period_start']) & (x['compliance_paid_date'] <= x['period_end'])) else 0, axis=1)
+    return transaction_df
+
+
+def add_total_tc_revenue(transaction_df):
+    transaction_df['total_tc_revenue'] = transaction_df.apply(lambda x: x['compliance_paid_amount_1'] if ((x['compliance_paid_date'] != na_filler) & (x['compliance_paid_date'] >= x['period_start']) & (x['compliance_paid_date'] <= x['period_end'])) else 0, axis=1)
     return transaction_df
 
 
@@ -145,16 +191,22 @@ def transform_transaction_source(transaction_df):
     transaction_df['compliance_started_with_empower'] = pd.to_datetime(transaction_df['compliance_started_with_empower'])
     transaction_df['compliance_started_with_empower'].fillna(na_filler, inplace=True)
 
+    transaction_df = update_agent_provided_by(transaction_df, 'agent_sources.csv')
+
     transaction_df = add_tc_commission_rate(transaction_df)
     transaction_df = add_period(transaction_df)
     transaction_df = add_listing_paid_amount(transaction_df)
     transaction_df = add_ctc_paid_amount(transaction_df)
+    transaction_df = add_compliance_paid_amount(transaction_df)
+    transaction_df = add_offer_prep_paid_amount(transaction_df)
     transaction_df['ctc_projection'] = transaction_df['closing_date'].apply(lambda x: 0 if x == na_filler else 1)
-    transaction_df['listing_projection'] = transaction_df.apply(lambda x: 1 if (x['listing_started_with_empower'] != na_filler and x['listing_started_with_empower'] >= x['period_start'] and x['listing_started_with_empower'] <= x['period_end']) else 0, axis=1)
-    transaction_df['offer_projection'] = transaction_df.apply(lambda x: 1 if (x['offer_started_with_empower'] != na_filler and x['offer_started_with_empower'] >= x['period_start'] and x['offer_started_with_empower'] <= x['period_end']) else 0, axis=1)
-    transaction_df['compliance_projection'] = transaction_df.apply(lambda x: 1 if (x['compliance_started_with_empower'] != na_filler and x['compliance_started_with_empower'] >= x['period_start'] and x['compliance_started_with_empower'] <= x['period_end']) else 0, axis=1)
+    transaction_df['listing_projection'] = transaction_df.apply(lambda x: 1 if (x['listing_started_with_empower'] != na_filler and x['listing_started_with_empower'] >= x['listing_period_start'] and x['listing_started_with_empower'] <= x['listing_period_end']) else 0, axis=1)
+    transaction_df['offer_projection'] = transaction_df.apply(lambda x: 1 if (x['offer_started_with_empower'] != na_filler and x['offer_started_with_empower'] >= x['offer_prep_period_start'] and x['offer_started_with_empower'] <= x['offer_prep_period_end']) else 0, axis=1)
+    transaction_df['compliance_projection'] = transaction_df.apply(lambda x: 1 if (x['compliance_started_with_empower'] != na_filler and x['compliance_started_with_empower'] >= x['compliance_period_start'] and x['compliance_started_with_empower'] <= x['compliance_period_end']) else 0, axis=1)
     transaction_df['projection_condition'] = transaction_df.apply(lambda x: 1 if (x['ctc_projection'] == 1 or x['listing_projection'] == 1 or x['offer_projection'] == 1 or x['compliance_projection'] == 1) else 0, axis=1)
-    transaction_df['tc_revenue'] = transaction_df['listing_paid_amount'] + transaction_df['ctc_paid_amount'] + transaction_df['offer_prep_paid_amount'] + transaction_df['compliance_paid_amount']
+    transaction_df['tc_revenue'] = transaction_df[['listing_paid_amount', 'ctc_paid_amount', 'offer_prep_paid_amount', 'compliance_paid_amount']].sum(axis=1)
+    # transaction_df = add_total_actual(transaction_df)
+    # transaction_df = add_total_tc_revenue(transaction_df)
 
     transaction_df.to_excel('tc_payroll.xlsx', sheet_name='transaction_source', index=False)
 
@@ -211,19 +263,20 @@ def transform_transaction_source(transaction_df):
         # conn.close()
 
 
-# def generate_payroll_report(enriched_transaction_df):
-#     print('Generating report...', end='')
-#     try:
+def generate_payroll_report():
+    print('Generating report...', end='')
+    try:
+        enriched_transaction_df = pd.read_excel('tc_payroll.xlsx')
+        print(enriched_transaction_df)
+        print('Done')
+        return payroll_report_df
 
-#         print('Done')
-#         return payroll_report_df
+    except Exception as e:
+        print(f"Error processing data: {e}")
+        return None
 
-#     except Exception as e:
-#         print(f"Error processing data: {e}")
-#         return None
-
-#     finally:
-#         pass
+    finally:
+        pass
 
 
 def load_payroll_report(payroll_report_df):
@@ -234,11 +287,11 @@ if __name__ == "__main__":
     script_start_time = time.time()
 
     # transaction_df = extract_transaction_source('../all_properties.parquet')
-    transaction_df = pd.read_csv('transaction_source.csv')
+    # transaction_df = pd.read_csv('transaction_source.csv')
 
-    enriched_transaction_df = transform_transaction_source(transaction_df)
+    # enriched_transaction_df = transform_transaction_source(transaction_df)
 
-    # payroll_report_df = generate_payroll_report(enriched_transaction_df)
+    payroll_report_df = generate_payroll_report()
 
     # load_payroll_report(payroll_report_df)
 
