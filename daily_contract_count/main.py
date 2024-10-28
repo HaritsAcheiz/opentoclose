@@ -3,11 +3,11 @@ import csv
 import time
 import os
 from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from google.oauth2 import service_account
+from google.oauth2.service_account import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 import pandas as pd
+
 from ctc_buyer_closing_summary import get_ctc_closing_summary_buyer
 from ctc_closing_summary import get_closing_summary
 from ctc_seller_closing_summary import get_ctc_closing_summary_seller
@@ -106,30 +106,24 @@ def create_google_sheet(summaries, sheet_name="Daily Contract Count - All States
         return
 
     # Set up Google Sheets API
-    SCOPES = [
+    scope = [
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive.file",
     ]
-    creds = None
-    # if os.path.exists("../token.json"):
-    #     creds = Credentials.from_authorized_user_file("../token.json", SCOPES)
-    # if not creds or not creds.valid:
-    #     if creds and creds.expired and creds.refresh_token:
-    #         creds.refresh(Request())
-    #     else:
-    #         flow = InstalledAppFlow.from_client_secrets_file(
-    #             "../credentials.json", SCOPES
-    #         )
-    #         creds = flow.run_local_server(port=0)
-    #     with open("../token.json", "w") as token:
-    #         token.write(creds.to_json())
-
-    creds = service_account.Credentials.from_service_account_file('../credentials.json', scopes=SCOPES)
-
+    creds = Credentials.from_service_account_file('../credentials.json', scopes=scope)
     service = build("sheets", "v4", credentials=creds)
-
-    # Create and populate the Google Sheet
     sheet_id = create_and_populate_google_sheet(service, summaries, sheet_name)
+    drive_service = build('drive', 'v3', credentials=creds)
+
+    permission_body = {
+        'type': 'anyone',   # Makes it accessible to anyone
+        'role': 'reader'    # Sets the permission to read-only
+    }
+
+    drive_service.permissions().create(
+        fileId=sheet_id,
+        body=permission_body
+    ).execute()
 
     end_time = time.time()
     print(f"create_google_sheet() took {end_time - start_time:.2f} seconds")

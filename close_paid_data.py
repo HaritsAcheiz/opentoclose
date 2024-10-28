@@ -2,10 +2,12 @@ import duckdb
 import json
 import os
 from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
 from google.oauth2 import service_account
+from google.oauth2.service_account import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
+import gspread
+
 import pandas as pd
 from datetime import datetime, timedelta
 import numpy as np
@@ -86,23 +88,27 @@ def read_parquet_and_create_google_sheets(parquet_file_path, sheet_name_prefix):
         second_half = filtered_df[pd.to_datetime(filtered_df["closing_date"]).dt.day > 15]
 
         # Set up Google Sheets API
-        SCOPES = [
+        scope = [
             "https://www.googleapis.com/auth/spreadsheets",
             "https://www.googleapis.com/auth/drive.file",
         ]
         creds = None
-        if os.path.exists("token.json"):
-            creds = Credentials.from_authorized_user_file("token.json", SCOPES)
-        if not creds or not creds.valid:
-            if creds and creds.expired and creds.refresh_token:
-                creds.refresh(Request())
-            else:
-                flow = InstalledAppFlow.from_client_secrets_file(
-                    "credentials.json", SCOPES
-                )
-                creds = flow.run_local_server(port=0)
-            with open("token.json", "w") as token:
-                token.write(creds.to_json())
+
+        # if os.path.exists("token.json"):
+        #     creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+        # if not creds or not creds.valid:
+        #     if creds and creds.expired and creds.refresh_token:
+        #         creds.refresh(Request())
+        #     else:
+        #         flow = InstalledAppFlow.from_client_secrets_file(
+        #             "credentials.json", SCOPES
+        #         )
+        #         creds = flow.run_local_server(port=0)
+        #     with open("token.json", "w") as token:
+        #         token.write(creds.to_json())
+
+        creds = Credentials.from_service_account_file('credentials.json', scopes=scope)
+        # service = gspread.authorize(creds)
 
         service = build("sheets", "v4", credentials=creds)
 
@@ -116,6 +122,25 @@ def read_parquet_and_create_google_sheets(parquet_file_path, sheet_name_prefix):
             second_half,
             f"{sheet_name_prefix} 16-{last_day_of_previous_month.day} {month_year}",
         )
+
+        drive_service = build('drive', 'v3', credentials=creds)
+
+        # Step 5: Set public sharing permissions for the Google Sheet
+        permission_body = {
+            'type': 'anyone',   # Makes it accessible to anyone
+            'role': 'reader'    # Sets the permission to read-only
+        }
+
+        drive_service.permissions().create(
+            fileId=sheet_id_1,
+            body=permission_body
+        ).execute()
+
+        drive_service.permissions().create(
+            fileId=sheet_id_2,
+            body=permission_body
+        ).execute()
+
         print(f"Google Sheets created with IDs: {sheet_id_1} and {sheet_id_2}")
 
         return sheet_id_1, sheet_id_2
@@ -173,9 +198,10 @@ def create_and_populate_google_sheet(service, data, sheet_name):
                 valueInputOption="RAW",
                 body={"values": values},
             ).execute()
-
         print(f"Google Sheet '{sheet_name}' created and populated successfully.")
+
         return spreadsheet_id
+
     except Exception as e:
         print(f"Error creating and populating Google Sheet: {e}")
         return None
