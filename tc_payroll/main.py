@@ -26,7 +26,7 @@ def extract_transaction_source(properties_file_path):
     try:
         query = f"SELECT * FROM '{properties_file_path}'"
         df = conn.execute(query).fetchdf()
-        df[0:10].to_csv('properties_template.csv', index=False)
+        # df.to_csv('pure_datasources.csv', index=False)
 
         transaction_schema = list()
         with open('transaction_schema.csv') as file:
@@ -68,7 +68,7 @@ def update_agent_provided_by(transaction_df, agents_file_path):
 
 def add_tc_commission_rate(transaction_df):
     transaction_df.rename({'tc_commission_rate': 'tc_commission_rate_1'}, axis=1, inplace=True)
-    transaction_df['tc_commission_rate'] = transaction_df.apply(lambda x: 70/100 if x['agent_provided_by'] == 'TC' else x['tc_commission_rate_1']/100, axis=1)
+    transaction_df['tc_commission_rate'] = transaction_df.apply(lambda x: 70/100 if x['agent_provided_by'] == 'TC' else 50/100, axis=1)
     transaction_df.drop(columns='tc_commission_rate_1', inplace=True)
 
     return transaction_df
@@ -94,12 +94,12 @@ def get_period(selected_date, mode):
                 result = datetime(year, month, 16)
         elif mode == 'end':
             if day >= 1 and day <= 15:
-                result = datetime(year, month, 15)
+                result = datetime(year, month, 15, 23, 59, 59)
             else:
                 if month == 12:
-                    result = datetime(year, 12, 31)
+                    result = datetime(year, 12, 31, 23, 59, 59)
                 else:
-                    next_month = datetime(year, month + 1, 1)
+                    next_month = datetime(year, month + 1, 1, 23, 59, 59)
                     result = next_month - pd.DateOffset(days=1)
 
     return result
@@ -108,23 +108,23 @@ def get_period(selected_date, mode):
 def add_period(transaction_df):
     transaction_df['closing_period_start'] = transaction_df['closing_date'].apply(lambda x: get_period(x, mode='start'))
     transaction_df['closing_period_end'] = transaction_df['closing_date'].apply(lambda x: get_period(x, mode='end'))
-    transaction_df['closing_periode'] = transaction_df.apply(lambda x: x['closing_period_start'].strftime('%Y %m %d').upper() + ' - ' + x['closing_period_end'].strftime('%Y %m %d').upper(), axis=1)
+    transaction_df['closing_periode'] = transaction_df.apply(lambda x: x['closing_period_start'].strftime('%Y/%m/%d').upper() + ' - ' + x['closing_period_end'].strftime('%Y/%m/%d').upper(), axis=1)
 
     transaction_df['listing_period_start'] = transaction_df['listing_paid_date'].apply(lambda x: get_period(x, mode='start'))
     transaction_df['listing_period_end'] = transaction_df['listing_paid_date'].apply(lambda x: get_period(x, mode='end'))
-    transaction_df['listing_periode'] = transaction_df.apply(lambda x: x['listing_period_start'].strftime('%Y %m %d').upper() + ' - ' + x['listing_period_end'].strftime('%Y %m %d').upper(), axis=1)
+    transaction_df['listing_periode'] = transaction_df.apply(lambda x: x['listing_period_start'].strftime('%Y/%m/%d').upper() + ' - ' + x['listing_period_end'].strftime('%Y/%m/%d').upper(), axis=1)
 
     transaction_df['ctc_period_start'] = transaction_df['ctc_paid_date'].apply(lambda x: get_period(x, mode='start'))
     transaction_df['ctc_period_end'] = transaction_df['ctc_paid_date'].apply(lambda x: get_period(x, mode='end'))
-    transaction_df['ctc_periode'] = transaction_df.apply(lambda x: x['ctc_period_start'].strftime('%Y %m %d').upper() + ' - ' + x['ctc_period_end'].strftime('%Y %m %d').upper(), axis=1)
+    transaction_df['ctc_periode'] = transaction_df.apply(lambda x: x['ctc_period_start'].strftime('%Y/%m/%d').upper() + ' - ' + x['ctc_period_end'].strftime('%Y/%m/%d').upper(), axis=1)
 
     transaction_df['compliance_period_start'] = transaction_df['compliance_paid_date'].apply(lambda x: get_period(x, mode='start'))
     transaction_df['compliance_period_end'] = transaction_df['compliance_paid_date'].apply(lambda x: get_period(x, mode='end'))
-    transaction_df['compliance_periode'] = transaction_df.apply(lambda x: x['compliance_period_start'].strftime('%Y %m %d').upper() + ' - ' + x['compliance_period_end'].strftime('%Y %m %d').upper(), axis=1)
+    transaction_df['compliance_periode'] = transaction_df.apply(lambda x: x['compliance_period_start'].strftime('%Y/%m/%d').upper() + ' - ' + x['compliance_period_end'].strftime('%Y/%m/%d').upper(), axis=1)
 
     transaction_df['offer_prep_period_start'] = transaction_df['offer_prep_paid_date'].apply(lambda x: get_period(x, mode='start'))
     transaction_df['offer_prep_period_end'] = transaction_df['offer_prep_paid_date'].apply(lambda x: get_period(x, mode='end'))
-    transaction_df['offer_prep_periode'] = transaction_df.apply(lambda x: x['offer_prep_period_start'].strftime('%Y %m %d').upper() + ' - ' + x['offer_prep_period_end'].strftime('%Y %m %d').upper(), axis=1)
+    transaction_df['offer_prep_periode'] = transaction_df.apply(lambda x: x['offer_prep_period_start'].strftime('%Y/%m/%d').upper() + ' - ' + x['offer_prep_period_end'].strftime('%Y/%m/%d').upper(), axis=1)
 
     return transaction_df
 
@@ -204,6 +204,7 @@ def transform_transaction_source(transaction_df):
     transaction_df = update_agent_provided_by(transaction_df, 'agent_sources.csv')
 
     transaction_df = add_tc_commission_rate(transaction_df)
+    transaction_df['tc_commission_amount'] = transaction_df['billing_amount'] * transaction_df['tc_commission_rate']
     transaction_df = add_period(transaction_df)
     transaction_df = add_listing_paid_amount(transaction_df)
     transaction_df = add_ctc_paid_amount(transaction_df)
@@ -271,6 +272,7 @@ def load_payroll_report(payroll_report_df):
 
 if __name__ == "__main__":
     script_start_time = time.time()
+    # cek_data('../all_properties.parquet')
 
     # transaction_df = extract_transaction_source('../all_properties.parquet')
     transaction_df = pd.read_csv('transaction_source.csv')
