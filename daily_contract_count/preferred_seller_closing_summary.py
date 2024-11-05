@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 import pandas as pd
 import calendar
+import csv
 
 
 def get_preferred_closing_summary_seller(parquet_file_path):
@@ -49,19 +50,11 @@ def get_preferred_closing_summary_seller(parquet_file_path):
             & (df["client_type"] == "Seller")
         ]
 
-        specific_teams = [
-            "Team Molly Kelley",
-            "Preferred CTC Team",
-            "Team Marrisa Anderson",
-            "Team EpiqueTC",
-            "Team EpiqueTC AA",
-            "Team EpiqueEST",
-            "Team EpiqueEST AA",
-            "Team EpiqueCST",
-            "Team EpiqueCST AA",
-            "Team EpiqueCA",
-            "Team EpiqueCA AA",
-        ]
+        specific_teams = list()
+        with open('../preferred_teams.csv') as file:
+            rows = csv.reader(file)
+            for row in rows:
+                specific_teams.append(row[0])
         filtered_df = df[df["team_name"].isin(specific_teams)]
 
         # Group by month and count

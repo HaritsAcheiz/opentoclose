@@ -3,11 +3,12 @@ import json
 from datetime import datetime
 import pandas as pd
 import calendar
+import csv
 
 
-def get_preferred_closing_summary(parquet_file_path):
+def get_ctc_preferred_started_summary(parquet_file_path):
     """
-    Reads data from a Parquet file using DuckDB, filters it for the current year,
+    Reads data from a Parquet file using DuckDB, filters it for the current year up to the current month,
     and creates a summary of closing counts by month for preferred teams.
 
     :param parquet_file_path: Path to the Parquet file.
@@ -19,49 +20,47 @@ def get_preferred_closing_summary(parquet_file_path):
         query = f"SELECT * FROM '{parquet_file_path}'"
         df = conn.execute(query).fetchdf()
 
-        def get_closing_date(field_values):
+        def get_ctc_started_with_empower(field_values):
             try:
                 values = json.loads(field_values)
                 for item in values:
-                    if isinstance(item, dict) and item.get("key") == "closing_date":
+                    if isinstance(item, dict) and item.get("key") == "ctc_started_with_empower":
                         return item.get("value")
             except json.JSONDecodeError:
                 pass
             return None
 
-        df["closing_date"] = df["field_values"].apply(get_closing_date)
-        df["closing_date"] = pd.to_datetime(df["closing_date"], errors="coerce")
+        df["ctc_started_with_empower"] = df["field_values"].apply(
+            get_ctc_started_with_empower
+        )
 
-        # Filter for current year only
+        df["ctc_started_with_empower"] = pd.to_datetime(
+            df["ctc_started_with_empower"], errors="coerce"
+        )
+
+        # Filter for current year up to the current month
         current_year = datetime.now().year
         current_month = datetime.now().month
         df = df[
-            (df["closing_date"].dt.year == current_year)
-            & (df["closing_date"].dt.month <= current_month)
+            (df["ctc_started_with_empower"].dt.year == current_year)
+            & (df["ctc_started_with_empower"].dt.month <= current_month)
         ]
 
-        specific_teams = [
-            "Team Molly Kelley",
-            "Preferred CTC Team",
-            "Team Marrisa Anderson",
-            "Team EpiqueTC",
-            "Team EpiqueTC AA",
-            "Team EpiqueEST",
-            "Team EpiqueEST AA",
-            "Team EpiqueCST",
-            "Team EpiqueCST AA",
-            "Team EpiqueCA",
-            "Team EpiqueCA AA",
-        ]
+        specific_teams = list()
+        with open('../preferred_teams.csv') as file:
+            rows = csv.reader(file)
+            for row in rows:
+                specific_teams.append(row[0])
+
         filtered_df = df[df["team_name"].isin(specific_teams)]
 
         # Group by month and count
         monthly_counts = filtered_df.groupby(
-            filtered_df["closing_date"].dt.to_period("M")
+            filtered_df["ctc_started_with_empower"].dt.to_period("M")
         ).size()
 
         # Create the summary dictionary with all months
-        summary = {"state": "CTC - Preferred (epique) Started"}
+        summary = {"state": "CTC - Preferred Started"}
         current_year = datetime.now().year
         current_month = datetime.now().month
 
@@ -83,9 +82,9 @@ def get_preferred_closing_summary(parquet_file_path):
         conn.close()
 
 
-def execute_preferred_closing_summary():
+def execute_ctc_preferred_started_summary():
     parquet_file_path = "../all_properties.parquet"
-    summary = get_preferred_closing_summary(parquet_file_path)
+    summary = get_ctc_preferred_started_summary(parquet_file_path)
     if summary:
         print(json.dumps(summary, indent=2))
     else:
@@ -93,4 +92,4 @@ def execute_preferred_closing_summary():
 
 
 if __name__ == "__main__":
-    execute_preferred_closing_summary()
+    execute_ctc_preferred_started_summary()

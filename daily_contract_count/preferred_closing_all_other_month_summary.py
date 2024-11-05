@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 import pandas as pd
 import calendar
+import csv
 
 
 def get_preferred_closing_all_other_month_summary(parquet_file_path):
@@ -37,23 +38,15 @@ def get_preferred_closing_all_other_month_summary(parquet_file_path):
         current_year = datetime.now().year
         df = df[df["closing_date"].dt.year == current_year]
 
-        specific_teams = [
-            "Team Molly Kelley",
-            "Preferred CTC Team",
-            "Team Marrisa Anderson",
-            "Team EpiqueTC",
-            "Team EpiqueTC AA",
-            "Team EpiqueEST",
-            "Team EpiqueEST AA",
-            "Team EpiqueCST",
-            "Team EpiqueCST AA",
-            "Team EpiqueCA",
-            "Team EpiqueCA AA",
-        ]
+        specific_teams = list()
+        with open('../preferred_teams.csv') as file:
+            rows = csv.reader(file)
+            for row in rows:
+                specific_teams.append(row[0])
         filtered_df = df[df["team_name"].isin(specific_teams)]
 
         # Create the summary dictionary
-        summary = {"state": "Future Closing All Other Month - CTC"}
+        summary = {"state": "Future Closing All Other Month - Preferred"}
         month = datetime.now().month
 
         # Calculate counts for each month

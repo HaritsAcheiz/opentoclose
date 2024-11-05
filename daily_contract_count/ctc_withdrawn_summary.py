@@ -3,9 +3,10 @@ import json
 from datetime import datetime
 import pandas as pd
 import calendar
+import csv
 
 
-def get_withdrawn_summary(parquet_file_path):
+def get_ctc_withdrawn_summary(parquet_file_path):
     """
     Reads data from a Parquet file using DuckDB, filters it for the current year,
     and creates a summary of withdrawn counts by month for specific teams.
@@ -52,22 +53,20 @@ def get_withdrawn_summary(parquet_file_path):
         ]
 
         # Filter for specific contract statuses
-        withdrawn_statuses = [
-            "Compliance Withdrawn",
-            "Other Prep-Withdrawn",
-            "CTC Withdrawn",
-            "Listing-Withdrawn",
-        ]
+        withdrawn_statuses = list()
+        with open('../withdrawn.csv') as file:
+            rows = csv.reader(file)
+            for row in rows:
+                withdrawn_statuses.append(row[0])
+
         df = df[df["contract_status"].isin(withdrawn_statuses)]
 
-        specific_teams = [
-            "Team Christianna Velazquez",
-            "Team Kimberly Lewis",
-            "Team Stephanie Kleinman",
-            "Team Molly Kelley",
-            "Jenn McKinley",
-            "Team Jenn McKinley",
-        ]
+        specific_teams = list()
+        with open('../ctc_teams.csv') as file:
+            rows = csv.reader(file)
+            for row in rows:
+                specific_teams.append(row[0])
+
         filtered_df = df[df["team_name"].isin(specific_teams)]
 
         # Group by month and count
@@ -98,9 +97,9 @@ def get_withdrawn_summary(parquet_file_path):
         conn.close()
 
 
-def execute_withdrawn_summary():
+def execute_ctc_withdrawn_summary():
     parquet_file_path = "../all_properties.parquet"
-    summary = get_withdrawn_summary(parquet_file_path)
+    summary = get_ctc_withdrawn_summary(parquet_file_path)
     if summary:
         print(json.dumps(summary, indent=2))
     else:
@@ -108,4 +107,4 @@ def execute_withdrawn_summary():
 
 
 if __name__ == "__main__":
-    execute_withdrawn_summary()
+    execute_ctc_withdrawn_summary()

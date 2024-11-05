@@ -44,7 +44,7 @@ def get_all_closing_current_month_summary(parquet_file_path):
         monthly_counts = df.groupby(df["closing_date"].dt.to_period("M")).size()
 
         # Create the summary dictionary with all months
-        summary = {"state": "CTC - Closing"}
+        summary = {"state": "All Closing Current Month"}
         current_year = datetime.now().year
         current_month = datetime.now().month
 

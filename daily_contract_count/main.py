@@ -8,16 +8,16 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 import pandas as pd
 
-from ctc_buyer_closing_summary import get_ctc_closing_summary_buyer
 from ctc_closing_summary import get_closing_summary
-from ctc_seller_closing_summary import get_ctc_closing_summary_seller
 from ctc_started_summary import get_started_summary
-from ctc_terminated_summary import get_terminated_summary
-from ctc_withdrawn_summary import get_withdrawn_summary
+from ctc_preferred_started_summary import get_ctc_preferred_started_summary
+from ctc_preferred_closing_summary import get_ctc_preferred_closing_summary
+from ctc_terminated_summary import get_ctc_terminated_summary
+from ctc_withdrawn_summary import get_ctc_withdrawn_summary
+from ctc_buyer_closing_summary import get_ctc_closing_summary_buyer
+from ctc_seller_closing_summary import get_ctc_closing_summary_seller
 from preferred_seller_closing_summary import get_preferred_closing_summary_seller
 from preferred_buyer_closing_summary import get_preferred_closing_summary_buyer
-from preferred_closing_summary import get_preferred_closing_summary
-from preferred_started_summary import get_preferred_started_summary
 from listing_started_summary import get_listing_started_summary
 from listing_paid_summary import get_listing_paid_summary
 from compliance_started_summary import get_compliance_started_summary
@@ -37,23 +37,23 @@ def concatenate_summaries():
     start_time = time.time()
     parquet_file_path = "../all_properties.parquet"
     summaries = [
-        get_closing_summary(parquet_file_path),
+        get_ctc_preferred_started_summary(parquet_file_path),
+        get_ctc_preferred_closing_summary(parquet_file_path),
         get_started_summary(parquet_file_path),
-        get_withdrawn_summary(parquet_file_path),
-        get_preferred_started_summary(parquet_file_path),
+        get_closing_summary(parquet_file_path),
+        get_ctc_terminated_summary(parquet_file_path),
+        get_ctc_withdrawn_summary(parquet_file_path),
         get_ctc_closing_summary_buyer(parquet_file_path),
+        get_preferred_closing_summary_buyer(parquet_file_path),
         get_ctc_closing_summary_seller(parquet_file_path),
         get_preferred_closing_summary_seller(parquet_file_path),
-        get_preferred_closing_summary_buyer(parquet_file_path),
-        get_terminated_summary(parquet_file_path),
-        get_preferred_closing_summary(parquet_file_path),
         get_listing_started_summary(parquet_file_path),
         get_listing_paid_summary(parquet_file_path),
         get_compliance_started_summary(parquet_file_path),
         get_compliance_paid_summary(parquet_file_path),
         get_all_closing_current_month_summary(parquet_file_path),
-        get_ctc_future_closing_summary(parquet_file_path),
         get_preferred_future_closing_summary(parquet_file_path),
+        get_ctc_future_closing_summary(parquet_file_path),
         get_preferred_closing_all_other_month_summary(parquet_file_path),
         get_ctc_closing_all_other_month_summary(parquet_file_path),
     ]
@@ -117,7 +117,7 @@ def create_google_sheet(summaries, sheet_name="Daily Contract Count - All States
 
     permission_body = {
         'type': 'anyone',   # Makes it accessible to anyone
-        'role': 'reader'    # Sets the permission to read-only
+        'role': 'writer'    # Sets the permission to read-only
     }
 
     drive_service.permissions().create(

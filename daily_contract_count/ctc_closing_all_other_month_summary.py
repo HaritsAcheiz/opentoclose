@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 import pandas as pd
 import calendar
+import csv
 
 
 def get_ctc_closing_all_other_month_summary(parquet_file_path):
@@ -37,14 +38,11 @@ def get_ctc_closing_all_other_month_summary(parquet_file_path):
         current_year = datetime.now().year
         df = df[df["closing_date"].dt.year == current_year]
 
-        specific_teams = [
-            "Team Christianna Velazquez",
-            "Team Kimberly Lewis",
-            "Team Stephanie Kleinman",
-            "Team Molly Kelley",
-            "Jenn McKinley",
-            "Team Jenn McKinley",
-        ]
+        specific_teams = list()
+        with open('../ctc_teams.csv') as file:
+            rows = csv.reader(file)
+            for row in rows:
+                specific_teams.append(row[0])
         filtered_df = df[df["team_name"].isin(specific_teams)]
 
         # Create the summary dictionary

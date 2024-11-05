@@ -66,12 +66,12 @@ def update_agent_provided_by(transaction_df, agents_file_path):
         return None
 
 
-def add_tc_commission_rate(transaction_df):
-    transaction_df.rename({'tc_commission_rate': 'tc_commission_rate_1'}, axis=1, inplace=True)
-    transaction_df['tc_commission_rate'] = transaction_df.apply(lambda x: 70/100 if x['agent_provided_by'] == 'TC' else 50/100, axis=1)
-    transaction_df.drop(columns='tc_commission_rate_1', inplace=True)
+# def add_tc_commission_rate(transaction_df):
+#     transaction_df.rename({'tc_commission_rate': 'tc_commission_rate_1'}, axis=1, inplace=True)
+#     transaction_df['tc_commission_rate'] = transaction_df.apply(lambda x: 70/100 if x['agent_provided_by'] == 'TC' else 50/100, axis=1)
+#     transaction_df.drop(columns='tc_commission_rate_1', inplace=True)
 
-    return transaction_df
+#     return transaction_df
 
 
 def get_period(selected_date, mode):
@@ -203,7 +203,8 @@ def transform_transaction_source(transaction_df):
 
     transaction_df = update_agent_provided_by(transaction_df, 'agent_sources.csv')
 
-    transaction_df = add_tc_commission_rate(transaction_df)
+    # transaction_df = add_tc_commission_rate(transaction_df)
+    transaction_df['tc_commission_rate'] = 0.5
     transaction_df['tc_commission_amount'] = transaction_df['billing_amount'] * transaction_df['tc_commission_rate']
     transaction_df = add_period(transaction_df)
     transaction_df = add_listing_paid_amount(transaction_df)
@@ -250,7 +251,7 @@ def generate_payroll_report(enriched_transaction_df, mode):
         else:
             print("Mode is undefined!")
         summary_df = selected_team_transaction_df.pivot_table(values=values_name, index='empower_tc_name', columns=columns_name, aggfunc='sum', fill_value=0)
-        print(summary_df)
+
         summary_df['Total Result'] = summary_df.sum(axis=1)
         summary_df.loc['Total Result'] = summary_df.sum()
         summary_df.reset_index(inplace=True)
