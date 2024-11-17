@@ -20,6 +20,16 @@ def get_ctc_closing_summary_seller(parquet_file_path):
         query = f"SELECT * FROM '{parquet_file_path}'"
         df = conn.execute(query).fetchdf()
 
+        def get_contract_status(field_values):
+            try:
+                values = json.loads(field_values)
+                for item in values:
+                    if isinstance(item, dict) and item.get("key") == "contract_status":
+                        return item.get("value")
+            except json.JSONDecodeError:
+                pass
+            return None
+
         def get_closing_date_and_client_type(field_values):
             try:
                 values = json.loads(field_values)
@@ -35,6 +45,8 @@ def get_ctc_closing_summary_seller(parquet_file_path):
             except json.JSONDecodeError:
                 pass
             return None, None
+
+        df["contract_status"] = df["field_values"].apply(get_contract_status)
 
         df["closing_date"], df["client_type"] = zip(
             *df["field_values"].apply(get_closing_date_and_client_type)
@@ -55,7 +67,8 @@ def get_ctc_closing_summary_seller(parquet_file_path):
             rows = csv.reader(file)
             for row in rows:
                 specific_teams.append(row[0])
-        filtered_df = df[df["team_name"].isin(specific_teams)]
+
+        filtered_df = df[df["team_name"].isin(specific_teams) & (df["contract_status"] == "CTC - Closed - PAID")]
 
         # Group by month and count
         monthly_counts = filtered_df.groupby(

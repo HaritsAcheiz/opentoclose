@@ -53,13 +53,13 @@ def get_ctc_withdrawn_summary(parquet_file_path):
         ]
 
         # Filter for specific contract statuses
-        withdrawn_statuses = list()
-        with open('../withdrawn.csv') as file:
-            rows = csv.reader(file)
-            for row in rows:
-                withdrawn_statuses.append(row[0])
+        # withdrawn_statuses = list()
+        # with open('../withdrawn.csv') as file:
+        #     rows = csv.reader(file)
+        #     for row in rows:
+        #         withdrawn_statuses.append(row[0])
 
-        df = df[df["contract_status"].isin(withdrawn_statuses)]
+        # df = df[df["contract_status"].isin(withdrawn_statuses)]
 
         specific_teams = list()
         with open('../ctc_teams.csv') as file:
@@ -67,7 +67,7 @@ def get_ctc_withdrawn_summary(parquet_file_path):
             for row in rows:
                 specific_teams.append(row[0])
 
-        filtered_df = df[df["team_name"].isin(specific_teams)]
+        filtered_df = df[df["team_name"].isin(specific_teams) & (df["contract_status"] == "CTC - Withdrawn")]
 
         # Group by month and count
         monthly_counts = filtered_df.groupby(

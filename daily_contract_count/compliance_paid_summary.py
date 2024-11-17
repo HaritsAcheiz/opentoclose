@@ -19,6 +19,16 @@ def get_compliance_paid_summary(parquet_file_path):
         query = f"SELECT * FROM '{parquet_file_path}'"
         df = conn.execute(query).fetchdf()
 
+        def get_contract_status(field_values):
+            try:
+                values = json.loads(field_values)
+                for item in values:
+                    if isinstance(item, dict) and item.get("key") == "contract_status":
+                        return item.get("value")
+            except json.JSONDecodeError:
+                pass
+            return None
+
         def get_compliance_paid_date(field_values):
             try:
                 values = json.loads(field_values)
@@ -32,6 +42,8 @@ def get_compliance_paid_summary(parquet_file_path):
                 pass
             return None
 
+        df["contract_status"] = df["field_values"].apply(get_contract_status)
+
         df["compliance_paid_date"] = df["field_values"].apply(get_compliance_paid_date)
         df["compliance_paid_date"] = pd.to_datetime(
             df["compliance_paid_date"], errors="coerce"
@@ -43,6 +55,7 @@ def get_compliance_paid_summary(parquet_file_path):
         df = df[
             (df["compliance_paid_date"].dt.year == current_year)
             & (df["compliance_paid_date"].dt.month <= current_month)
+            & (df["contract_status"] == "Compliance - PAID")
         ]
 
         # Group by month and count

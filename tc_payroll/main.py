@@ -5,6 +5,10 @@ import pandas as pd
 from datetime import datetime, date
 import csv
 from openpyxl import load_workbook
+from google.auth.transport.requests import Request
+from google.oauth2.service_account import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
 
 na_filler = datetime(1990, 1, 1, 0, 0, 0)
 
@@ -205,6 +209,7 @@ def transform_transaction_source(transaction_df):
 
     # transaction_df = add_tc_commission_rate(transaction_df)
     transaction_df['tc_commission_rate'] = 0.5
+    transaction_df['billing_amount'].astype('float')
     transaction_df['tc_commission_amount'] = transaction_df['billing_amount'] * transaction_df['tc_commission_rate']
     transaction_df = add_period(transaction_df)
     transaction_df = add_listing_paid_amount(transaction_df)
@@ -267,8 +272,103 @@ def generate_payroll_report(enriched_transaction_df, mode):
         pass
 
 
-def load_payroll_report(payroll_report_df):
-    pass
+def create_and_populate_google_sheet(service, spreadsheet_id, df, sheet_title):
+    """
+    Adds a new sheet to an existing Google Spreadsheet and populates it with data.
+
+    :param service: Google Sheets API service object.
+    :param spreadsheet_id: ID of the Google Spreadsheet.
+    :param df: Pandas DataFrame containing the data.
+    :param sheet_title: Title for the new sheet.
+    """
+    try:
+        df = df.fillna("")
+
+        df = df.copy()  # Make a copy to avoid modifying the original DataFrame
+        for col in df.select_dtypes(include=['datetime', 'datetimetz']).columns:
+            df[col] = df[col].astype(str)
+
+        # Add new sheet to the spreadsheet
+        requests = [{
+            "addSheet": {
+                "properties": {
+                    "title": sheet_title
+                }
+            }
+        }]
+        service.spreadsheets().batchUpdate(
+            spreadsheetId=spreadsheet_id,
+            body={"requests": requests}
+        ).execute()
+
+        # Convert DataFrame to list of lists for Google Sheets API
+        values = [df.columns.tolist()] + df.values.tolist()
+
+        # Update the new sheet with data
+        service.spreadsheets().values().update(
+            spreadsheetId=spreadsheet_id,
+            range=f"{sheet_title}!A1",
+            valueInputOption="RAW",
+            body={"values": values},
+        ).execute()
+
+        print(f"Sheet '{sheet_title}' added and populated successfully.")
+    except Exception as e:
+        print(f"Error populating Google Sheet: {e}")
+
+
+def create_google_sheet(dataframes, sheet_titles, spreadsheet_name):
+    """
+    Creates a Google Spreadsheet with multiple sheets, each populated with a different DataFrame.
+
+    :param dataframes: List of DataFrames.
+    :param sheet_titles: List of sheet titles corresponding to each DataFrame.
+    :param spreadsheet_name: Name for the new Google Spreadsheet.
+    :return: ID of the created Google Spreadsheet.
+    """
+    start_time = time.time()
+    if not dataframes or len(dataframes) != len(sheet_titles):
+        print("DataFrames and sheet titles must be provided and match in length.")
+        return None
+
+    # Set up Google Sheets API
+    scope = [
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive.file",
+    ]
+    creds = Credentials.from_service_account_file('../credentials.json', scopes=scope)
+    service = build("sheets", "v4", credentials=creds)
+
+    try:
+        # Create a new spreadsheet
+        spreadsheet = service.spreadsheets().create(
+            body={"properties": {"title": spreadsheet_name}}
+        ).execute()
+        spreadsheet_id = spreadsheet["spreadsheetId"]
+
+        # Add each DataFrame to a separate sheet
+        for df, title in zip(dataframes, sheet_titles):
+            create_and_populate_google_sheet(service, spreadsheet_id, df, title)
+
+        # Set permissions to make the spreadsheet accessible
+        drive_service = build('drive', 'v3', credentials=creds)
+        permission_body = {
+            'type': 'anyone',   # Makes it accessible to anyone
+            'role': 'writer'    # Sets the permission to read-only
+        }
+        drive_service.permissions().create(
+            fileId=spreadsheet_id,
+            body=permission_body
+        ).execute()
+
+        end_time = time.time()
+        print(f"create_google_sheet() took {end_time - start_time:.2f} seconds")
+        print(f"Google Spreadsheet created with ID: {spreadsheet_id}")
+        return spreadsheet_id
+
+    except Exception as e:
+        print(f"Error creating Google Spreadsheet: {e}")
+        return None
 
 
 if __name__ == "__main__":
@@ -281,15 +381,18 @@ if __name__ == "__main__":
     projected_payroll_report_df = generate_payroll_report(enriched_transaction_df, mode='p')
     actual_payroll_report_df = generate_payroll_report(enriched_transaction_df, mode='a')
 
-    path = 'tc_payroll.xlsx'
-    with pd.ExcelWriter(path, engine='openpyxl') as writer:
-        enriched_transaction_df.to_excel(writer, sheet_name='Transaction Source', index=False)
-        projected_payroll_report_df.to_excel(writer, sheet_name='TC Payroll Consolidated Projected')
-        actual_payroll_report_df.to_excel(writer, sheet_name='TC Payroll Consolidated Actual')
-
-    # load_payroll_report(payroll_report_df)
+    # path = 'tc_payroll.xlsx'
+    # with pd.ExcelWriter(path, engine='openpyxl') as writer:
+    #     enriched_transaction_df.to_excel(writer, sheet_name='Transaction Source', index=False)
+    #     projected_payroll_report_df.to_excel(writer, sheet_name='TC Payroll Consolidated Projected')
+    #     actual_payroll_report_df.to_excel(writer, sheet_name='TC Payroll Consolidated Actual')
 
     # sheet_id = create_google_sheet(all_summaries)
+    dataframes = [enriched_transaction_df, projected_payroll_report_df, actual_payroll_report_df]
+    sheet_titles = ["transaction_data", "projected", "actual"]
+    spreadsheet_name = "tc_payroll"
+
+    create_google_sheet(dataframes, sheet_titles, spreadsheet_name)
 
     script_end_time = time.time()
     total_execution_time = script_end_time - script_start_time

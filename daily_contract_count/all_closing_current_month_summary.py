@@ -19,6 +19,16 @@ def get_all_closing_current_month_summary(parquet_file_path):
         query = f"SELECT * FROM '{parquet_file_path}'"
         df = conn.execute(query).fetchdf()
 
+        def get_contract_status(field_values):
+            try:
+                values = json.loads(field_values)
+                for item in values:
+                    if isinstance(item, dict) and item.get("key") == "contract_status":
+                        return item.get("value")
+            except json.JSONDecodeError:
+                pass
+            return None
+
         def get_closing_date(field_values):
             try:
                 values = json.loads(field_values)
@@ -29,6 +39,8 @@ def get_all_closing_current_month_summary(parquet_file_path):
                 pass
             return None
 
+        df["contract_status"] = df["field_values"].apply(get_contract_status)
+
         df["closing_date"] = df["field_values"].apply(get_closing_date)
         df["closing_date"] = pd.to_datetime(df["closing_date"], errors="coerce")
 
@@ -38,6 +50,7 @@ def get_all_closing_current_month_summary(parquet_file_path):
         df = df[
             (df["closing_date"].dt.year == current_year)
             & (df["closing_date"].dt.month <= current_month)
+            & (df["contract_status"].isin(["CTC - Closed - PAID", "CTC - Preferred - Closed - Ready to BILL"]))
         ]
 
         # Group by month and count

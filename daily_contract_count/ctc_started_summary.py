@@ -20,6 +20,16 @@ def get_started_summary(parquet_file_path):
         query = f"SELECT * FROM '{parquet_file_path}'"
         df = conn.execute(query).fetchdf()
 
+        def get_contract_status(field_values):
+            try:
+                values = json.loads(field_values)
+                for item in values:
+                    if isinstance(item, dict) and item.get("key") == "contract_status":
+                        return item.get("value")
+            except json.JSONDecodeError:
+                pass
+            return None
+
         def get_ctc_started_with_empower(field_values):
             try:
                 values = json.loads(field_values)
@@ -32,6 +42,8 @@ def get_started_summary(parquet_file_path):
             except json.JSONDecodeError:
                 pass
             return None
+
+        df['contract_status'] = df['field_values'].apply(get_contract_status)
 
         df["ctc_started_with_empower"] = df["field_values"].apply(
             get_ctc_started_with_empower
@@ -53,7 +65,8 @@ def get_started_summary(parquet_file_path):
             rows = csv.reader(file)
             for row in rows:
                 specific_teams.append(row[0])
-        filtered_df = df[df["team_name"].isin(specific_teams)]
+
+        filtered_df = df[df["team_name"].isin(specific_teams) & (df["contract_status"] == "CTC - Pending")]
 
         # Group by month and count
         monthly_counts = filtered_df.groupby(

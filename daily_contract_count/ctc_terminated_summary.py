@@ -53,19 +53,20 @@ def get_ctc_terminated_summary(parquet_file_path):
         ]
 
         # Filter for specific contract statuses
-        terminated_statuses = list()
-        with open('../terminated.csv') as file:
-            rows = csv.reader(file)
-            for row in rows:
-                terminated_statuses.append(row[0])
-        df = df[df["contract_status"].isin(terminated_statuses)]
+        # terminated_statuses = list()
+        # with open('../terminated.csv') as file:
+        #     rows = csv.reader(file)
+        #     for row in rows:
+        #         terminated_statuses.append(row[0])
+        # df = df[df["contract_status"].isin(terminated_statuses)]
 
         specific_teams = list()
         with open('../ctc_teams.csv') as file:
             rows = csv.reader(file)
             for row in rows:
                 specific_teams.append(row[0])
-        filtered_df = df[df["team_name"].isin(specific_teams)]
+
+        filtered_df = df[df["team_name"].isin(specific_teams) & (df["contract_status"] == "CTC - Terminated - No Charge")]
 
         # Group by month and count
         monthly_counts = filtered_df.groupby(

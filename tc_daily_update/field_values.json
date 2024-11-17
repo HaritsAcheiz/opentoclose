@@ -1,0 +1,3839 @@
+[
+    {
+        "id": 110691294,
+        "value": "655 Scarlett Street, Forney, TX, 75126",
+        "type": "text",
+        "label": "Contract Title",
+        "key": "contract_title"
+    },
+    {
+        "id": 110691295,
+        "value": "",
+        "type": "text",
+        "label": "SISU ID NUMBER",
+        "key": "sisu_id_number"
+    },
+    {
+        "id": 110691296,
+        "value": "",
+        "type": "choice",
+        "label": "Property In Sisu",
+        "key": "property_in_sisu"
+    },
+    {
+        "id": 110691297,
+        "value": "",
+        "type": "text",
+        "label": "Agent MLS Board",
+        "key": "agent_mls_board"
+    },
+    {
+        "id": 110691298,
+        "value": "",
+        "type": "choice",
+        "label": "Service Type",
+        "key": "service_type"
+    },
+    {
+        "id": 110691299,
+        "value": "",
+        "type": "choice",
+        "label": "Confirm Service Type",
+        "key": "confirm_service_type"
+    },
+    {
+        "id": 110691300,
+        "value": "",
+        "type": "choice",
+        "label": "Listing done by Empower",
+        "key": "listing_done_by_empower"
+    },
+    {
+        "id": 110691301,
+        "value": "",
+        "type": "choice",
+        "label": "Offer White Label",
+        "key": "offer_white_label"
+    },
+    {
+        "id": 110691302,
+        "value": "",
+        "type": "choice",
+        "label": "CTC White Label",
+        "key": "ctc_white_label"
+    },
+    {
+        "id": 110691303,
+        "value": "",
+        "type": "text",
+        "label": "Compliance White Label",
+        "key": "compliance_white_label"
+    },
+    {
+        "id": 110691304,
+        "value": "",
+        "type": "text",
+        "label": "Empower Agent Name",
+        "key": "empower_agent_name"
+    },
+    {
+        "id": 110691305,
+        "value": "",
+        "type": "choice",
+        "label": "Agent Brokerage",
+        "key": "agent_brokerage"
+    },
+    {
+        "id": 110691306,
+        "value": "",
+        "type": "choice",
+        "label": "Transaction State",
+        "key": "transaction_state"
+    },
+    {
+        "id": 110691307,
+        "value": "",
+        "type": "choice",
+        "label": "Transaction Province or Territory",
+        "key": "transaction_province_or_territory"
+    },
+    {
+        "id": 110691308,
+        "value": "preferred",
+        "type": "choice",
+        "label": "Contract Status",
+        "key": "contract_status"
+    },
+    {
+        "id": 110691309,
+        "value": "Dual",
+        "type": "choice",
+        "label": "Contract Client Type",
+        "key": "contract_client_type"
+    },
+    {
+        "id": 110691310,
+        "value": "",
+        "type": "choice",
+        "label": "Accounting Status",
+        "key": "accounting_status"
+    },
+    {
+        "id": 110691311,
+        "value": "",
+        "type": "choice",
+        "label": "Preferred  Ai  CTC",
+        "key": "preferred_ai_ctc"
+    },
+    {
+        "id": 110691312,
+        "value": "",
+        "type": "choice",
+        "label": "Transaction Language",
+        "key": "transaction_language"
+    },
+    {
+        "id": 110691313,
+        "value": "",
+        "type": "text",
+        "label": "Billing Name if Different from Agent",
+        "key": "billing_name_if_different_from_agent"
+    },
+    {
+        "id": 110691314,
+        "value": "",
+        "type": "choice",
+        "label": "Empower TC Name",
+        "key": "empower_tc_name"
+    },
+    {
+        "id": 110691315,
+        "value": "655 Scarlett Street",
+        "type": "text",
+        "label": "Address",
+        "key": "property_address"
+    },
+    {
+        "id": 110691316,
+        "value": "Forney",
+        "type": "text",
+        "label": "City",
+        "key": "property_city"
+    },
+    {
+        "id": 110691317,
+        "value": "",
+        "type": "text",
+        "label": "Province",
+        "key": "province"
+    },
+    {
+        "id": 110691318,
+        "value": "TX",
+        "type": "text",
+        "label": "State",
+        "key": "property_state"
+    },
+    {
+        "id": 110691319,
+        "value": "75126",
+        "type": "text",
+        "label": "Zip",
+        "key": "property_zip"
+    },
+    {
+        "id": 110691320,
+        "value": "",
+        "type": "text",
+        "label": "County",
+        "key": "property_county"
+    },
+    {
+        "id": 110691321,
+        "value": "",
+        "type": "text",
+        "label": "Year Built",
+        "key": "year_built"
+    },
+    {
+        "id": 110691322,
+        "value": "",
+        "type": "text",
+        "label": "Parish",
+        "key": "parish"
+    },
+    {
+        "id": 110691323,
+        "value": "",
+        "type": "choice",
+        "label": "Property Type",
+        "key": "property_type"
+    },
+    {
+        "id": 110691324,
+        "value": "",
+        "type": "text",
+        "label": "Escrow No",
+        "key": "escrow_no"
+    },
+    {
+        "id": 110691325,
+        "value": "",
+        "type": "choice",
+        "label": "Is Buyer an Investor",
+        "key": "is_buyer_an_investor"
+    },
+    {
+        "id": 110691326,
+        "value": "",
+        "type": "choice",
+        "label": "Relocation",
+        "key": "relocation"
+    },
+    {
+        "id": 110691327,
+        "value": "",
+        "type": "number",
+        "label": "Home Warranty Taken",
+        "key": "home_warranty_taken"
+    },
+    {
+        "id": 110691328,
+        "value": "",
+        "type": "choice",
+        "label": "Occupant Type",
+        "key": "occupant_type"
+    },
+    {
+        "id": 110691329,
+        "value": "",
+        "type": "choice",
+        "label": "Property Access",
+        "key": "property_access"
+    },
+    {
+        "id": 110691330,
+        "value": "",
+        "type": "text",
+        "label": "Property Access Code",
+        "key": "property_access_code"
+    },
+    {
+        "id": 110691331,
+        "value": "",
+        "type": "text",
+        "label": "Lockbox Location",
+        "key": "lockbox_location"
+    },
+    {
+        "id": 110691332,
+        "value": "",
+        "type": "date",
+        "label": "Listing Started with Empower",
+        "key": "listing_started_with_empower",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691333,
+        "value": "",
+        "type": "date",
+        "label": "Listing Agreement Start Date",
+        "key": "listing_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691334,
+        "value": "",
+        "type": "date",
+        "label": "Staging Appointment Date",
+        "key": "staging_appointment_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691335,
+        "value": "",
+        "type": "date",
+        "label": "Target Photo Date",
+        "key": "target_photo_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691336,
+        "value": "",
+        "type": "date",
+        "label": "Confirmed Photo Appointment",
+        "key": "confirmed_photo_appointment",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691337,
+        "value": "",
+        "type": "choice",
+        "label": "Bedrooms",
+        "key": "bedrooms"
+    },
+    {
+        "id": 110691338,
+        "value": "",
+        "type": "choice",
+        "label": "Bath",
+        "key": "bath"
+    },
+    {
+        "id": 110691339,
+        "value": "",
+        "type": "text",
+        "label": "Square Footage",
+        "key": "square_footage"
+    },
+    {
+        "id": 110691340,
+        "value": "",
+        "type": "date",
+        "label": "Sign Order Date",
+        "key": "sign_order_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691341,
+        "value": "",
+        "type": "date",
+        "label": "Sign Installation Date",
+        "key": "sign_installation_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691342,
+        "value": "",
+        "type": "date",
+        "label": "Listing Review Video Call",
+        "key": "listing_review_video_call",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691343,
+        "value": "",
+        "type": "date",
+        "label": "Open House 1",
+        "key": "open_house_1",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691344,
+        "value": "",
+        "type": "date",
+        "label": "Open House 2",
+        "key": "open_house_2",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691345,
+        "value": "",
+        "type": "choice",
+        "label": "ECAD",
+        "key": "ecad"
+    },
+    {
+        "id": 110691346,
+        "value": "",
+        "type": "date",
+        "label": "Listing Agreement Expiration Date",
+        "key": "listing_agreement_expiration_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691347,
+        "value": "",
+        "type": "date",
+        "label": "Listing Withdrawn Date",
+        "key": "listing_withdrawn_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691348,
+        "value": "",
+        "type": "number",
+        "label": "Total Number of Units",
+        "key": "total_number_of_units"
+    },
+    {
+        "id": 110691349,
+        "value": "",
+        "type": "number",
+        "label": "Annual Gross Income",
+        "key": "annual_gross_income"
+    },
+    {
+        "id": 110691350,
+        "value": "",
+        "type": "number",
+        "label": "Annual Net Income",
+        "key": "annual_net_income"
+    },
+    {
+        "id": 110691351,
+        "value": "",
+        "type": "number",
+        "label": "Annual Gross Expense",
+        "key": "annual_gross_expense"
+    },
+    {
+        "id": 110691352,
+        "value": "",
+        "type": "choice",
+        "label": "Any current leases ",
+        "key": "any_current_leases"
+    },
+    {
+        "id": 110691353,
+        "value": "",
+        "type": "date",
+        "label": "Current Lease Expiration",
+        "key": "current_lease_expiration",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691354,
+        "value": "",
+        "type": "text",
+        "label": "Fixtures remain exclude from sale",
+        "key": "fixtures_remain_exclude_from_sale"
+    },
+    {
+        "id": 110691355,
+        "value": "",
+        "type": "choice",
+        "label": "Business Type",
+        "key": "business_type"
+    },
+    {
+        "id": 110691356,
+        "value": "",
+        "type": "choice",
+        "label": "Agent Provided by",
+        "key": "agent_provided_by"
+    },
+    {
+        "id": 110691357,
+        "value": "",
+        "type": "date",
+        "label": "Admin Early Tier 2 Date",
+        "key": "admin_early_tier_2_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691358,
+        "value": "",
+        "type": "text",
+        "label": "Referred to Empower by",
+        "key": "referred_to_empower_by"
+    },
+    {
+        "id": 110691359,
+        "value": "",
+        "type": "choice",
+        "label": "Agent Experience Level",
+        "key": "agent_experience_level"
+    },
+    {
+        "id": 110691360,
+        "value": "",
+        "type": "date",
+        "label": "Onboard Call Complete Date",
+        "key": "onboard_call_complete_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691361,
+        "value": "",
+        "type": "date",
+        "label": "Roster OB Complete Date",
+        "key": "roster_ob_complete_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691362,
+        "value": "",
+        "type": "choice",
+        "label": "Onboarding Status",
+        "key": "onboarding_status"
+    },
+    {
+        "id": 110691363,
+        "value": "",
+        "type": "date",
+        "label": "Meet   Greet Call Complete",
+        "key": "meet_greet_call_complete",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691364,
+        "value": "",
+        "type": "date",
+        "label": "1st Transaction Date",
+        "key": "1st_transaction_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691365,
+        "value": "",
+        "type": "text",
+        "label": "Projected Business",
+        "key": "projected_business"
+    },
+    {
+        "id": 110691366,
+        "value": "",
+        "type": "choice",
+        "label": "Other Status",
+        "key": "other_status"
+    },
+    {
+        "id": 110691367,
+        "value": "",
+        "type": "date",
+        "label": "Reassigned Date",
+        "key": "reassigned_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691368,
+        "value": "",
+        "type": "choice",
+        "label": "Reassigned From",
+        "key": "reassigned_from"
+    },
+    {
+        "id": 110691369,
+        "value": "",
+        "type": "textarea",
+        "label": "Other Notes",
+        "key": "other_notes"
+    },
+    {
+        "id": 110691370,
+        "value": "",
+        "type": "number",
+        "label": "Avg Closings Yr",
+        "key": "avg_closings_yr"
+    },
+    {
+        "id": 110691371,
+        "value": "",
+        "type": "number",
+        "label": "Avg Listings Yr",
+        "key": "avg_listings_yr"
+    },
+    {
+        "id": 110691372,
+        "value": "",
+        "type": "textarea",
+        "label": "Onboarding Notes",
+        "key": "onboarding_notes"
+    },
+    {
+        "id": 110691373,
+        "value": "",
+        "type": "choice",
+        "label": "Closing with",
+        "key": "closing_with"
+    },
+    {
+        "id": 110691374,
+        "value": "",
+        "type": "decimal",
+        "label": "Purchase Amount",
+        "key": "purchase_amount"
+    },
+    {
+        "id": 110691375,
+        "value": "",
+        "type": "decimal",
+        "label": "New Build Base Price",
+        "key": "new_build_base_price"
+    },
+    {
+        "id": 110691376,
+        "value": "",
+        "type": "decimal",
+        "label": "New Build Final Price",
+        "key": "new_build_final_price"
+    },
+    {
+        "id": 110691377,
+        "value": "",
+        "type": "decimal",
+        "label": "Option Fee Amount",
+        "key": "option_fee_amount"
+    },
+    {
+        "id": 110691378,
+        "value": "",
+        "type": "number",
+        "label": "Time Off Market Fee Amount",
+        "key": "time_off_market_fee_amount"
+    },
+    {
+        "id": 110691379,
+        "value": "",
+        "type": "number",
+        "label": "Due Diligence Amount",
+        "key": "due_diligence_amount"
+    },
+    {
+        "id": 110691380,
+        "value": "",
+        "type": "decimal",
+        "label": "Earnest Money Amount",
+        "key": "earnest_money_amount"
+    },
+    {
+        "id": 110691381,
+        "value": "",
+        "type": "decimal",
+        "label": "Additional Earnest Money Amount",
+        "key": "additional_earnest_money_amount"
+    },
+    {
+        "id": 110691382,
+        "value": "",
+        "type": "number",
+        "label": "Deposit Amount",
+        "key": "deposit_amount"
+    },
+    {
+        "id": 110691383,
+        "value": "",
+        "type": "number",
+        "label": "Additional Deposit Amount",
+        "key": "additional_deposit_amount"
+    },
+    {
+        "id": 110691384,
+        "value": "",
+        "type": "number",
+        "label": "Non-Refundable Deposit Amount",
+        "key": "non_refundable_deposit_amount"
+    },
+    {
+        "id": 110691385,
+        "value": "",
+        "type": "choice",
+        "label": "Earnest Money Holder",
+        "key": "earnest_money_holder"
+    },
+    {
+        "id": 110691386,
+        "value": "",
+        "type": "text",
+        "label": "Deposit Holder",
+        "key": "deposit_holder"
+    },
+    {
+        "id": 110691387,
+        "value": "",
+        "type": "decimal",
+        "label": "Closing Costs",
+        "key": "closing_costs"
+    },
+    {
+        "id": 110691388,
+        "value": "",
+        "type": "choice",
+        "label": "Who is Holding EMD",
+        "key": "who_is_holding_emd"
+    },
+    {
+        "id": 110691389,
+        "value": "",
+        "type": "decimal",
+        "label": "Seller Subsidy",
+        "key": "seller_subsidy"
+    },
+    {
+        "id": 110691390,
+        "value": "",
+        "type": "choice",
+        "label": "CL100 Ordered By",
+        "key": "cl100_ordered_by"
+    },
+    {
+        "id": 110691391,
+        "value": "",
+        "type": "choice",
+        "label": "CL100 Paid By",
+        "key": "cl100_paid_by"
+    },
+    {
+        "id": 110691392,
+        "value": "",
+        "type": "choice",
+        "label": "Attorney Review Status",
+        "key": "attorney_review_status"
+    },
+    {
+        "id": 110691393,
+        "value": "",
+        "type": "choice",
+        "label": "Financing Type",
+        "key": "financing_type"
+    },
+    {
+        "id": 110691394,
+        "value": "",
+        "type": "choice",
+        "label": "Appraisal Status",
+        "key": "appraisal_status"
+    },
+    {
+        "id": 110691395,
+        "value": "",
+        "type": "date",
+        "label": "Estimated Appraisal Due Date",
+        "key": "estimated_appraisal_due_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691396,
+        "value": "",
+        "type": "date",
+        "label": "Appraisal Appointment",
+        "key": "appraisal_appointment",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691397,
+        "value": "",
+        "type": "choice",
+        "label": "Financing Status",
+        "key": "financing_status"
+    },
+    {
+        "id": 110691398,
+        "value": "",
+        "type": "choice",
+        "label": "Loan Status",
+        "key": "loan_status"
+    },
+    {
+        "id": 110691399,
+        "value": "",
+        "type": "choice",
+        "label": "Loan Commitment Letter Status",
+        "key": "loan_commitment_letter_status"
+    },
+    {
+        "id": 110691400,
+        "value": "",
+        "type": "textarea",
+        "label": "List of Non-Realty Items",
+        "key": "list_of_non_realty_items"
+    },
+    {
+        "id": 110691401,
+        "value": "",
+        "type": "textarea",
+        "label": "List of Personal Property Items",
+        "key": "list_of_personal_property_items"
+    },
+    {
+        "id": 110691402,
+        "value": "",
+        "type": "textarea",
+        "label": "Items Included in Sale",
+        "key": "items_included_in_sale"
+    },
+    {
+        "id": 110691403,
+        "value": "",
+        "type": "textarea",
+        "label": "Personal Property Agreement",
+        "key": "personal_property_agreement"
+    },
+    {
+        "id": 110691404,
+        "value": "",
+        "type": "choice",
+        "label": "Preferred Closing Type",
+        "key": "preferred_closing_type"
+    },
+    {
+        "id": 110691405,
+        "value": "",
+        "type": "text",
+        "label": "Preferred Closing Time",
+        "key": "preferred_closing_time"
+    },
+    {
+        "id": 110691406,
+        "value": "",
+        "type": "date",
+        "label": "Other Partys Closing",
+        "key": "other_partys_closing",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691407,
+        "value": "",
+        "type": "text",
+        "label": "Preferred Mobile Closing Address",
+        "key": "preferred_mobile_closing_address"
+    },
+    {
+        "id": 110691408,
+        "value": "",
+        "type": "decimal",
+        "label": "Listing Side Commission",
+        "key": "listing_side_commission_percent"
+    },
+    {
+        "id": 110691409,
+        "value": "",
+        "type": "decimal",
+        "label": "Buying Side Commission",
+        "key": "buying_side_commission_percent"
+    },
+    {
+        "id": 110691410,
+        "value": "",
+        "type": "text",
+        "label": "Additional Commission Fees for DA",
+        "key": "additional_commission_fees_for_da"
+    },
+    {
+        "id": 110691411,
+        "value": "",
+        "type": "decimal",
+        "label": "Admin Fee",
+        "key": "admin_fee"
+    },
+    {
+        "id": 110691412,
+        "value": "",
+        "type": "textarea",
+        "label": "Commission Notes",
+        "key": "commission_notes"
+    },
+    {
+        "id": 110691413,
+        "value": "",
+        "type": "text",
+        "label": "Referred By or RELO Co",
+        "key": "referred_by"
+    },
+    {
+        "id": 110691414,
+        "value": "",
+        "type": "textarea",
+        "label": "Referral or RELO Notes or Instructions",
+        "key": "referral_or_relo_notes_or_instructions"
+    },
+    {
+        "id": 110691415,
+        "value": "",
+        "type": "text",
+        "label": "Referral Amount",
+        "key": "referral_amount"
+    },
+    {
+        "id": 110691416,
+        "value": "",
+        "type": "textarea",
+        "label": "Special Provisions or Other Notes",
+        "key": "special_provisions_or_other_notes"
+    },
+    {
+        "id": 110691417,
+        "value": "",
+        "type": "date",
+        "label": "UC Email Sent Date",
+        "key": "uc_email_sent_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691418,
+        "value": "",
+        "type": "choice",
+        "label": "UC Email Sent By",
+        "key": "uc_email_sent_by"
+    },
+    {
+        "id": 110691419,
+        "value": "",
+        "type": "number",
+        "label": "Agent On and Off Boarding",
+        "key": "agent_on_and_off_boarding"
+    },
+    {
+        "id": 110691420,
+        "value": "",
+        "type": "number",
+        "label": "Back Office Upload",
+        "key": "back_office_upload"
+    },
+    {
+        "id": 110691421,
+        "value": "",
+        "type": "number",
+        "label": "Broker Compliance",
+        "key": "broker_compliance"
+    },
+    {
+        "id": 110691422,
+        "value": "",
+        "type": "number",
+        "label": "CRM Management",
+        "key": "crm_management"
+    },
+    {
+        "id": 110691423,
+        "value": "",
+        "type": "number",
+        "label": "Email Management",
+        "key": "email_management"
+    },
+    {
+        "id": 110691424,
+        "value": "",
+        "type": "number",
+        "label": "White Label",
+        "key": "white_label"
+    },
+    {
+        "id": 110691425,
+        "value": "",
+        "type": "number",
+        "label": "VA Services",
+        "key": "va_services"
+    },
+    {
+        "id": 110691426,
+        "value": "",
+        "type": "date",
+        "label": "Agent Onboard Date",
+        "key": "agent_onboard_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691427,
+        "value": "",
+        "type": "date",
+        "label": "Agent Onboard Cancellation Date",
+        "key": "agent_onboard_cancellation_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691428,
+        "value": "",
+        "type": "date",
+        "label": "Agent Offboard Date",
+        "key": "agent_offboard_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691429,
+        "value": "",
+        "type": "date",
+        "label": "Agent Offboard Cancellation Date",
+        "key": "agent_offboard_cancellation_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691430,
+        "value": "",
+        "type": "textarea",
+        "label": "ADS - Agent OB Notes",
+        "key": "ads_agent_ob_notes"
+    },
+    {
+        "id": 110691431,
+        "value": "",
+        "type": "date",
+        "label": "Broker Compliance Start Date",
+        "key": "broker_compliance_start_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691432,
+        "value": "",
+        "type": "date",
+        "label": "Broker Compliance Cancellation Date",
+        "key": "broker_compliance_cancellation_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691433,
+        "value": "",
+        "type": "textarea",
+        "label": "ADS - Broker Compliance Notes",
+        "key": "ads_broker_compliance_notes"
+    },
+    {
+        "id": 110691434,
+        "value": "",
+        "type": "date",
+        "label": "Back Office Upload Start Date",
+        "key": "back_office_upload_start_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691435,
+        "value": "",
+        "type": "date",
+        "label": "Back Office Upload Cancellation Date",
+        "key": "back_office_upload_cancellation_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691436,
+        "value": "",
+        "type": "textarea",
+        "label": "ADS - BO Upload Notes",
+        "key": "ads_bo_upload_notes"
+    },
+    {
+        "id": 110691437,
+        "value": "",
+        "type": "date",
+        "label": "Email Mgmt Start Date",
+        "key": "email_mgmt_start_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691438,
+        "value": "",
+        "type": "date",
+        "label": "Email Mgmt Cancellation Date",
+        "key": "email_mgmt_cancellation_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691439,
+        "value": "",
+        "type": "textarea",
+        "label": "ADS - Email Mgmt Notes",
+        "key": "ads_email_mgmt_notes"
+    },
+    {
+        "id": 110691440,
+        "value": "",
+        "type": "date",
+        "label": "VA Services Start Date",
+        "key": "va_services_start_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691441,
+        "value": "",
+        "type": "date",
+        "label": "VA Services Cancellation Date",
+        "key": "va_services_cancellation_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691442,
+        "value": "",
+        "type": "textarea",
+        "label": "ADS - VA Services Notes",
+        "key": "ads_va_services_notes"
+    },
+    {
+        "id": 110691443,
+        "value": "",
+        "type": "choice",
+        "label": "Listing White Label",
+        "key": "listing_white_label"
+    },
+    {
+        "id": 110691444,
+        "value": "",
+        "type": "choice",
+        "label": "Listing Status",
+        "key": "listing_status"
+    },
+    {
+        "id": 110691445,
+        "value": "",
+        "type": "choice",
+        "label": "Listing Package",
+        "key": "listing_package"
+    },
+    {
+        "id": 110691446,
+        "value": "",
+        "type": "date",
+        "label": "Live on MLS Date",
+        "key": "live_on_mls_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691447,
+        "value": "",
+        "type": "date",
+        "label": "Coming Soon",
+        "key": "coming_soon",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691448,
+        "value": "",
+        "type": "decimal",
+        "label": "Listing Price",
+        "key": "listing_price"
+    },
+    {
+        "id": 110691449,
+        "value": "",
+        "type": "choice",
+        "label": "Listing Docs",
+        "key": "listing_docs"
+    },
+    {
+        "id": 110691450,
+        "value": "",
+        "type": "choice",
+        "label": "Number of MLS",
+        "key": "number_of_mls"
+    },
+    {
+        "id": 110691451,
+        "value": "",
+        "type": "choice",
+        "label": "Acknowledgement Email",
+        "key": "acknowledgement_email"
+    },
+    {
+        "id": 110691452,
+        "value": "",
+        "type": "choice",
+        "label": "Acknowledgement Text",
+        "key": "acknowledgement_text"
+    },
+    {
+        "id": 110691453,
+        "value": "",
+        "type": "date",
+        "label": "Relist Date",
+        "key": "relist_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691454,
+        "value": "",
+        "type": "choice",
+        "label": "CAD",
+        "key": "cad"
+    },
+    {
+        "id": 110691455,
+        "value": "",
+        "type": "choice",
+        "label": "FEMA",
+        "key": "fema"
+    },
+    {
+        "id": 110691456,
+        "value": "",
+        "type": "choice",
+        "label": "MUD",
+        "key": "mud"
+    },
+    {
+        "id": 110691457,
+        "value": "",
+        "type": "choice",
+        "label": "HOA",
+        "key": "hoa"
+    },
+    {
+        "id": 110691458,
+        "value": "",
+        "type": "choice",
+        "label": "LBP",
+        "key": "lbp"
+    },
+    {
+        "id": 110691459,
+        "value": "",
+        "type": "choice",
+        "label": "National Hazard Disclosure",
+        "key": "national_hazard_disclosure"
+    },
+    {
+        "id": 110691460,
+        "value": "",
+        "type": "choice",
+        "label": "CDS - Condition Disc Statement",
+        "key": "cds_condition_disc_statement"
+    },
+    {
+        "id": 110691461,
+        "value": "",
+        "type": "choice",
+        "label": "PDS - Property Disc Statement",
+        "key": "pds_property_disc_statement"
+    },
+    {
+        "id": 110691462,
+        "value": "",
+        "type": "choice",
+        "label": "PCD - Property Condition Disclosure",
+        "key": "pcd_property_condition_disclosure"
+    },
+    {
+        "id": 110691463,
+        "value": "",
+        "type": "choice",
+        "label": "RIDF - Rhode Island Disclosure Form",
+        "key": "ridf_rhode_island_disclosure_form"
+    },
+    {
+        "id": 110691464,
+        "value": "",
+        "type": "choice",
+        "label": "RPD - Residential or Real Property Disclosure",
+        "key": "rpd_residential_or_real_property_disclosure"
+    },
+    {
+        "id": 110691465,
+        "value": "",
+        "type": "choice",
+        "label": "SDS - Sellers Disclosure Statement",
+        "key": "sds_sellers_disclosure_statement"
+    },
+    {
+        "id": 110691466,
+        "value": "",
+        "type": "choice",
+        "label": "SPD  - Sellers Property Disclosure",
+        "key": "spd_sellers_property_disclosure"
+    },
+    {
+        "id": 110691467,
+        "value": "",
+        "type": "choice",
+        "label": "SPQ - Seller Prop Questionnaire",
+        "key": "spq_seller_prop_questionnaire"
+    },
+    {
+        "id": 110691468,
+        "value": "",
+        "type": "choice",
+        "label": "TDS - Transfer Disc Statement",
+        "key": "tds_transfer_disc_statement"
+    },
+    {
+        "id": 110691469,
+        "value": "",
+        "type": "choice",
+        "label": "SPIS - Seller Property Information Statement",
+        "key": "spis_seller_property_information_statement"
+    },
+    {
+        "id": 110691470,
+        "value": "",
+        "type": "choice",
+        "label": "SDN",
+        "key": "sdn"
+    },
+    {
+        "id": 110691471,
+        "value": "",
+        "type": "choice",
+        "label": "Survey",
+        "key": "survey"
+    },
+    {
+        "id": 110691472,
+        "value": "",
+        "type": "choice",
+        "label": "MLS Status",
+        "key": "mls_status"
+    },
+    {
+        "id": 110691473,
+        "value": "",
+        "type": "textarea",
+        "label": "MLS Notes",
+        "key": "mls_notes"
+    },
+    {
+        "id": 110691474,
+        "value": "",
+        "type": "choice",
+        "label": "Photos",
+        "key": "photos"
+    },
+    {
+        "id": 110691475,
+        "value": "",
+        "type": "choice",
+        "label": "Taking Live",
+        "key": "taking_live"
+    },
+    {
+        "id": 110691476,
+        "value": "",
+        "type": "choice",
+        "label": "BO Status",
+        "key": "bo_status"
+    },
+    {
+        "id": 110691477,
+        "value": "",
+        "type": "choice",
+        "label": "Billing",
+        "key": "billing"
+    },
+    {
+        "id": 110691478,
+        "value": "",
+        "type": "choice",
+        "label": "Marketing",
+        "key": "marketing"
+    },
+    {
+        "id": 110691479,
+        "value": "",
+        "type": "textarea",
+        "label": "Property Features",
+        "key": "property_features"
+    },
+    {
+        "id": 110691480,
+        "value": "",
+        "type": "textarea",
+        "label": "Listing Notes",
+        "key": "listing_notes"
+    },
+    {
+        "id": 110691481,
+        "value": "",
+        "type": "textarea",
+        "label": "Showing Instructions",
+        "key": "showing_instructions"
+    },
+    {
+        "id": 110691482,
+        "value": "",
+        "type": "textarea",
+        "label": "Mgmt Listing Notes",
+        "key": "mgmt_listing_notes"
+    },
+    {
+        "id": 110691483,
+        "value": "",
+        "type": "date",
+        "label": "CRM Mgmt Start Date",
+        "key": "crm_mgmt_start_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691484,
+        "value": "",
+        "type": "date",
+        "label": "CRM Mgmt Cancellation Date",
+        "key": "crm_mgmt_cancellation_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691485,
+        "value": "",
+        "type": "text",
+        "label": "CRM Tags",
+        "key": "crm_tags"
+    },
+    {
+        "id": 110691486,
+        "value": "",
+        "type": "text",
+        "label": "CRM Status",
+        "key": "crm_status"
+    },
+    {
+        "id": 110691487,
+        "value": "",
+        "type": "choice",
+        "label": "Monthly Email Blast",
+        "key": "monthly_email_blast"
+    },
+    {
+        "id": 110691488,
+        "value": "",
+        "type": "choice",
+        "label": "Email Client Type",
+        "key": "email_client_type"
+    },
+    {
+        "id": 110691489,
+        "value": "",
+        "type": "textarea",
+        "label": "ADS - CRM Mgmt Notes",
+        "key": "ads_crm_mgmt_notes"
+    },
+    {
+        "id": 110691490,
+        "value": "",
+        "type": "date",
+        "label": "White Label Start Date",
+        "key": "white_label_start_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691491,
+        "value": "",
+        "type": "date",
+        "label": "White Label Cancellation Date",
+        "key": "white_label_cancellation_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691492,
+        "value": "",
+        "type": "textarea",
+        "label": "ADS - White Label Notes",
+        "key": "ads_white_label_notes"
+    },
+    {
+        "id": 110691493,
+        "value": "",
+        "type": "text",
+        "label": "ADS - Empower Agent Name",
+        "key": "ads_empower_agent_name"
+    },
+    {
+        "id": 110691494,
+        "value": "",
+        "type": "text",
+        "label": "ADS - Brokerage",
+        "key": "ads_brokerage"
+    },
+    {
+        "id": 110691495,
+        "value": "",
+        "type": "text",
+        "label": "ADS - Transaction State",
+        "key": "ads_transaction_state"
+    },
+    {
+        "id": 110691496,
+        "value": "",
+        "type": "text",
+        "label": "ADS - Empower TC Name",
+        "key": "ads_empower_tc_name"
+    },
+    {
+        "id": 110691497,
+        "value": "",
+        "type": "date",
+        "label": "Contract Ratification",
+        "key": "contract_ratification",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691498,
+        "value": "",
+        "type": "date",
+        "label": "CTC Started with Empower",
+        "key": "ctc_started_with_empower",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691499,
+        "value": "",
+        "type": "date",
+        "label": "Contract  Agreement",
+        "key": "contract_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691500,
+        "value": "",
+        "type": "date",
+        "label": "Date of Contract",
+        "key": "date_of_contract",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691501,
+        "value": "",
+        "type": "date",
+        "label": "Purchase Contract Date",
+        "key": "purchase_contract_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691502,
+        "value": "",
+        "type": "date",
+        "label": "Attorney Review  Purchase  Expires",
+        "key": "attorney_review_purchase_expires",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691503,
+        "value": "",
+        "type": "date",
+        "label": "Assignment Contract Date",
+        "key": "assignment_contract_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691504,
+        "value": "",
+        "type": "date",
+        "label": "Attorney Review  Assignment  Expires",
+        "key": "attorney_review_assignment_expires",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691505,
+        "value": "",
+        "type": "date",
+        "label": "Earnest Money Due Date",
+        "key": "earnest_money_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691506,
+        "value": "",
+        "type": "date",
+        "label": "Deposit Due Date",
+        "key": "deposit_due_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691507,
+        "value": "",
+        "type": "date",
+        "label": "Option Fee Due Date",
+        "key": "option_fee_due_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691508,
+        "value": "",
+        "type": "date",
+        "label": "Time Off Market Fee Due",
+        "key": "time_off_market_fee_due",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691509,
+        "value": "",
+        "type": "date",
+        "label": "Due Diligence Fee Due",
+        "key": "due_diligence_fee_due",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691510,
+        "value": "",
+        "type": "date",
+        "label": "Additional Earnest Money Due",
+        "key": "additional_earnest_money_due",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691511,
+        "value": "",
+        "type": "date",
+        "label": "Additional Deposit Due",
+        "key": "additional_deposit_due",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691512,
+        "value": "",
+        "type": "date",
+        "label": "Non-Refundable Deposit Due Date",
+        "key": "non_refundable_deposit_due_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691513,
+        "value": "",
+        "type": "date",
+        "label": "Sellers Disclosure Due Date",
+        "key": "sellers_disclosure_due_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691514,
+        "value": "",
+        "type": "choice",
+        "label": "Disclosure Status",
+        "key": "disclosure_status"
+    },
+    {
+        "id": 110691515,
+        "value": "",
+        "type": "choice",
+        "label": "Survey Status",
+        "key": "survey_status"
+    },
+    {
+        "id": 110691516,
+        "value": "",
+        "type": "date",
+        "label": "Survey Due",
+        "key": "survey_due",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691517,
+        "value": "",
+        "type": "date",
+        "label": "Survey Review Period",
+        "key": "survey_review_period",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691518,
+        "value": "",
+        "type": "date",
+        "label": "Survey Resolution Deadline",
+        "key": "survey_resolution_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691519,
+        "value": "",
+        "type": "date",
+        "label": "Survey Objection Deadline",
+        "key": "survey_objection_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691520,
+        "value": "",
+        "type": "date",
+        "label": "Prelim Title Report",
+        "key": "prelim_title_report_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691521,
+        "value": "",
+        "type": "date",
+        "label": "Title Commitment Deadline",
+        "key": "title_commitment_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691522,
+        "value": "",
+        "type": "date",
+        "label": "Title Objection Deadline",
+        "key": "title_objection_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691523,
+        "value": "",
+        "type": "date",
+        "label": "Title Review Period",
+        "key": "title_review_period",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691524,
+        "value": "",
+        "type": "date",
+        "label": "Title Resolution Deadline",
+        "key": "title_resolution_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691525,
+        "value": "",
+        "type": "date",
+        "label": "Opening of Escrow",
+        "key": "opening_of_escrow",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691526,
+        "value": "",
+        "type": "date",
+        "label": "Certificate of Occupancy Date",
+        "key": "certificate_of_occupancy_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691527,
+        "value": "",
+        "type": "date",
+        "label": "Home Inspection",
+        "key": "home_inspection_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691528,
+        "value": "",
+        "type": "choice",
+        "label": "Inspection Period Type",
+        "key": "inspection_period_type"
+    },
+    {
+        "id": 110691529,
+        "value": "",
+        "type": "date",
+        "label": "Option Period Ends",
+        "key": "option_period_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691530,
+        "value": "",
+        "type": "date",
+        "label": "As-Is Inspection Date",
+        "key": "as_is_inspection_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691531,
+        "value": "",
+        "type": "date",
+        "label": "Repair Request Date",
+        "key": "repair_request_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691532,
+        "value": "",
+        "type": "date",
+        "label": "Repair Acceptance Date",
+        "key": "repair_acceptance_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691533,
+        "value": "",
+        "type": "date",
+        "label": "Repair Completion Date",
+        "key": "repair_completion_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691534,
+        "value": "",
+        "type": "date",
+        "label": "Inspection Period Ends",
+        "key": "inspection_period_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691535,
+        "value": "",
+        "type": "date",
+        "label": "Inspection Contingency Ends",
+        "key": "inspection_contingency_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691536,
+        "value": "",
+        "type": "date",
+        "label": "Inspection Objection Deadline",
+        "key": "inspection_objection_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691537,
+        "value": "",
+        "type": "date",
+        "label": "Inspection Termination Deadline",
+        "key": "inspection_termination_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691538,
+        "value": "",
+        "type": "date",
+        "label": "Inspection Resolution Deadline",
+        "key": "inspection_resolution_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691539,
+        "value": "",
+        "type": "date",
+        "label": "Investigation Period Ends",
+        "key": "investigation_period_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691540,
+        "value": "",
+        "type": "date",
+        "label": "Inspection Remedy Deadline",
+        "key": "inspection_remedy_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691541,
+        "value": "",
+        "type": "date",
+        "label": "TRR Negotiation Ends",
+        "key": "trr_negotiation_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691542,
+        "value": "",
+        "type": "date",
+        "label": "Time Reference Date",
+        "key": "time_reference_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691543,
+        "value": "",
+        "type": "date",
+        "label": "Renegotiation Period Ends",
+        "key": "renegotiation_period_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691544,
+        "value": "",
+        "type": "date",
+        "label": "Consideration Period Ends",
+        "key": "consideration_period_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691545,
+        "value": "",
+        "type": "date",
+        "label": "Settlement Period Ends",
+        "key": "settlement_period_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691546,
+        "value": "",
+        "type": "date",
+        "label": "Negotiation Period Ends",
+        "key": "negotiation_period_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691547,
+        "value": "",
+        "type": "date",
+        "label": "Election Period Ends",
+        "key": "election_period_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691548,
+        "value": "",
+        "type": "date",
+        "label": "Buyer Inspection Response Deadline",
+        "key": "buyer_inspection_response_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691549,
+        "value": "",
+        "type": "date",
+        "label": "Seller Inspection Response Deadline",
+        "key": "seller_inspection_response_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691550,
+        "value": "",
+        "type": "date",
+        "label": "Due Diligence End Date",
+        "key": "due_diligence_end_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691551,
+        "value": "",
+        "type": "date",
+        "label": "DD Documents Delivery Deadline",
+        "key": "dd_documents_delivery_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691552,
+        "value": "",
+        "type": "date",
+        "label": "DD Documents Objection Deadline",
+        "key": "dd_documents_objection_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691553,
+        "value": "",
+        "type": "date",
+        "label": "DD Documents Resolution Deadline",
+        "key": "dd_documents_resolution_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691554,
+        "value": "",
+        "type": "date",
+        "label": "Radon Inspection Period Ends",
+        "key": "radon_inspection_period_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691555,
+        "value": "",
+        "type": "date",
+        "label": "Radon Negotiation Period Ends",
+        "key": "radon_negotiation_period_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691556,
+        "value": "",
+        "type": "date",
+        "label": "Radon Election Period Ends",
+        "key": "radon_election_period_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691557,
+        "value": "",
+        "type": "date",
+        "label": "Radon Testing Contingency Ends",
+        "key": "radon_testing_contingency_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691558,
+        "value": "",
+        "type": "date",
+        "label": "Well Inspection Period Ends",
+        "key": "well_inspection_period_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691559,
+        "value": "",
+        "type": "date",
+        "label": "Well Negotiation Period Ends",
+        "key": "well_negotiation_period_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691560,
+        "value": "",
+        "type": "date",
+        "label": "Well Election Period Ends",
+        "key": "well_election_period_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691561,
+        "value": "",
+        "type": "date",
+        "label": "Septic Inspection Period Ends",
+        "key": "septic_inspection_period_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691562,
+        "value": "",
+        "type": "date",
+        "label": "Septic Negotiation Period Ends",
+        "key": "septic_negotiation_period_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691563,
+        "value": "",
+        "type": "date",
+        "label": "Septic Election Period Ends",
+        "key": "septic_election_period_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691564,
+        "value": "",
+        "type": "date",
+        "label": "Lead Based Paint Contingency",
+        "key": "lead_based_paint_contingency",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691565,
+        "value": "",
+        "type": "date",
+        "label": "Lead Based Paint Inspection Period",
+        "key": "lead_based_paint_inspection_period",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691566,
+        "value": "",
+        "type": "date",
+        "label": "Radon Inspection Contingency Ends",
+        "key": "radon_inspection_contingency_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691567,
+        "value": "",
+        "type": "date",
+        "label": "Mineral Rights Examination Deadline",
+        "key": "mineral_rights_examination_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691568,
+        "value": "",
+        "type": "date",
+        "label": "Water Rights Examination Deadline",
+        "key": "water_rights_examination_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691569,
+        "value": "",
+        "type": "date",
+        "label": "Flood Insurance",
+        "key": "flood_insurance",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691570,
+        "value": "",
+        "type": "date",
+        "label": "Insurance Contingency Deadline",
+        "key": "insurance_contingency_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691571,
+        "value": "",
+        "type": "date",
+        "label": "Financing Deadline",
+        "key": "financing_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691572,
+        "value": "",
+        "type": "date",
+        "label": "Loan Contingency Ends",
+        "key": "loan_contingency_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691573,
+        "value": "",
+        "type": "date",
+        "label": "New Loan Application Deadline",
+        "key": "new_loan_application_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691574,
+        "value": "",
+        "type": "date",
+        "label": "New Loan Termination Deadline",
+        "key": "new_loan_termination_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691575,
+        "value": "",
+        "type": "date",
+        "label": "Initial Finance Request",
+        "key": "initial_finance_request",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691576,
+        "value": "",
+        "type": "date",
+        "label": "Loan Application Deadline",
+        "key": "loan_application_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691577,
+        "value": "",
+        "type": "date",
+        "label": "Loan Approval Deadline",
+        "key": "loan_approval_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691578,
+        "value": "",
+        "type": "date",
+        "label": "Loan Commitment Letter Due",
+        "key": "loan_commitment_letter_due",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691579,
+        "value": "",
+        "type": "date",
+        "label": "Loan Terms Deadline",
+        "key": "loan_terms_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691580,
+        "value": "",
+        "type": "date",
+        "label": "Loan Availability Deadline",
+        "key": "loan_availability_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691581,
+        "value": "",
+        "type": "date",
+        "label": "Buyers Credit Information Deadline",
+        "key": "buyers_credit_information_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691582,
+        "value": "",
+        "type": "date",
+        "label": "Disapproval of Buyers Credit Information Deadline",
+        "key": "disapproval_of_buyers_credit_information_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691583,
+        "value": "",
+        "type": "date",
+        "label": "Proof of Funds",
+        "key": "proof_of_funds",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691584,
+        "value": "",
+        "type": "date",
+        "label": "CL-100 Order Date",
+        "key": "cl_100_order_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691585,
+        "value": "",
+        "type": "date",
+        "label": "CL-100 Due Date",
+        "key": "cl_100_due_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691586,
+        "value": "",
+        "type": "date",
+        "label": "Appraisal Deadline",
+        "key": "appraisal_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691587,
+        "value": "",
+        "type": "date",
+        "label": "Appraisal Objection Deadline",
+        "key": "appraisal_objection_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691588,
+        "value": "",
+        "type": "date",
+        "label": "Appraisal Resolution Deadline",
+        "key": "appraisal_resolution_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691589,
+        "value": "",
+        "type": "date",
+        "label": "Appraisal Contingency Removal",
+        "key": "appraisal_contingency_removal",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691590,
+        "value": "",
+        "type": "date",
+        "label": "Appraisal Contingency Deadline",
+        "key": "appraisal_contingency_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691591,
+        "value": "",
+        "type": "date",
+        "label": "Appraisal Due to Seller",
+        "key": "appraisal_due_to_seller",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691592,
+        "value": "",
+        "type": "date",
+        "label": "Appraisal Termination Date",
+        "key": "appraisal_termination_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691593,
+        "value": "",
+        "type": "date",
+        "label": "Attorney Approval Period",
+        "key": "attorney_approval_period",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691594,
+        "value": "",
+        "type": "date",
+        "label": "Attorney Review Period",
+        "key": "attorney_review_period",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691595,
+        "value": "",
+        "type": "date",
+        "label": "Property Certification Due",
+        "key": "property_certification_due",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691596,
+        "value": "",
+        "type": "date",
+        "label": "Loan Contingency Removal",
+        "key": "loan_contingency_removal",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691597,
+        "value": "",
+        "type": "date",
+        "label": "Loan Status Update Due",
+        "key": "loan_status_update_due",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691598,
+        "value": "",
+        "type": "choice",
+        "label": "HOA Status",
+        "key": "hoa_status"
+    },
+    {
+        "id": 110691599,
+        "value": "",
+        "type": "date",
+        "label": "HOA or Condo Docs Due",
+        "key": "hoa_or_condo_docs_due",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691600,
+        "value": "",
+        "type": "date",
+        "label": "HOA or Condo Application Due",
+        "key": "hoa_or_condo_application_due",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691601,
+        "value": "",
+        "type": "date",
+        "label": "HOA Review Period",
+        "key": "hoa_review_period",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691602,
+        "value": "",
+        "type": "date",
+        "label": "HOA Doc Termination Deadline",
+        "key": "hoa_doc_termination_deadline",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691603,
+        "value": "",
+        "type": "date",
+        "label": "Status Certificate and Attachments  Due Date",
+        "key": "status_certificate_and_attachments_due_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691604,
+        "value": "",
+        "type": "date",
+        "label": "Neighborhood Review Contingency",
+        "key": "neighborhood_review_contingency",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691605,
+        "value": "",
+        "type": "date",
+        "label": "Information Verification Period",
+        "key": "information_verification_period",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691606,
+        "value": "",
+        "type": "date",
+        "label": "Design Center Appointment",
+        "key": "design_center_appointment",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691607,
+        "value": "",
+        "type": "date",
+        "label": "Property Sale Contingency Ends",
+        "key": "property_sale_contingency_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691608,
+        "value": "",
+        "type": "date",
+        "label": "Final Walk Through",
+        "key": "final_walk_through_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691609,
+        "value": "",
+        "type": "date",
+        "label": "Closing",
+        "key": "closing_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691610,
+        "value": "",
+        "type": "date",
+        "label": "Estimated New Build Close Date",
+        "key": "estimated_new_build_close_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691611,
+        "value": "",
+        "type": "date",
+        "label": "Funding Date",
+        "key": "funding_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691612,
+        "value": "",
+        "type": "choice",
+        "label": "CDA Status",
+        "key": "cda_status"
+    },
+    {
+        "id": 110691613,
+        "value": "",
+        "type": "date",
+        "label": "Leaseback Ends",
+        "key": "leaseback_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691614,
+        "value": "",
+        "type": "date",
+        "label": "Possession",
+        "key": "possession_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691615,
+        "value": "",
+        "type": "date",
+        "label": "Post Occupancy Ends",
+        "key": "post_occupancy_ends",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691616,
+        "value": "",
+        "type": "date",
+        "label": "Termite Inspection",
+        "key": "termite_inspection_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691617,
+        "value": "",
+        "type": "date",
+        "label": "Septic Inspection",
+        "key": "septic_inspection_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691618,
+        "value": "",
+        "type": "date",
+        "label": "Well Inspection",
+        "key": "well_inspection",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691619,
+        "value": "",
+        "type": "date",
+        "label": "Foundation Inspection",
+        "key": "foundation_inspection",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691620,
+        "value": "",
+        "type": "date",
+        "label": "Cesspool Inspection",
+        "key": "cesspool_inspection",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691621,
+        "value": "",
+        "type": "date",
+        "label": "Radon Inspection",
+        "key": "radon_inspection_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691622,
+        "value": "",
+        "type": "date",
+        "label": "Contract Terminated",
+        "key": "contract_terminated",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691623,
+        "value": "",
+        "type": "date",
+        "label": "CTC Withdrawn Date",
+        "key": "ctc_withdrawn_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691624,
+        "value": "",
+        "type": "date",
+        "label": "ADS Started with Empower",
+        "key": "ads_started_with_empower",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691625,
+        "value": "",
+        "type": "number",
+        "label": "Earnest Money Due Days",
+        "key": "earnest_money_due_days"
+    },
+    {
+        "id": 110691626,
+        "value": "",
+        "type": "number",
+        "label": "Seller Disclosure Due Days",
+        "key": "seller_disclosure_due_days"
+    },
+    {
+        "id": 110691627,
+        "value": "",
+        "type": "number",
+        "label": "Option Period Due Days",
+        "key": "option_period_due_days"
+    },
+    {
+        "id": 110691628,
+        "value": "",
+        "type": "number",
+        "label": "Financing Due Days",
+        "key": "financing_due_days"
+    },
+    {
+        "id": 110691629,
+        "value": "",
+        "type": "choice",
+        "label": "Membership Type",
+        "key": "membership_type"
+    },
+    {
+        "id": 110691630,
+        "value": "",
+        "type": "date",
+        "label": "Membership Start Date",
+        "key": "membership_start_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691631,
+        "value": "",
+        "type": "date",
+        "label": "Membership End Date",
+        "key": "membership_end_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691632,
+        "value": "",
+        "type": "textarea",
+        "label": "Membership Notes",
+        "key": "membership_notes"
+    },
+    {
+        "id": 110691633,
+        "value": "",
+        "type": "choice",
+        "label": "AI Membership",
+        "key": "ai_membership"
+    },
+    {
+        "id": 110691634,
+        "value": "",
+        "type": "choice",
+        "label": "AI Service Type",
+        "key": "ai_service_type"
+    },
+    {
+        "id": 110691635,
+        "value": "",
+        "type": "choice",
+        "label": "Transaction PAID via",
+        "key": "transaction_paid_via"
+    },
+    {
+        "id": 110691636,
+        "value": "",
+        "type": "number",
+        "label": "1st Compliance with Empower",
+        "key": "1st_compliance_with_empower"
+    },
+    {
+        "id": 110691637,
+        "value": "",
+        "type": "number",
+        "label": "Listing Standard - 150",
+        "key": "listing_standard_150"
+    },
+    {
+        "id": 110691638,
+        "value": "",
+        "type": "number",
+        "label": "Listing Standard - 200",
+        "key": "listing_standard_200"
+    },
+    {
+        "id": 110691639,
+        "value": "",
+        "type": "number",
+        "label": "Listing Premium - 200",
+        "key": "listing_premium_200"
+    },
+    {
+        "id": 110691640,
+        "value": "",
+        "type": "number",
+        "label": "Listing Elite - 250",
+        "key": "listing_elite_250"
+    },
+    {
+        "id": 110691641,
+        "value": "",
+        "type": "number",
+        "label": "Listing Elite - 300",
+        "key": "listing_elite_300"
+    },
+    {
+        "id": 110691642,
+        "value": "",
+        "type": "number",
+        "label": "CTC Standard - 300",
+        "key": "ctc_standard_300"
+    },
+    {
+        "id": 110691643,
+        "value": "",
+        "type": "number",
+        "label": "CTC Standard - 350",
+        "key": "ctc_standard_350"
+    },
+    {
+        "id": 110691644,
+        "value": "",
+        "type": "number",
+        "label": "CTC Standard - 400",
+        "key": "ctc_standard_400"
+    },
+    {
+        "id": 110691645,
+        "value": "",
+        "type": "number",
+        "label": "CTC Standard - 450",
+        "key": "ctc_standard_450"
+    },
+    {
+        "id": 110691646,
+        "value": "",
+        "type": "number",
+        "label": "CTC Listing Discount - 300",
+        "key": "ctc_listing_discount_300"
+    },
+    {
+        "id": 110691647,
+        "value": "",
+        "type": "number",
+        "label": "CTC Listing Discount - 350",
+        "key": "ctc_listing_discount_350"
+    },
+    {
+        "id": 110691648,
+        "value": "",
+        "type": "number",
+        "label": "CTC Listing Discount - 400",
+        "key": "ctc_listing_discount_400"
+    },
+    {
+        "id": 110691649,
+        "value": "",
+        "type": "number",
+        "label": "CTC Dual Discount - 300",
+        "key": "ctc_dual_discount_300"
+    },
+    {
+        "id": 110691650,
+        "value": "",
+        "type": "number",
+        "label": "CTC Dual Discount - 350",
+        "key": "ctc_dual_discount_350"
+    },
+    {
+        "id": 110691651,
+        "value": "",
+        "type": "number",
+        "label": "CTC Dual Discount - 400",
+        "key": "ctc_dual_discount_400"
+    },
+    {
+        "id": 110691652,
+        "value": "",
+        "type": "number",
+        "label": "CTC Term - No Charge",
+        "key": "ctc_term_no_charge"
+    },
+    {
+        "id": 110691653,
+        "value": "",
+        "type": "number",
+        "label": "CTC Term - Compliance 50",
+        "key": "ctc_term_compliance_50"
+    },
+    {
+        "id": 110691654,
+        "value": "",
+        "type": "date",
+        "label": "Offer Started with Empower",
+        "key": "offer_started_with_empower",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691655,
+        "value": "",
+        "type": "number",
+        "label": "Initial Offer Prep - 100",
+        "key": "initial_offer_prep_100"
+    },
+    {
+        "id": 110691656,
+        "value": "",
+        "type": "number",
+        "label": "Offer Prep - 40",
+        "key": "offer_prep_40"
+    },
+    {
+        "id": 110691657,
+        "value": "",
+        "type": "date",
+        "label": "Compliance Started with Empower",
+        "key": "compliance_started_with_empower",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691658,
+        "value": "",
+        "type": "date",
+        "label": "Compliance Est  Completion Date",
+        "key": "compliance_est_completion_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691659,
+        "value": "",
+        "type": "number",
+        "label": "Compliance Lite - 50",
+        "key": "compliance_lite_50"
+    },
+    {
+        "id": 110691660,
+        "value": "",
+        "type": "number",
+        "label": "Compliance Only -  100",
+        "key": "compliance_only_100"
+    },
+    {
+        "id": 110691661,
+        "value": "",
+        "type": "number",
+        "label": "Compliance -  125",
+        "key": "compliance_125"
+    },
+    {
+        "id": 110691662,
+        "value": "",
+        "type": "number",
+        "label": "Compliance Plus -  150",
+        "key": "compliance_plus_150"
+    },
+    {
+        "id": 110691663,
+        "value": "",
+        "type": "decimal",
+        "label": "Billing Amount",
+        "key": "billing_amount"
+    },
+    {
+        "id": 110691664,
+        "value": "",
+        "type": "number",
+        "label": "Other Amount",
+        "key": "other_amount"
+    },
+    {
+        "id": 110691665,
+        "value": "",
+        "type": "text",
+        "label": "Billing Notes",
+        "key": "billing_notes"
+    },
+    {
+        "id": 110691666,
+        "value": "",
+        "type": "text",
+        "label": "Agent First Name",
+        "key": "agent_first_name"
+    },
+    {
+        "id": 110691667,
+        "value": "",
+        "type": "text",
+        "label": "Agent Last Name",
+        "key": "agent_last_name"
+    },
+    {
+        "id": 110691668,
+        "value": "",
+        "type": "text",
+        "label": "Agent Email",
+        "key": "agent_email"
+    },
+    {
+        "id": 110691669,
+        "value": "",
+        "type": "text",
+        "label": "Agent Secondary email",
+        "key": "agent_secondary_email"
+    },
+    {
+        "id": 110691670,
+        "value": "",
+        "type": "text",
+        "label": "Agent Phone Number",
+        "key": "agent_phone_number"
+    },
+    {
+        "id": 110691671,
+        "value": "",
+        "type": "choice",
+        "label": "White Label - if applies",
+        "key": "white_label_if_applies"
+    },
+    {
+        "id": 110691672,
+        "value": "",
+        "type": "choice",
+        "label": "Transaction Coordinator",
+        "key": "transaction_coordinator"
+    },
+    {
+        "id": 110691673,
+        "value": "",
+        "type": "choice",
+        "label": "Transaction Coordinator 2",
+        "key": "transaction_coordinator_2"
+    },
+    {
+        "id": 110691674,
+        "value": "",
+        "type": "choice",
+        "label": "Agent Province or Territory",
+        "key": "agent_province_or_territory"
+    },
+    {
+        "id": 110691675,
+        "value": "",
+        "type": "choice",
+        "label": "Agent Province or Territory 2",
+        "key": "agent_province_or_territory_2"
+    },
+    {
+        "id": 110691676,
+        "value": "",
+        "type": "choice",
+        "label": "Agent State",
+        "key": "agent_state"
+    },
+    {
+        "id": 110691677,
+        "value": "",
+        "type": "choice",
+        "label": "Agent State 2",
+        "key": "agent_state_2"
+    },
+    {
+        "id": 110691678,
+        "value": "",
+        "type": "choice",
+        "label": "Billing Preference",
+        "key": "billing_preference"
+    },
+    {
+        "id": 110691679,
+        "value": "",
+        "type": "choice",
+        "label": "Monthly Billing - if applies",
+        "key": "monthly_billing_if_applies"
+    },
+    {
+        "id": 110691680,
+        "value": "",
+        "type": "textarea",
+        "label": "Agent Billing Notes",
+        "key": "agent_billing_notes"
+    },
+    {
+        "id": 110691681,
+        "value": "",
+        "type": "text",
+        "label": "Billing Responsible Party if diff from Agent",
+        "key": "billing_responsible_party_if_diff_from_agent"
+    },
+    {
+        "id": 110691682,
+        "value": "",
+        "type": "text",
+        "label": "Team Name",
+        "key": "team_name"
+    },
+    {
+        "id": 110691683,
+        "value": "",
+        "type": "text",
+        "label": "Brokerage",
+        "key": "brokerage"
+    },
+    {
+        "id": 110691684,
+        "value": "",
+        "type": "text",
+        "label": "Broker City",
+        "key": "broker_city"
+    },
+    {
+        "id": 110691685,
+        "value": "",
+        "type": "text",
+        "label": "Assistant Email",
+        "key": "assistant_email"
+    },
+    {
+        "id": 110691686,
+        "value": "",
+        "type": "choice",
+        "label": "MSA - if applies",
+        "key": "msa_if_applies"
+    },
+    {
+        "id": 110691687,
+        "value": "",
+        "type": "date",
+        "label": "Google Review Date",
+        "key": "google_review_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691688,
+        "value": "",
+        "type": "text",
+        "label": "Agent Portal Username",
+        "key": "agent_portal_username"
+    },
+    {
+        "id": 110691689,
+        "value": "",
+        "type": "text",
+        "label": "Agent Portal Password",
+        "key": "agent_portal_password"
+    },
+    {
+        "id": 110691690,
+        "value": "",
+        "type": "choice",
+        "label": "Will your Empower TC be helping you only or your Brokerage Team also",
+        "key": "will_your_empower_tc_be_helping_you_only_or_your_brokerage_team_also"
+    },
+    {
+        "id": 110691691,
+        "value": "",
+        "type": "choice",
+        "label": "How did you hear about Empower",
+        "key": "how_did_you_hear_about_empower"
+    },
+    {
+        "id": 110691692,
+        "value": "",
+        "type": "choice",
+        "label": "Do you need an assistant or additional email address copied",
+        "key": "do_you_need_an_assistant_or_additional_email_address_copied"
+    },
+    {
+        "id": 110691693,
+        "value": "",
+        "type": "choice",
+        "label": "Have you spoken with someone from Empower yet",
+        "key": "have_you_spoken_with_someone_from_empower_yet"
+    },
+    {
+        "id": 110691694,
+        "value": "",
+        "type": "choice",
+        "label": "For Contract to Close - I want my Team Brokerage CTC fee billed ",
+        "key": "for_contract_to_close_i_want_my_team_brokerage_ctc_fee_billed"
+    },
+    {
+        "id": 110691695,
+        "value": "",
+        "type": "choice",
+        "label": "Listing Transaction will be billed",
+        "key": "listing_transaction_will_be_billed"
+    },
+    {
+        "id": 110691696,
+        "value": "",
+        "type": "choice",
+        "label": "For Contract to Close - I want the CTC fee billed",
+        "key": "for_contract_to_close_i_want_the_ctc_fee_billed"
+    },
+    {
+        "id": 110691697,
+        "value": "",
+        "type": "text",
+        "label": "Utility set-up contact info",
+        "key": "utility_set_up_contact_info"
+    },
+    {
+        "id": 110691698,
+        "value": "",
+        "type": "text",
+        "label": "Agent BO Name",
+        "key": "agent_bo_name"
+    },
+    {
+        "id": 110691699,
+        "value": "",
+        "type": "text",
+        "label": "Agent BO Website",
+        "key": "agent_bo_website"
+    },
+    {
+        "id": 110691700,
+        "value": "",
+        "type": "text",
+        "label": "Agent BO Username",
+        "key": "agent_bo_username"
+    },
+    {
+        "id": 110691701,
+        "value": "",
+        "type": "text",
+        "label": "Agent BO Password",
+        "key": "agent_bo_password"
+    },
+    {
+        "id": 110691702,
+        "value": "",
+        "type": "text",
+        "label": "MLS Website",
+        "key": "mls_website"
+    },
+    {
+        "id": 110691703,
+        "value": "",
+        "type": "text",
+        "label": "MLS User Name",
+        "key": "mls_user_name"
+    },
+    {
+        "id": 110691704,
+        "value": "",
+        "type": "text",
+        "label": "MLS Password",
+        "key": "mls_password"
+    },
+    {
+        "id": 110691705,
+        "value": "",
+        "type": "choice",
+        "label": "Zipform Website",
+        "key": "zipform_website"
+    },
+    {
+        "id": 110691706,
+        "value": "",
+        "type": "text",
+        "label": "Zipform User Name",
+        "key": "zipform_user_name"
+    },
+    {
+        "id": 110691707,
+        "value": "",
+        "type": "text",
+        "label": "Zipform Password",
+        "key": "zipform_password"
+    },
+    {
+        "id": 110691708,
+        "value": "",
+        "type": "text",
+        "label": "Dotloop User Name",
+        "key": "dotloop_user_name"
+    },
+    {
+        "id": 110691709,
+        "value": "",
+        "type": "text",
+        "label": "Dotloop Password",
+        "key": "dotloop_password"
+    },
+    {
+        "id": 110691710,
+        "value": "",
+        "type": "text",
+        "label": "Docusign User Name",
+        "key": "docusign_user_name"
+    },
+    {
+        "id": 110691711,
+        "value": "",
+        "type": "text",
+        "label": "Docusign Password",
+        "key": "docusign_password"
+    },
+    {
+        "id": 110691712,
+        "value": "",
+        "type": "text",
+        "label": "Photography Website",
+        "key": "photography_website"
+    },
+    {
+        "id": 110691713,
+        "value": "",
+        "type": "text",
+        "label": "Preferred Photographer and Package",
+        "key": "preferred_photographer_and_package"
+    },
+    {
+        "id": 110691714,
+        "value": "",
+        "type": "text",
+        "label": "Photography User Name",
+        "key": "photography_user_name"
+    },
+    {
+        "id": 110691715,
+        "value": "",
+        "type": "text",
+        "label": "Photography Password",
+        "key": "photography_password"
+    },
+    {
+        "id": 110691716,
+        "value": "",
+        "type": "text",
+        "label": "Supra User Name",
+        "key": "supra_user_name"
+    },
+    {
+        "id": 110691717,
+        "value": "",
+        "type": "text",
+        "label": "Supra Password",
+        "key": "supra_password"
+    },
+    {
+        "id": 110691718,
+        "value": "",
+        "type": "text",
+        "label": "Showing Service Name",
+        "key": "showing_service_name"
+    },
+    {
+        "id": 110691719,
+        "value": "",
+        "type": "text",
+        "label": "Showing Service Username",
+        "key": "showing_service_username"
+    },
+    {
+        "id": 110691720,
+        "value": "",
+        "type": "text",
+        "label": "Showing Service Password",
+        "key": "showing_service_password"
+    },
+    {
+        "id": 110691721,
+        "value": "",
+        "type": "text",
+        "label": "CRM Name",
+        "key": "crm_name"
+    },
+    {
+        "id": 110691722,
+        "value": "",
+        "type": "text",
+        "label": "CRM Username",
+        "key": "crm_username"
+    },
+    {
+        "id": 110691723,
+        "value": "",
+        "type": "text",
+        "label": "CRM Password",
+        "key": "crm_password"
+    },
+    {
+        "id": 110691724,
+        "value": "",
+        "type": "text",
+        "label": "CRM 2 Name",
+        "key": "crm_2_name"
+    },
+    {
+        "id": 110691725,
+        "value": "",
+        "type": "text",
+        "label": "CRM 2 Username",
+        "key": "crm_2_username"
+    },
+    {
+        "id": 110691726,
+        "value": "",
+        "type": "text",
+        "label": "CRM 2 Password",
+        "key": "crm_2_password"
+    },
+    {
+        "id": 110691727,
+        "value": "",
+        "type": "textarea",
+        "label": "Other Site URL",
+        "key": "other_site_url"
+    },
+    {
+        "id": 110691728,
+        "value": "",
+        "type": "text",
+        "label": "Other Site",
+        "key": "other_site"
+    },
+    {
+        "id": 110691729,
+        "value": "",
+        "type": "text",
+        "label": "Other User Name",
+        "key": "other_user_name"
+    },
+    {
+        "id": 110691730,
+        "value": "",
+        "type": "text",
+        "label": "Other Password",
+        "key": "other_password"
+    },
+    {
+        "id": 110691731,
+        "value": "",
+        "type": "text",
+        "label": "Other Site 2",
+        "key": "other_site_2"
+    },
+    {
+        "id": 110691732,
+        "value": "",
+        "type": "text",
+        "label": "Other User Name 2",
+        "key": "other_user_name_2"
+    },
+    {
+        "id": 110691733,
+        "value": "",
+        "type": "text",
+        "label": "Other Password 2",
+        "key": "other_password_2"
+    },
+    {
+        "id": 110691734,
+        "value": "",
+        "type": "text",
+        "label": "Other Site 3",
+        "key": "other_site_3"
+    },
+    {
+        "id": 110691735,
+        "value": "",
+        "type": "text",
+        "label": "Other Site 3 User Name",
+        "key": "other_site_3_user_name"
+    },
+    {
+        "id": 110691736,
+        "value": "",
+        "type": "text",
+        "label": "Other Site 3 Password",
+        "key": "other_site_3_password"
+    },
+    {
+        "id": 110691737,
+        "value": "",
+        "type": "textarea",
+        "label": "Misc Notes",
+        "key": "misc_notes"
+    },
+    {
+        "id": 110691738,
+        "value": "",
+        "type": "text",
+        "label": "Email Account Platform",
+        "key": "email_account_platform"
+    },
+    {
+        "id": 110691739,
+        "value": "",
+        "type": "text",
+        "label": "Email Account Username",
+        "key": "email_account_username"
+    },
+    {
+        "id": 110691740,
+        "value": "",
+        "type": "text",
+        "label": "Email Account Password",
+        "key": "email_account_password"
+    },
+    {
+        "id": 110691741,
+        "value": "",
+        "type": "text",
+        "label": "Broker BO Website",
+        "key": "broker_bo_website"
+    },
+    {
+        "id": 110691742,
+        "value": "",
+        "type": "text",
+        "label": "Broker BO Username",
+        "key": "broker_bo_username"
+    },
+    {
+        "id": 110691743,
+        "value": "",
+        "type": "text",
+        "label": "Broker BO Password",
+        "key": "broker_bo_password"
+    },
+    {
+        "id": 110691744,
+        "value": "",
+        "type": "text",
+        "label": "CDA Platform Name",
+        "key": "cda_platform_name"
+    },
+    {
+        "id": 110691745,
+        "value": "",
+        "type": "text",
+        "label": "CDA Platform Username",
+        "key": "cda_platform_username"
+    },
+    {
+        "id": 110691746,
+        "value": "",
+        "type": "text",
+        "label": "CDA Platform Password",
+        "key": "cda_platform_password"
+    },
+    {
+        "id": 110691747,
+        "value": "",
+        "type": "number",
+        "label": "CTC Monthly",
+        "key": "ctc_monthly"
+    },
+    {
+        "id": 110691748,
+        "value": "",
+        "type": "number",
+        "label": "Listing Monthly",
+        "key": "listing_monthly"
+    },
+    {
+        "id": 110691749,
+        "value": "",
+        "type": "choice",
+        "label": "AI Membership Status",
+        "key": "ai_membership_status"
+    },
+    {
+        "id": 110691750,
+        "value": "",
+        "type": "choice",
+        "label": "Billing Status",
+        "key": "billing_status"
+    },
+    {
+        "id": 110691751,
+        "value": "",
+        "type": "number",
+        "label": "Free of Charge",
+        "key": "free_of_charge"
+    },
+    {
+        "id": 110691752,
+        "value": "",
+        "type": "number",
+        "label": "Promo Notes",
+        "key": "promo_notes"
+    },
+    {
+        "id": 110691753,
+        "value": "",
+        "type": "number",
+        "label": "1st Listing with Empower",
+        "key": "1st_listing_with_empower"
+    },
+    {
+        "id": 110691754,
+        "value": "",
+        "type": "number",
+        "label": "1st CTC with Empower",
+        "key": "1st_ctc_with_empower"
+    },
+    {
+        "id": 110691755,
+        "value": "",
+        "type": "decimal",
+        "label": "TC Commission Rate",
+        "key": "tc_commission_rate"
+    },
+    {
+        "id": 110691756,
+        "value": "",
+        "type": "decimal",
+        "label": "TC Commission Amount",
+        "key": "tc_commission_amount"
+    },
+    {
+        "id": 110691757,
+        "value": "",
+        "type": "date",
+        "label": "Listing PAID Date",
+        "key": "listing_paid_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691758,
+        "value": "",
+        "type": "decimal",
+        "label": "Listing PAID Amount",
+        "key": "listing_paid_amount"
+    },
+    {
+        "id": 110691759,
+        "value": "",
+        "type": "date",
+        "label": "CTC PAID Date",
+        "key": "ctc_paid_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691760,
+        "value": "",
+        "type": "decimal",
+        "label": "CTC PAID Amount",
+        "key": "ctc_paid_amount"
+    },
+    {
+        "id": 110691761,
+        "value": "",
+        "type": "date",
+        "label": "CTC Terminated Paid Date",
+        "key": "ctc_terminated_paid_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691762,
+        "value": "",
+        "type": "decimal",
+        "label": "CTC Terminated Paid Amount",
+        "key": "ctc_terminated_paid_amount"
+    },
+    {
+        "id": 110691763,
+        "value": "",
+        "type": "date",
+        "label": "Offer Prep PAID Date",
+        "key": "offer_prep_paid_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691764,
+        "value": "",
+        "type": "decimal",
+        "label": "Offer Prep PAID Amount",
+        "key": "offer_prep_paid_amount"
+    },
+    {
+        "id": 110691765,
+        "value": "",
+        "type": "date",
+        "label": "Compliance PAID Date",
+        "key": "compliance_paid_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691766,
+        "value": "",
+        "type": "decimal",
+        "label": "Compliance PAID Amount",
+        "key": "compliance_paid_amount"
+    },
+    {
+        "id": 110691767,
+        "value": "",
+        "type": "date",
+        "label": "CC Decline Date",
+        "key": "cc_decline_date",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691768,
+        "value": "",
+        "type": "choice",
+        "label": "Is the seller using an attorney",
+        "key": "is_the_seller_using_an_attorney"
+    },
+    {
+        "id": 110691769,
+        "value": "",
+        "type": "choice",
+        "label": "Is there a Joint Venture Partner",
+        "key": "is_there_a_joint_venture_partner"
+    },
+    {
+        "id": 110691770,
+        "value": "",
+        "type": "choice",
+        "label": "Is the buyer using an attorney",
+        "key": "is_the_buyer_using_an_attorney"
+    },
+    {
+        "id": 110691771,
+        "value": "",
+        "type": "choice",
+        "label": "Buyer Finance",
+        "key": "buyer_finance"
+    },
+    {
+        "id": 110691772,
+        "value": "",
+        "type": "decimal",
+        "label": "Home Warranty Amount",
+        "key": "home_warranty_amount"
+    },
+    {
+        "id": 110691773,
+        "value": "",
+        "type": "choice",
+        "label": "Home Warranty Paid by",
+        "key": "home_warranty_paid_by"
+    },
+    {
+        "id": 110691774,
+        "value": "",
+        "type": "choice",
+        "label": "Home Warranty Company",
+        "key": "home_warranty_company"
+    },
+    {
+        "id": 110691775,
+        "value": "",
+        "type": "text",
+        "label": "Other Home Warr Co",
+        "key": "other_home_warr_co"
+    },
+    {
+        "id": 110691776,
+        "value": "",
+        "type": "text",
+        "label": "Home Warranty Plan Name",
+        "key": "home_warranty_plan_name"
+    },
+    {
+        "id": 110691777,
+        "value": "",
+        "type": "textarea",
+        "label": "Home Warranty Notes",
+        "key": "home_warranty_notes"
+    },
+    {
+        "id": 110691778,
+        "value": "",
+        "type": "choice",
+        "label": "Home Warranty Status",
+        "key": "home_warranty_status"
+    },
+    {
+        "id": 110691779,
+        "value": "",
+        "type": "date",
+        "label": "Partner HW Ordered",
+        "key": "partner_hw_ordered",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691780,
+        "value": "",
+        "type": "date",
+        "label": "Partner HW Invoice Received",
+        "key": "partner_hw_invoice_received",
+        "start_time": "",
+        "end_time": ""
+    },
+    {
+        "id": 110691781,
+        "value": "",
+        "type": "text",
+        "label": "Partner HW Complete - Admin 1",
+        "key": "partner_hw_complete_admin_1"
+    },
+    {
+        "id": 110691782,
+        "value": "",
+        "type": "choice",
+        "label": "Is the agents brokerage with eXp Realty",
+        "key": "is_the_agents_brokerage_with_exp_realty"
+    },
+    {
+        "id": 110691783,
+        "value": "",
+        "type": "choice",
+        "label": "Is there a loan ",
+        "key": "is_there_a_loan"
+    },
+    {
+        "id": 110691784,
+        "value": "",
+        "type": "choice",
+        "label": "Will there be a home inspection ",
+        "key": "will_there_be_a_home_inspection"
+    },
+    {
+        "id": 110691785,
+        "value": "",
+        "type": "choice",
+        "label": "Is there a Home Warranty",
+        "key": "is_there_a_home_warranty"
+    },
+    {
+        "id": 110691786,
+        "value": "",
+        "type": "choice",
+        "label": "Is property contingent",
+        "key": "is_property_contingent"
+    },
+    {
+        "id": 110691787,
+        "value": "",
+        "type": "choice",
+        "label": "Is there a leaseback ",
+        "key": "is_there_a_leaseback"
+    },
+    {
+        "id": 110691788,
+        "value": "",
+        "type": "choice",
+        "label": "Is there an HOA ",
+        "key": "is_there_an_hoa"
+    },
+    {
+        "id": 110691789,
+        "value": "",
+        "type": "number",
+        "label": "Empower HW Partners",
+        "key": "empower_hw_partners"
+    },
+    {
+        "id": 110691790,
+        "value": "",
+        "type": "number",
+        "label": "Utility Setup Opt in",
+        "key": "utility_setup_opt_in"
+    }
+]
