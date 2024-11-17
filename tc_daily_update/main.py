@@ -122,7 +122,30 @@ def add_period(df):
     return df
 
 
-def transform_main_source(df):
+def expand_periode_dim(periode):
+    try:
+        # Convert string period to datetime
+        start_periode = pd.to_datetime(periode, format='%B %Y')
+
+        # Current month range
+        end_periode = (start_periode + pd.DateOffset(months=1) - pd.Timedelta(seconds=1))
+
+        # Next month range
+        start_periode_m1 = start_periode + pd.DateOffset(months=1)
+        end_periode_m1 = (start_periode + pd.DateOffset(months=2) - pd.Timedelta(seconds=1))
+
+        return {
+            'periode': periode,
+            'start_periode': start_periode,
+            'end_periode': end_periode,
+            'start_periode_m1': start_periode_m1,
+            'end_periode_m1': end_periode_m1
+        }
+    except ValueError as e:
+        raise ValueError(f"Invalid period format. Expected 'Month YYYY' (e.g., 'January 2024'), got: {periode}")
+
+
+def transform_main_source(df, periode):
     print('Transforming main data source...', end='')
     df = df[['Empower TC Name', 'CTC Started with Empower', 'Closing', 'Contract Status']]
 
@@ -155,11 +178,13 @@ def transform_main_source(df):
     # df['compliance_started_with_empower'].fillna(na_filler, inplace=True)
 
     df = add_period(df)
-    df['CTC Started for the month'] = df.apply(lambda x: 1 if x['CTC Started with Empower'] >= x['CTC Started with Empower Periode Start'] and x['CTC Started with Empower'] <= x['CTC Started with Empower Periode End'] else 0, axis=1)
-    df['Closings for the month'] = df.apply(lambda x: 1 if x['Closing'] >= x['Closing Periode Start'] and x['Closing'] <= x['Closing Periode End'] else 0, axis=1)
-    df['Pending for the month'] = df.apply(lambda x: 1 if x['Closing'] >= x['Closing Periode Start'] and x['Closing'] <= x['Closing Periode End'] and x['Contract Status'] == 'CTC - Pending' else 0, axis=1)
-    df['Pending for next month'] = df.apply(lambda x: 1 if x['Closing'] > x['Closing Periode End'] and x['Closing'] <= x['Closing Periode M1 End'] and x['Contract Status'] == 'CTC - Pending' else 0, axis=1)
-    df['Pending for other months'] = df.apply(lambda x: 1 if x['Closing'] > x['Closing Periode M1 End'] and x['Contract Status'] == 'CTC - Pending' else 0, axis=1)
+    periode_dim = expand_periode_dim(periode)
+
+    df['CTC Started for the month'] = df.apply(lambda x: 1 if x['CTC Started with Empower'] >= periode_dim['start_periode'] and x['CTC Started with Empower'] <= periode_dim['end_periode'] else 0, axis=1)
+    df['Closings for the month'] = df.apply(lambda x: 1 if x['Closing'] >= periode_dim['start_periode'] and x['Closing'] <= periode_dim['end_periode'] else 0, axis=1)
+    df['Pending for the month'] = df.apply(lambda x: 1 if x['Closing'] >= periode_dim['start_periode'] and x['Closing'] <= periode_dim['end_periode'] and x['Contract Status'] == 'CTC - Pending' else 0, axis=1)
+    df['Pending for next month'] = df.apply(lambda x: 1 if x['Closing'] > periode_dim['start_periode_m1'] and x['Closing'] <= periode_dim['end_periode_m1'] and x['Contract Status'] == 'CTC - Pending' else 0, axis=1)
+    df['Pending for other months'] = df.apply(lambda x: 1 if x['Closing'] > periode_dim['end_periode_m1'] and x['Contract Status'] == 'CTC - Pending' else 0, axis=1)
 
     # df['listing_projection'] = df.apply(lambda x: 1 if (x['listing_started_with_empower'] != na_filler and x['listing_started_with_empower'] >= x['listing_period_start'] and x['listing_started_with_empower'] <= x['listing_period_end']) else 0, axis=1)
     # df['offer_projection'] = df.apply(lambda x: 1 if (x['offer_started_with_empower'] != na_filler and x['offer_started_with_empower'] >= x['offer_prep_period_start'] and x['offer_started_with_empower'] <= x['offer_prep_period_end']) else 0, axis=1)
@@ -269,7 +294,7 @@ def create_google_sheet(dataframes, sheet_titles, spreadsheet_name):
         return None
 
 
-def generate_daily_update_report(enriched_df):
+def generate_daily_update_report(df):
     print('Generating report...', end='')
     try:
         specific_teams = {
@@ -289,9 +314,7 @@ def generate_daily_update_report(enriched_df):
             )
         }
 
-        all_periodes = enriched_df['CTC Started with Empower Periode'].unique().tolist()
-        all_teams = enriched_df['Empower TC Name'].unique().tolist()
-        periodes = [x for x in all_periodes if "2024" in x]
+        all_teams = df['Empower TC Name'].unique().tolist()
 
         dfs = list()
         sheet_titles = list()
@@ -311,7 +334,17 @@ def generate_daily_update_report(enriched_df):
             # }
         )
 
+        global na_filler
+
+        df['CTC Started with Empower'] = pd.to_datetime(df['CTC Started with Empower'])
+        df['CTC Started with Empower'].fillna(na_filler, inplace=True)
+        df['CTC Started with Empower Periode'] = df['CTC Started with Empower'].apply(lambda x: x.strftime('%B %Y').upper())
+
+        all_periodes = df['CTC Started with Empower Periode'].unique().tolist()
+        periodes = [x for x in all_periodes if "2024" in x]
+
         for periode in periodes:
+            enriched_df = transform_main_source(df, periode)
             dateformat_periode = datetime.strptime(periode, '%B %Y')
             report_df = df_report_template.copy()
             for key in specific_teams:
@@ -385,7 +418,7 @@ def generate_daily_update_report(enriched_df):
 
         print('Done')
         print('len of dfs = {}, len of sheet title = {}'.format(len(dfs), len(sheet_titles)))
-        # create_google_sheet(dfs, sheet_titles, spreadsheet_name)
+        create_google_sheet(dfs, sheet_titles, spreadsheet_name)
 
     except Exception as e:
         print(f"Error processing data: {e}")
@@ -400,8 +433,7 @@ if __name__ == '__main__':
     script_start_time = time.time()
 
     df = pd.read_csv('main_source.csv')
-    enriched_df = transform_main_source(df)
-    generate_daily_update_report(enriched_df)
+    generate_daily_update_report(df)
 
     script_end_time = time.time()
     total_execution_time = script_end_time - script_start_time
