@@ -99,17 +99,13 @@ def add_period(df):
     df['Closing Periode M1 End'] = df['Closing'].apply(lambda x: get_period(x, mode='end2'))
     df['Closing Periode M1'] = df.apply(lambda x: x['Closing Periode M1 End'].strftime('%B %Y').upper(), axis=1)
 
-    df['Listing Started Periode Start'] = df['CTC Started with Empower'].apply(lambda x: get_period(x, mode='start'))
-    df['Listing Started Periode End'] = df['CTC Started with Empower'].apply(lambda x: get_period(x, mode='end'))
-    df['Listing Started Periode'] = df.apply(lambda x: x['CTC Started with Empower Periode Start'].strftime('%B %Y').upper(), axis=1)
+    df['Listing Started Periode Start'] = df['Listing Started with Empower'].apply(lambda x: get_period(x, mode='start'))
+    df['Listing Started Periode End'] = df['Listing Started with Empower'].apply(lambda x: get_period(x, mode='end'))
+    df['Listing Started Periode'] = df.apply(lambda x: x['Listing Started Periode Start'].strftime('%B %Y').upper(), axis=1)
 
-    # df['listing_period_start'] = df['listing_paid_date'].apply(lambda x: get_period(x, mode='start'))
-    # df['listing_period_end'] = df['listing_paid_date'].apply(lambda x: get_period(x, mode='end'))
-    # df['listing_periode'] = df.apply(lambda x: x['listing_period_start'].strftime('%Y/%m/%d').upper() + ' - ' + x['listing_period_end'].strftime('%Y/%m/%d').upper(), axis=1)
-
-    # df['ctc_period_start'] = df['ctc_paid_date'].apply(lambda x: get_period(x, mode='start'))
-    # df['ctc_period_end'] = df['ctc_paid_date'].apply(lambda x: get_period(x, mode='end'))
-    # df['ctc_periode'] = df.apply(lambda x: x['ctc_period_start'].strftime('%Y/%m/%d').upper() + ' - ' + x['ctc_period_end'].strftime('%Y/%m/%d').upper(), axis=1)
+    df['Listing Paid Periode Start'] = df['Listing PAID Date'].apply(lambda x: get_period(x, mode='start'))
+    df['Listing Paid Periode End'] = df['Listing PAID Date'].apply(lambda x: get_period(x, mode='end'))
+    df['Listing Paid Periode'] = df.apply(lambda x: x['Listing Paid Periode Start'].strftime('%B %Y').upper(), axis=1)
 
     # df['compliance_period_start'] = df['compliance_paid_date'].apply(lambda x: get_period(x, mode='start'))
     # df['compliance_period_end'] = df['compliance_paid_date'].apply(lambda x: get_period(x, mode='end'))
@@ -141,19 +137,42 @@ def expand_periode_dim(periode):
             'start_periode_m1': start_periode_m1,
             'end_periode_m1': end_periode_m1
         }
-    except ValueError as e:
+
+    except ValueError:
         raise ValueError(f"Invalid period format. Expected 'Month YYYY' (e.g., 'January 2024'), got: {periode}")
 
 
 def transform_main_source(df, periode):
     print('Transforming main data source...', end='')
-    df = df[['Empower TC Name', 'CTC Started with Empower', 'Closing', 'Contract Status']]
+    df = df[
+        [
+            'Empower TC Name', 'CTC Started with Empower', 'Closing', 'Contract Status',
+            'Listing Started with Empower', 'Listing PAID Date', 'Live on MLS Date'
+        ]
+    ]
+
+    ctc_contract_status = (
+        'CTC - Closed - PAID', 'CTC - Pending', 'CTC - PAID',
+        'CTC - Terminated - No Charge', 'CTC - Withdrawn',
+        'CTC - Terminated - Compliance - PAID'
+    )
+
+    preferred_contract_status = (
+        'CTC - Preferred - Closed - PAID', 'CTC - Preferred - Pending',
+        'CTC - Preferred - PAID', 'CTC - Preferred - Terminated - No Change',
+        'CTC - Preferred - Withdrawn'
+    )
 
     global na_filler
+
     df['CTC Started with Empower'] = pd.to_datetime(df['CTC Started with Empower'])
     df['CTC Started with Empower'].fillna(na_filler, inplace=True)
     df['Closing'] = pd.to_datetime(df['Closing'])
     df['Closing'].fillna(na_filler, inplace=True)
+    df['Listing Started with Empower'] = pd.to_datetime(df['Listing Started with Empower'])
+    df['Listing Started with Empower'].fillna(na_filler, inplace=True)
+    df['Listing PAID Date'] = pd.to_datetime(df['Listing PAID Date'])
+    df['Listing PAID Date'].fillna(na_filler, inplace=True)
 
     # df['1st Transaction Date'] = pd.to_datetime(df['1st Transaction Date'])
     # df['1st Transaction Date'].fillna(na_filler, inplace=True)
@@ -162,16 +181,12 @@ def transform_main_source(df, periode):
     # df['Reassigned Date'] = pd.to_datetime(df['Reassigned Date'])
     # df['Reassigned Date'].fillna(na_filler, inplace=True)
 
-    # df['listing_paid_date'] = pd.to_datetime(df['listing_paid_date'])
-    # df['listing_paid_date'].fillna(na_filler, inplace=True)
     # df['ctc_paid_date'] = pd.to_datetime(df['ctc_paid_date'])
     # df['ctc_paid_date'].fillna(na_filler, inplace=True)
     # df['offer_prep_paid_date'] = pd.to_datetime(df['offer_prep_paid_date'])
     # df['offer_prep_paid_date'].fillna(na_filler, inplace=True)
     # df['compliance_paid_date'] = pd.to_datetime(df['compliance_paid_date'])
     # df['compliance_paid_date'].fillna(na_filler, inplace=True)
-    # df['listing_started_with_empower'] = pd.to_datetime(df['listing_started_with_empower'])
-    # df['listing_started_with_empower'].fillna(na_filler, inplace=True)
     # df['offer_started_with_empower'] = pd.to_datetime(df['offer_started_with_empower'])
     # df['offer_started_with_empower'].fillna(na_filler, inplace=True)
     # df['compliance_started_with_empower'] = pd.to_datetime(df['compliance_started_with_empower'])
@@ -180,11 +195,19 @@ def transform_main_source(df, periode):
     df = add_period(df)
     periode_dim = expand_periode_dim(periode)
 
-    df['CTC Started for the month'] = df.apply(lambda x: 1 if x['CTC Started with Empower'] >= periode_dim['start_periode'] and x['CTC Started with Empower'] <= periode_dim['end_periode'] else 0, axis=1)
-    df['Closings for the month'] = df.apply(lambda x: 1 if x['Closing'] >= periode_dim['start_periode'] and x['Closing'] <= periode_dim['end_periode'] else 0, axis=1)
-    df['Pending for the month'] = df.apply(lambda x: 1 if x['Closing'] >= periode_dim['start_periode'] and x['Closing'] <= periode_dim['end_periode'] and x['Contract Status'] == 'CTC - Pending' else 0, axis=1)
-    df['Pending for next month'] = df.apply(lambda x: 1 if x['Closing'] > periode_dim['start_periode_m1'] and x['Closing'] <= periode_dim['end_periode_m1'] and x['Contract Status'] == 'CTC - Pending' else 0, axis=1)
-    df['Pending for other months'] = df.apply(lambda x: 1 if x['Closing'] > periode_dim['end_periode_m1'] and x['Contract Status'] == 'CTC - Pending' else 0, axis=1)
+    df['CTC Started for this month'] = df.apply(lambda x: 1 if x['CTC Started with Empower'] >= periode_dim['start_periode'] and x['CTC Started with Empower'] <= periode_dim['end_periode'] and x['Contract Status'] in (ctc_contract_status) else 0, axis=1)
+    df['CTC - Preferred Started'] = df.apply(lambda x: 1 if x['CTC Started with Empower'] >= periode_dim['start_periode'] and x['CTC Started with Empower'] <= periode_dim['end_periode'] and x['Contract Status'] in (preferred_contract_status) else 0, axis=1)
+    df['Closings for this month'] = df.apply(lambda x: 1 if x['Closing'] >= periode_dim['start_periode'] and x['Closing'] <= periode_dim['end_periode'] and x['Contract Status'] in (ctc_contract_status) else 0, axis=1)
+    df['CTC - Preferred Closings'] = df.apply(lambda x: 1 if x['Closing'] >= periode_dim['start_periode'] and x['Closing'] <= periode_dim['end_periode'] and x['Contract Status'] in (preferred_contract_status)else 0, axis=1)
+    df['CTC Pending for this month'] = df.apply(lambda x: 1 if x['Closing'] >= periode_dim['start_periode'] and x['Closing'] <= periode_dim['end_periode'] and x['Contract Status'] == 'CTC - Pending' else 0, axis=1)
+    df['CTC - Preferred Pending for this month'] = df.apply(lambda x: 1 if x['Closing'] >= periode_dim['start_periode'] and x['Closing'] <= periode_dim['end_periode'] and x['Contract Status'] == 'CTC - Preferred - Pending' else 0, axis=1)
+    df['CTC Pending for next month'] = df.apply(lambda x: 1 if x['Closing'] > periode_dim['start_periode_m1'] and x['Closing'] <= periode_dim['end_periode_m1'] and x['Contract Status'] == 'CTC - Pending' else 0, axis=1)
+    df['CTC - Preferred Pending for next month'] = df.apply(lambda x: 1 if x['Closing'] > periode_dim['start_periode_m1'] and x['Closing'] <= periode_dim['end_periode_m1'] and x['Contract Status'] == 'CTC - Preferred - Pending' else 0, axis=1)
+    df['CTC Pending for other months'] = df.apply(lambda x: 1 if x['Closing'] > periode_dim['end_periode_m1'] and x['Contract Status'] == 'CTC - Pending' else 0, axis=1)
+    df['CTC - Preferred Pending for other months'] = df.apply(lambda x: 1 if x['Closing'] > periode_dim['end_periode_m1'] and x['Contract Status'] == 'CTC - Preferred - Pending' else 0, axis=1)
+    df['CTC - Preferred Pending for other months'] = df.apply(lambda x: 1 if x['Closing'] > periode_dim['end_periode_m1'] and x['Contract Status'] == 'CTC - Preferred - Pending' else 0, axis=1)
+    df['Listing Started'] = df.apply(lambda x: 1 if x['Listing Started with Empower'] >= periode_dim['start_periode'] and x['Listing Started with Empower'] <= periode_dim['end_periode'] else 0, axis=1)
+    df['Listing PAID'] = df.apply(lambda x: 1 if x['Listing PAID Date'] >= periode_dim['start_periode'] and x['Listing PAID Date'] <= periode_dim['end_periode'] else 0, axis=1)
 
     # df['listing_projection'] = df.apply(lambda x: 1 if (x['listing_started_with_empower'] != na_filler and x['listing_started_with_empower'] >= x['listing_period_start'] and x['listing_started_with_empower'] <= x['listing_period_end']) else 0, axis=1)
     # df['offer_projection'] = df.apply(lambda x: 1 if (x['offer_started_with_empower'] != na_filler and x['offer_started_with_empower'] >= x['offer_prep_period_start'] and x['offer_started_with_empower'] <= x['offer_prep_period_end']) else 0, axis=1)
@@ -199,37 +222,59 @@ def transform_main_source(df, periode):
 
 def create_and_populate_google_sheet(service, spreadsheet_id, df, sheet_title):
     """
-    Adds a new sheet to an existing Google Spreadsheet and populates it with data.
-
+    Adds a new sheet or updates existing sheet in Google Spreadsheet and populates it with data.
     :param service: Google Sheets API service object.
     :param spreadsheet_id: ID of the Google Spreadsheet.
     :param df: Pandas DataFrame containing the data.
-    :param sheet_title: Title for the new sheet.
+    :param sheet_title: Title for the sheet.
     """
     try:
+        # Prepare DataFrame
         df = df.fillna("")
-
-        df = df.copy()  # Make a copy to avoid modifying the original DataFrame
+        df = df.copy()
         for col in df.select_dtypes(include=['datetime', 'datetimetz']).columns:
             df[col] = df[col].astype(str)
 
-        # Add new sheet to the spreadsheet
-        requests = [{
-            "addSheet": {
-                "properties": {
-                    "title": sheet_title
+        # Get all sheets in the spreadsheet
+        sheet_metadata = service.spreadsheets().get(spreadsheetId=spreadsheet_id).execute()
+        sheets = sheet_metadata.get('sheets', '')
+        sheet_exists = False
+        sheet_id = None
+
+        # Check if sheet already exists
+        for sheet in sheets:
+            if sheet['properties']['title'] == sheet_title:
+                sheet_exists = True
+                sheet_id = sheet['properties']['sheetId']
+                break
+
+        if not sheet_exists:
+            # Create new sheet if it doesn't exist
+            requests = [{
+                "addSheet": {
+                    "properties": {
+                        "title": sheet_title
+                    }
                 }
-            }
-        }]
-        service.spreadsheets().batchUpdate(
-            spreadsheetId=spreadsheet_id,
-            body={"requests": requests}
-        ).execute()
+            }]
+            service.spreadsheets().batchUpdate(
+                spreadsheetId=spreadsheet_id,
+                body={"requests": requests}
+            ).execute()
+            print(f"Sheet '{sheet_title}' created.")
+        else:
+            # Clear existing sheet if it exists
+            range_name = f"{sheet_title}!A1:ZZ"
+            service.spreadsheets().values().clear(
+                spreadsheetId=spreadsheet_id,
+                range=range_name
+            ).execute()
+            print(f"Existing sheet '{sheet_title}' cleared.")
 
         # Convert DataFrame to list of lists for Google Sheets API
         values = [df.columns.tolist()] + df.values.tolist()
 
-        # Update the new sheet with data
+        # Update the sheet with data
         service.spreadsheets().values().update(
             spreadsheetId=spreadsheet_id,
             range=f"{sheet_title}!A1",
@@ -237,9 +282,10 @@ def create_and_populate_google_sheet(service, spreadsheet_id, df, sheet_title):
             body={"values": values},
         ).execute()
 
-        print(f"Sheet '{sheet_title}' added and populated successfully.")
+        print(f"Sheet '{sheet_title}' populated successfully.")
+
     except Exception as e:
-        print(f"Error populating Google Sheet: {e}")
+        print(f"Error working with Google Sheet: {e}")
 
 
 def create_google_sheet(dataframes, sheet_titles, spreadsheet_name):
@@ -265,11 +311,11 @@ def create_google_sheet(dataframes, sheet_titles, spreadsheet_name):
 
     try:
         # Create a new spreadsheet
-        spreadsheet = service.spreadsheets().create(
-            body={"properties": {"title": spreadsheet_name}}
-        ).execute()
-        spreadsheet_id = spreadsheet["spreadsheetId"]
-        # spreadsheet_id = '1E4HF5_m-lBtOIV16NWRI3uNjLxPBVNmSHrJjEBGXhdg'
+        # spreadsheet = service.spreadsheets().create(
+        #     body={"properties": {"title": spreadsheet_name}}
+        # ).execute()
+        # spreadsheet_id = spreadsheet["spreadsheetId"]
+        spreadsheet_id = '1weGRTk5Tzg1VDVDYVuYHpQru-_-oG7l-FpLyZeq3bsU'
 
         # Add each DataFrame to a separate sheet
         for df, title in zip(dataframes, sheet_titles):
@@ -297,41 +343,12 @@ def create_google_sheet(dataframes, sheet_titles, spreadsheet_name):
 def generate_daily_update_report(df):
     print('Generating report...', end='')
     try:
-        specific_teams = {
-            "ctc": (
-                "Christianna Velazquez",
-                "Kimberly Lewis",
-                "Stephanie Kleinman",
-                "Molly Kelley",
-                "Jenn McKinley"
-            ),
-            "preferred": (
-                "Marrisa Anderson",
-                "Epique TC",
-                "Epique EST",
-                "Epique CST",
-                "Epique CA"
-            )
-        }
-
-        all_teams = df['Empower TC Name'].unique().tolist()
+        specific_team = df['Empower TC Name'].unique().tolist()
 
         dfs = list()
         sheet_titles = list()
         df_report_template = pd.DataFrame(
-            index=all_teams
-            # data={
-            #     'CTC Started for the month': len(all_teams) * [0],
-            #     'CTC - Preferred Started': len(all_teams) * [0],
-            #     'Closings for the month': len(all_teams) * [0],
-            #     'CTC - Preferred Closing': len(all_teams) * [0],
-            #     'Pending for the month': len(all_teams) * [0],
-            #     'CTC Pending for month - Preferred': len(all_teams) * [0],
-            #     'Pending for next month': len(all_teams) * [0],
-            #     'CTC Pending for next month - Preferred': len(all_teams) * [0],
-            #     'Pending for other months': len(all_teams) * [0],
-            #     'CTC Pending for other months - Preferred': len(all_teams) * [0]
-            # }
+            index=specific_team
         )
 
         global na_filler
@@ -347,70 +364,102 @@ def generate_daily_update_report(df):
             enriched_df = transform_main_source(df, periode)
             dateformat_periode = datetime.strptime(periode, '%B %Y')
             report_df = df_report_template.copy()
-            for key in specific_teams:
+            selected_team_df = enriched_df[enriched_df["Empower TC Name"].isin(specific_team)].copy()
 
-                if key == "ctc":
-                    specific_team = specific_teams[key]
-                    selected_team_df = enriched_df[enriched_df["Empower TC Name"].isin(specific_team)].copy()
+            started_df = selected_team_df[selected_team_df["CTC Started with Empower Periode"] == periode].copy()
+            summary_started_df = started_df.pivot_table(
+                values=[
+                    'CTC Started for this month',
+                    'CTC - Preferred Started'],
+                index='Empower TC Name',
+                aggfunc='sum',
+                fill_value=0
+            )
 
-                    ctc_started_df = selected_team_df[selected_team_df["CTC Started with Empower Periode"] == periode].copy()
-                    summary_ctc_started_df = ctc_started_df.pivot_table(values='CTC Started for the month', index='Empower TC Name', aggfunc='sum', fill_value=0)
+            closing_df = selected_team_df[selected_team_df["Closing Periode"] == periode].copy()
+            summary_closing_df = closing_df.pivot_table(
+                values=[
+                    'Closings for this month',
+                    'CTC - Preferred Closings',
+                    'CTC Pending for this month',
+                    'CTC - Preferred Pending for this month',
+                    'CTC Pending for next month',
+                    'CTC - Preferred Pending for next month',
+                    'CTC Pending for other months',
+                    'CTC - Preferred Pending for other months'
+                ],
+                index='Empower TC Name',
+                aggfunc='sum',
+                fill_value=0
+            )
 
-                    closing_df = selected_team_df[selected_team_df["Closing Periode"] == periode].copy()
-                    summary_closing_df = closing_df.pivot_table(values=['Closings for the month', 'Pending for the month'], index='Empower TC Name', aggfunc='sum', fill_value=0)
+            listing_started_df = selected_team_df[selected_team_df["Listing Started Periode"] == periode].copy()
+            if listing_started_df.empty:
+                summary_listing_started_df = pd.DataFrame(
+                    index=pd.Index(specific_team, name='Empower TC Name'),
+                    data={'Listing Started': [0] * len(specific_team)}
+                )
+            else:
+                summary_listing_started_df = listing_started_df.pivot_table(
+                    values='Listing Started',
+                    index='Empower TC Name',
+                    aggfunc='sum',
+                    fill_value=0
+                )
 
-                    closing_m1_df = selected_team_df[selected_team_df["Closing Periode M1"] == periode].copy()
-                    if periode == 'OCTOBER 2024':
-                        print('Save')
-                        closing_m1_df.to_csv('cek.csv', index=False)
-                    summary_closing_m1_df = closing_m1_df.pivot_table(values='Pending for next month', index='Empower TC Name', aggfunc='sum', fill_value=0)
+            listing_paid_df = selected_team_df[selected_team_df["Listing Paid Periode"] == periode].copy()
+            if listing_paid_df.empty:
+                summary_listing_paid_df = pd.DataFrame(
+                    index=pd.Index(specific_team, name='Empower TC Name'),
+                    data={'Listing PAID': [0] * len(specific_team)}
+                )
+            else:
+                summary_listing_paid_df = listing_paid_df.pivot_table(
+                    values='Listing PAID',
+                    index='Empower TC Name',
+                    aggfunc='sum',
+                    fill_value=0
+                )
 
-                    closing_other_df = selected_team_df[selected_team_df["Closing Periode M1 End"] > dateformat_periode].copy()
-                    summary_closing_other_df = closing_other_df.pivot_table(values='Pending for other months', index='Empower TC Name', aggfunc='sum', fill_value=0)
+            # closing_m1_df = selected_team_df[selected_team_df["Closing Periode M1"] == periode].copy()
+            # summary_closing_m1_df = closing_m1_df.pivot_table(values='Pending for next month', index='Empower TC Name', aggfunc='sum', fill_value=0)
 
-                elif key == 'preferred':
-                    specific_team = specific_teams[key]
-                    selected_team_df = enriched_df[enriched_df["Empower TC Name"].isin(specific_team)].copy()
+            # closing_other_df = selected_team_df[selected_team_df["Closing Periode M1 End"] > dateformat_periode].copy()
+            # summary_closing_other_df = closing_other_df.pivot_table(values='Pending for other months', index='Empower TC Name', aggfunc='sum', fill_value=0)
 
-                    ctc_preferred_started_df = selected_team_df[selected_team_df["CTC Started with Empower Periode"] == periode].copy()
-                    summary_ctc_preferred_started_df = ctc_preferred_started_df.pivot_table(values='CTC Started for the month', index='Empower TC Name', aggfunc='sum', fill_value=0)
-                    summary_ctc_preferred_started_df.rename({'CTC Started for the month': 'CTC - Preferred Started'}, axis=1, inplace=True)
+            # ctc_preferred_closing_df = selected_team_df[selected_team_df["Closing Periode"] == periode].copy()
+            # summary_ctc_preferred_closing_df = ctc_preferred_closing_df.pivot_table(values=['Closings for the month', 'Pending for the month', 'Pending for next month', 'Pending for other months'], index='Empower TC Name', aggfunc='sum', fill_value=0)
+            # summary_ctc_preferred_closing_df.rename({'Closings for the month': 'CTC - Preferred Closing', 'Pending for the month': 'CTC Pending for month - Preferred'}, axis=1, inplace=True)
 
-                    ctc_preferred_closing_df = selected_team_df[selected_team_df["Closing Periode"] == periode].copy()
-                    summary_ctc_preferred_closing_df = ctc_preferred_closing_df.pivot_table(values=['Closings for the month', 'Pending for the month', 'Pending for next month', 'Pending for other months'], index='Empower TC Name', aggfunc='sum', fill_value=0)
-                    summary_ctc_preferred_closing_df.rename({'Closings for the month': 'CTC - Preferred Closing', 'Pending for the month': 'CTC Pending for month - Preferred'}, axis=1, inplace=True)
+            # ctc_preferred_closing_m1_df = selected_team_df[selected_team_df["Closing Periode M1"] == periode].copy()
+            # summary_ctc_preferred_closing_m1_df = ctc_preferred_closing_m1_df.pivot_table(values='Pending for next month', index='Empower TC Name', aggfunc='sum', fill_value=0)
+            # summary_ctc_preferred_closing_m1_df.rename({'Pending for next month': 'CTC Pending for next month - Preferred'}, axis=1, inplace=True)
 
-                    ctc_preferred_closing_m1_df = selected_team_df[selected_team_df["Closing Periode M1"] == periode].copy()
-                    summary_ctc_preferred_closing_m1_df = ctc_preferred_closing_m1_df.pivot_table(values='Pending for next month', index='Empower TC Name', aggfunc='sum', fill_value=0)
-                    summary_ctc_preferred_closing_m1_df.rename({'Pending for next month': 'CTC Pending for next month - Preferred'}, axis=1, inplace=True)
-
-                    ctc_preferred_closing_other_df = selected_team_df[selected_team_df["Closing Periode M1 End"] > dateformat_periode].copy()
-                    summary_ctc_preferred_closing_other_df = ctc_preferred_closing_other_df.pivot_table(values='Pending for other months', index='Empower TC Name', aggfunc='sum', fill_value=0)
-                    summary_ctc_preferred_closing_other_df.rename({'Pending for other months': 'CTC Pending for other months - Preferred'}, axis=1, inplace=True)
-
-            # summary_df['Total Result'] = summary_df.sum(axis=1)
-            # summary_df.loc['Total Result'] = summary_df.sum()
-
-            # report_df.update(summary_ctc_started_df)
-            # report_df.update(summary_ctc_preferred_started_df)
-            # report_df.update(summary_closing_df)
-            # report_df.update(summary_ctc_preferred_closing_df)
-            # report_df.update(summary_closing_m1_df)
-            # report_df.update(summary_ctc_preferred_closing_m1_df)
-            # report_df.update(summary_closing_other_df)
-            # report_df.update(summary_ctc_preferred_closing_other_df)
+            # ctc_preferred_closing_other_df = selected_team_df[selected_team_df["Closing Periode M1 End"] > dateformat_periode].copy()
+            # summary_ctc_preferred_closing_other_df = ctc_preferred_closing_other_df.pivot_table(values='Pending for other months', index='Empower TC Name', aggfunc='sum', fill_value=0)
+            # summary_ctc_preferred_closing_other_df.rename({'Pending for other months': 'CTC Pending for other months - Preferred'}, axis=1, inplace=True)
 
             report_df.reset_index(inplace=True, names='Empower TC Name')
-            report_df = report_df.merge(summary_ctc_started_df, how='left', on='Empower TC Name')
-            report_df = report_df.merge(summary_ctc_preferred_started_df, how='left', on='Empower TC Name')
+            report_df = report_df.merge(summary_started_df, how='left', on='Empower TC Name')
             report_df = report_df.merge(summary_closing_df, how='left', on='Empower TC Name')
-            report_df = report_df.merge(summary_ctc_preferred_closing_df, how='left', on='Empower TC Name')
-            report_df = report_df.merge(summary_closing_m1_df, how='left', on='Empower TC Name')
-            report_df = report_df.merge(summary_ctc_preferred_closing_m1_df, how='left', on='Empower TC Name')
-            report_df = report_df.merge(summary_closing_other_df, how='left', on='Empower TC Name')
-            report_df = report_df.merge(summary_ctc_preferred_closing_other_df, how='left', on='Empower TC Name')
+            report_df = report_df.merge(summary_listing_started_df, how='left', on='Empower TC Name')
+            report_df = report_df.merge(summary_listing_paid_df, how='left', on='Empower TC Name')
+
             report_df.fillna(0, inplace=True)
             report_df = report_df.astype('int64', errors='ignore')
+
+            report_df = report_df[
+                [
+                    'Empower TC Name',
+                    'CTC Started for this month', 'CTC - Preferred Started',
+                    'Closings for this month', 'CTC - Preferred Closings',
+                    'CTC Pending for this month', 'CTC - Preferred Pending for this month',
+                    'CTC Pending for next month', 'CTC - Preferred Pending for next month',
+                    'CTC Pending for other months', 'CTC - Preferred Pending for other months',
+                    'Listing Started', 'Listing PAID'
+                ]
+            ]
+
             dfs.append(report_df.copy())
             sheet_titles.append(periode)
 
@@ -422,6 +471,7 @@ def generate_daily_update_report(df):
 
     except Exception as e:
         print(f"Error processing data: {e}")
+        print(listing_paid_df)
         return None
 
     finally:
