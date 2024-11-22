@@ -55,7 +55,7 @@ def get_preferred_future_closing_summary(parquet_file_path):
         ]
 
         specific_teams = list()
-        with open('../preferred_teams.csv') as file:
+        with open('preferred_teams.csv') as file:
             rows = csv.reader(file)
             for row in rows:
                 specific_teams.append(row[0])
@@ -96,7 +96,7 @@ def get_preferred_future_closing_summary(parquet_file_path):
 
 
 def execute_closing_summary():
-    parquet_file_path = "../all_properties.parquet"
+    parquet_file_path = "all_properties.parquet"
     summary = get_preferred_future_closing_summary(parquet_file_path)
     if summary:
         print(json.dumps(summary, indent=2))

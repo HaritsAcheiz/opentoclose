@@ -5,10 +5,16 @@ import pandas as pd
 from datetime import datetime, date
 import csv
 from openpyxl import load_workbook
-from google.auth.transport.requests import Request
-from google.oauth2.service_account import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
+# from google.auth.transport.requests import Request
+# from google.oauth2.service_account import Credentials
+# from google_auth_oauthlib.flow import InstalledAppFlow
+# from googleapiclient.discovery import build
+import sys
+import os
+
+# setting path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from gsheetapi import *
 
 na_filler = datetime(1990, 1, 1, 0, 0, 0)
 
@@ -17,7 +23,7 @@ def extract_field_values(field_values, key):
     try:
         values = json.loads(field_values)
         for item in values:
-            if isinstance(item, dict) and item.get("key") == key:
+            if isinstance(item, dict) and item.get("label") == key:
                 return item.get("value")
     except json.JSONDecodeError:
         pass
@@ -33,7 +39,8 @@ def extract_transaction_source(properties_file_path):
         # df.to_csv('pure_datasources.csv', index=False)
 
         transaction_schema = list()
-        with open('transaction_schema.csv') as file:
+        # with open('transaction_schema.csv') as file:
+        with open('Columns_Transaction_Source.csv') as file:
             rows = csv.reader(file)
             for row in rows:
                 transaction_schema.append(row[0])
@@ -42,7 +49,7 @@ def extract_transaction_source(properties_file_path):
         for field in transaction_schema:
             transaction_df[field] = df['field_values'].apply(lambda x: extract_field_values(x, field))
 
-        transaction_df.to_csv('transaction_source.csv', index=False)
+        # transaction_df.to_csv('transaction_source.csv', index=False)
 
         print('Done')
         return transaction_df
@@ -58,9 +65,9 @@ def extract_transaction_source(properties_file_path):
 def update_agent_provided_by(transaction_df, agents_file_path):
     try:
         agents_df = pd.read_csv(agents_file_path, usecols=['Title', 'Agent Provided by'])
-        transaction_df = transaction_df.merge(agents_df, how='left', left_on='empower_agent_name', right_on='Title')
-        transaction_df.drop(columns=['agent_provided_by', 'Title'], inplace=True)
-        transaction_df.rename(columns={'Agent Provided by': 'agent_provided_by'}, inplace=True)
+        transaction_df = transaction_df.merge(agents_df, how='left', left_on='Empower Agent Name', right_on='Title')
+        transaction_df.drop(columns=['Agent Provided by', 'Title'], inplace=True)
+        # transaction_df.rename(columns={'Agent Provided by': 'agent_provided_by'}, inplace=True)
 
         print('Done')
         return transaction_df
@@ -71,9 +78,9 @@ def update_agent_provided_by(transaction_df, agents_file_path):
 
 
 # def add_tc_commission_rate(transaction_df):
-#     transaction_df.rename({'tc_commission_rate': 'tc_commission_rate_1'}, axis=1, inplace=True)
-#     transaction_df['tc_commission_rate'] = transaction_df.apply(lambda x: 70/100 if x['agent_provided_by'] == 'TC' else 50/100, axis=1)
-#     transaction_df.drop(columns='tc_commission_rate_1', inplace=True)
+#     transaction_df.rename({'TC Commission Rate': 'TC Commission Rate_1'}, axis=1, inplace=True)
+#     transaction_df['TC Commission Rate'] = transaction_df.apply(lambda x: 70/100 if x['agent_provided_by'] == 'TC' else 50/100, axis=1)
+#     transaction_df.drop(columns='TC Commission Rate_1', inplace=True)
 
 #     return transaction_df
 
@@ -110,24 +117,24 @@ def get_period(selected_date, mode):
 
 
 def add_period(transaction_df):
-    transaction_df['closing_period_start'] = transaction_df['closing_date'].apply(lambda x: get_period(x, mode='start'))
-    transaction_df['closing_period_end'] = transaction_df['closing_date'].apply(lambda x: get_period(x, mode='end'))
+    transaction_df['closing_period_start'] = transaction_df['Closing'].apply(lambda x: get_period(x, mode='start'))
+    transaction_df['closing_period_end'] = transaction_df['Closing'].apply(lambda x: get_period(x, mode='end'))
     transaction_df['closing_periode'] = transaction_df.apply(lambda x: x['closing_period_start'].strftime('%Y/%m/%d').upper() + ' - ' + x['closing_period_end'].strftime('%Y/%m/%d').upper(), axis=1)
 
-    transaction_df['listing_period_start'] = transaction_df['listing_paid_date'].apply(lambda x: get_period(x, mode='start'))
-    transaction_df['listing_period_end'] = transaction_df['listing_paid_date'].apply(lambda x: get_period(x, mode='end'))
+    transaction_df['listing_period_start'] = transaction_df['Listing PAID Date'].apply(lambda x: get_period(x, mode='start'))
+    transaction_df['listing_period_end'] = transaction_df['Listing PAID Date'].apply(lambda x: get_period(x, mode='end'))
     transaction_df['listing_periode'] = transaction_df.apply(lambda x: x['listing_period_start'].strftime('%Y/%m/%d').upper() + ' - ' + x['listing_period_end'].strftime('%Y/%m/%d').upper(), axis=1)
 
-    transaction_df['ctc_period_start'] = transaction_df['ctc_paid_date'].apply(lambda x: get_period(x, mode='start'))
-    transaction_df['ctc_period_end'] = transaction_df['ctc_paid_date'].apply(lambda x: get_period(x, mode='end'))
+    transaction_df['ctc_period_start'] = transaction_df['CTC PAID Date'].apply(lambda x: get_period(x, mode='start'))
+    transaction_df['ctc_period_end'] = transaction_df['CTC PAID Date'].apply(lambda x: get_period(x, mode='end'))
     transaction_df['ctc_periode'] = transaction_df.apply(lambda x: x['ctc_period_start'].strftime('%Y/%m/%d').upper() + ' - ' + x['ctc_period_end'].strftime('%Y/%m/%d').upper(), axis=1)
 
-    transaction_df['compliance_period_start'] = transaction_df['compliance_paid_date'].apply(lambda x: get_period(x, mode='start'))
-    transaction_df['compliance_period_end'] = transaction_df['compliance_paid_date'].apply(lambda x: get_period(x, mode='end'))
+    transaction_df['compliance_period_start'] = transaction_df['Compliance PAID Date'].apply(lambda x: get_period(x, mode='start'))
+    transaction_df['compliance_period_end'] = transaction_df['Compliance PAID Date'].apply(lambda x: get_period(x, mode='end'))
     transaction_df['compliance_periode'] = transaction_df.apply(lambda x: x['compliance_period_start'].strftime('%Y/%m/%d').upper() + ' - ' + x['compliance_period_end'].strftime('%Y/%m/%d').upper(), axis=1)
 
-    transaction_df['offer_prep_period_start'] = transaction_df['offer_prep_paid_date'].apply(lambda x: get_period(x, mode='start'))
-    transaction_df['offer_prep_period_end'] = transaction_df['offer_prep_paid_date'].apply(lambda x: get_period(x, mode='end'))
+    transaction_df['offer_prep_period_start'] = transaction_df['Offer Prep PAID Date'].apply(lambda x: get_period(x, mode='start'))
+    transaction_df['offer_prep_period_end'] = transaction_df['Offer Prep PAID Date'].apply(lambda x: get_period(x, mode='end'))
     transaction_df['offer_prep_periode'] = transaction_df.apply(lambda x: x['offer_prep_period_start'].strftime('%Y/%m/%d').upper() + ' - ' + x['offer_prep_period_end'].strftime('%Y/%m/%d').upper(), axis=1)
 
     return transaction_df
@@ -135,52 +142,52 @@ def add_period(transaction_df):
 
 def add_listing_paid_amount(transaction_df):
     global na_filler
-    transaction_df.rename({'listing_paid_amount': 'listing_paid_amount_1'}, axis=1, inplace=True)
-    transaction_df['listing_paid_amount'] = transaction_df.apply(lambda x: x['listing_paid_amount_1'] if ((x['listing_paid_date'] != na_filler) & (x['listing_paid_date'] >= x['listing_period_start']) & (x['listing_paid_date'] <= x['listing_period_end'])) else 0, axis=1)
-    transaction_df.drop(columns='listing_paid_amount_1', inplace=True)
+    transaction_df.rename({'Listing PAID Amount': 'Listing PAID Amount_1'}, axis=1, inplace=True)
+    transaction_df['Listing PAID Amount'] = transaction_df.apply(lambda x: x['Listing PAID Amount_1'] if ((x['Listing PAID Date'] != na_filler) & (x['Listing PAID Date'] >= x['listing_period_start']) & (x['Listing PAID Date'] <= x['listing_period_end'])) else 0, axis=1)
+    transaction_df.drop(columns='Listing PAID Amount_1', inplace=True)
 
     return transaction_df
 
 
 def add_ctc_paid_amount(transaction_df):
     global na_filler
-    transaction_df.rename({'ctc_paid_amount': 'ctc_paid_amount_1'}, axis=1, inplace=True)
-    transaction_df['ctc_paid_amount'] = transaction_df.apply(lambda x: x['ctc_paid_amount_1'] if ((x['ctc_paid_date'] != na_filler) & (x['ctc_paid_date'] >= x['ctc_period_start']) & (x['ctc_paid_date'] <= x['ctc_period_end'])) else 0, axis=1)
-    transaction_df.drop(columns='ctc_paid_amount_1', inplace=True)
+    transaction_df.rename({'CTC PAID Amount': 'CTC PAID Amount_1'}, axis=1, inplace=True)
+    transaction_df['CTC PAID Amount'] = transaction_df.apply(lambda x: x['CTC PAID Amount_1'] if ((x['CTC PAID Date'] != na_filler) & (x['CTC PAID Date'] >= x['ctc_period_start']) & (x['CTC PAID Date'] <= x['ctc_period_end'])) else 0, axis=1)
+    transaction_df.drop(columns='CTC PAID Amount_1', inplace=True)
 
     return transaction_df
 
 
 def add_compliance_paid_amount(transaction_df):
     global na_filler
-    transaction_df.rename({'compliance_paid_amount': 'compliance_paid_amount_1'}, axis=1, inplace=True)
-    transaction_df['compliance_paid_amount'] = transaction_df.apply(lambda x: x['compliance_paid_amount_1'] if ((x['compliance_paid_date'] != na_filler) & (x['compliance_paid_date'] >= x['compliance_period_start']) & (x['compliance_paid_date'] <= x['compliance_period_end'])) else 0, axis=1)
-    transaction_df.drop(columns='compliance_paid_amount_1', inplace=True)
+    transaction_df.rename({'Compliance PAID Amount': 'Compliance PAID Amount_1'}, axis=1, inplace=True)
+    transaction_df['Compliance PAID Amount'] = transaction_df.apply(lambda x: x['Compliance PAID Amount_1'] if ((x['Compliance PAID Date'] != na_filler) & (x['Compliance PAID Date'] >= x['compliance_period_start']) & (x['Compliance PAID Date'] <= x['compliance_period_end'])) else 0, axis=1)
+    transaction_df.drop(columns='Compliance PAID Amount_1', inplace=True)
 
     return transaction_df
 
 
 def add_offer_prep_paid_amount(transaction_df):
     global na_filler
-    transaction_df.rename({'offer_prep_paid_amount': 'offer_prep_paid_amount_1'}, axis=1, inplace=True)
-    transaction_df['offer_prep_paid_amount'] = transaction_df.apply(lambda x: x['offer_prep_paid_amount_1'] if ((x['offer_prep_paid_date'] != na_filler) & (x['offer_prep_paid_date'] >= x['offer_prep_period_start']) & (x['offer_prep_paid_date'] <= x['offer_prep_period_end'])) else 0, axis=1)
-    transaction_df.drop(columns='offer_prep_paid_amount_1', inplace=True)
+    transaction_df.rename({'Offer Prep PAID Amount': 'Offer Prep PAID Amount_1'}, axis=1, inplace=True)
+    transaction_df['Offer Prep PAID Amount'] = transaction_df.apply(lambda x: x['Offer Prep PAID Amount_1'] if ((x['Offer Prep PAID Date'] != na_filler) & (x['Offer Prep PAID Date'] >= x['offer_prep_period_start']) & (x['Offer Prep PAID Date'] <= x['offer_prep_period_end'])) else 0, axis=1)
+    transaction_df.drop(columns='Offer Prep PAID Amount_1', inplace=True)
 
     return transaction_df
 
 
 def add_projected_amount(transaction_df):
-    transaction_df['projected_amount'] = transaction_df.apply(lambda x: x['tc_commission_amount'] if ((x['closing_date'] != na_filler) & (x['closing_date'] >= x['closing_period_start']) & (x['closing_date'] <= x['closing_period_end'])) else 0, axis=1)
+    transaction_df['Projected Amount'] = transaction_df.apply(lambda x: x['TC Commission Amount'] if ((x['Closing'] != na_filler) & (x['Closing'] >= x['closing_period_start']) & (x['Closing'] <= x['closing_period_end'])) else 0, axis=1)
     return transaction_df
 
 
 def add_actual_amount(transaction_df):
-    transaction_df['actual_amount'] = transaction_df.apply(lambda x: x['tc_revenue'] * x['tc_commission_rate'] if ((x['ctc_paid_date'] != na_filler) & (x['ctc_paid_date'] >= x['ctc_period_start']) & (x['ctc_paid_date'] <= x['ctc_period_end'])) else 0, axis=1)
+    transaction_df['Actual Amount'] = transaction_df.apply(lambda x: x['TC Revenue'] * x['TC Commission Rate'] if ((x['CTC PAID Date'] != na_filler) & (x['CTC PAID Date'] >= x['ctc_period_start']) & (x['CTC PAID Date'] <= x['ctc_period_end'])) else 0, axis=1)
     return transaction_df
 
 
 def add_tc_revenue_amount(transaction_df):
-    transaction_df['tc_revenue_amount'] = transaction_df.apply(lambda x: x['tc_revenue'] if ((x['ctc_paid_date'] != na_filler) & (x['ctc_paid_date'] >= x['ctc_period_start']) & (x['ctc_paid_date'] <= x['ctc_period_end'])) else 0, axis=1)
+    transaction_df['TC Revenue Amount'] = transaction_df.apply(lambda x: x['TC Revenue'] if ((x['CTC PAID Date'] != na_filler) & (x['CTC PAID Date'] >= x['ctc_period_start']) & (x['CTC PAID Date'] <= x['ctc_period_end'])) else 0, axis=1)
     return transaction_df
 
 
@@ -188,40 +195,45 @@ def transform_transaction_source(transaction_df):
     print('Transforming transaction data source...', end='')
 
     global na_filler
-    transaction_df['closing_date'] = pd.to_datetime(transaction_df['closing_date'])
-    transaction_df['closing_date'].fillna(na_filler, inplace=True)
-    transaction_df['listing_paid_date'] = pd.to_datetime(transaction_df['listing_paid_date'])
-    transaction_df['listing_paid_date'].fillna(na_filler, inplace=True)
-    transaction_df['ctc_paid_date'] = pd.to_datetime(transaction_df['ctc_paid_date'])
-    transaction_df['ctc_paid_date'].fillna(na_filler, inplace=True)
-    transaction_df['offer_prep_paid_date'] = pd.to_datetime(transaction_df['offer_prep_paid_date'])
-    transaction_df['offer_prep_paid_date'].fillna(na_filler, inplace=True)
-    transaction_df['compliance_paid_date'] = pd.to_datetime(transaction_df['compliance_paid_date'])
-    transaction_df['compliance_paid_date'].fillna(na_filler, inplace=True)
-    transaction_df['listing_started_with_empower'] = pd.to_datetime(transaction_df['listing_started_with_empower'])
-    transaction_df['listing_started_with_empower'].fillna(na_filler, inplace=True)
-    transaction_df['offer_started_with_empower'] = pd.to_datetime(transaction_df['offer_started_with_empower'])
-    transaction_df['offer_started_with_empower'].fillna(na_filler, inplace=True)
-    transaction_df['compliance_started_with_empower'] = pd.to_datetime(transaction_df['compliance_started_with_empower'])
-    transaction_df['compliance_started_with_empower'].fillna(na_filler, inplace=True)
+    transaction_df['Closing'] = pd.to_datetime(transaction_df['Closing'])
+    transaction_df['Closing'].fillna(na_filler, inplace=True)
+    transaction_df['Listing PAID Date'] = pd.to_datetime(transaction_df['Listing PAID Date'])
+    transaction_df['Listing PAID Date'].fillna(na_filler, inplace=True)
+    transaction_df['CTC PAID Date'] = pd.to_datetime(transaction_df['CTC PAID Date'])
+    transaction_df['CTC PAID Date'].fillna(na_filler, inplace=True)
+    transaction_df['Offer Prep PAID Date'] = pd.to_datetime(transaction_df['Offer Prep PAID Date'])
+    transaction_df['Offer Prep PAID Date'].fillna(na_filler, inplace=True)
+    transaction_df['Compliance PAID Date'] = pd.to_datetime(transaction_df['Compliance PAID Date'])
+    transaction_df['Compliance PAID Date'].fillna(na_filler, inplace=True)
+    transaction_df['Listing Started with Empower'] = pd.to_datetime(transaction_df['Listing Started with Empower'])
+    transaction_df['Listing Started with Empower'].fillna(na_filler, inplace=True)
+    transaction_df['Offer Started with Empower'] = pd.to_datetime(transaction_df['Offer Started with Empower'])
+    transaction_df['Offer Started with Empower'].fillna(na_filler, inplace=True)
+    transaction_df['Compliance Started with Empower'] = pd.to_datetime(transaction_df['Compliance Started with Empower'])
+    transaction_df['Compliance Started with Empower'].fillna(na_filler, inplace=True)
 
-    transaction_df = update_agent_provided_by(transaction_df, 'agent_sources.csv')
+    # transaction_df = update_agent_provided_by(transaction_df, 'agent_sources.csv')
 
     # transaction_df = add_tc_commission_rate(transaction_df)
-    transaction_df['tc_commission_rate'] = 0.5
-    transaction_df['billing_amount'].astype('float')
-    transaction_df['tc_commission_amount'] = transaction_df['billing_amount'] * transaction_df['tc_commission_rate']
+    transaction_df['TC Commission Rate'] = 0.5
+    # transaction_df['Billing Amount'].astype('float')
+    transaction_df['Billing Amount'] = pd.to_numeric(transaction_df['Billing Amount'], errors='coerce', downcast='float')
+    transaction_df['TC Commission Amount'] = transaction_df['Billing Amount'] * transaction_df['TC Commission Rate']
     transaction_df = add_period(transaction_df)
     transaction_df = add_listing_paid_amount(transaction_df)
     transaction_df = add_ctc_paid_amount(transaction_df)
     transaction_df = add_compliance_paid_amount(transaction_df)
     transaction_df = add_offer_prep_paid_amount(transaction_df)
-    transaction_df['ctc_projection'] = transaction_df['closing_date'].apply(lambda x: 0 if x == na_filler else 1)
-    transaction_df['listing_projection'] = transaction_df.apply(lambda x: 1 if (x['listing_started_with_empower'] != na_filler and x['listing_started_with_empower'] >= x['listing_period_start'] and x['listing_started_with_empower'] <= x['listing_period_end']) else 0, axis=1)
-    transaction_df['offer_projection'] = transaction_df.apply(lambda x: 1 if (x['offer_started_with_empower'] != na_filler and x['offer_started_with_empower'] >= x['offer_prep_period_start'] and x['offer_started_with_empower'] <= x['offer_prep_period_end']) else 0, axis=1)
-    transaction_df['compliance_projection'] = transaction_df.apply(lambda x: 1 if (x['compliance_started_with_empower'] != na_filler and x['compliance_started_with_empower'] >= x['compliance_period_start'] and x['compliance_started_with_empower'] <= x['compliance_period_end']) else 0, axis=1)
-    transaction_df['projection_condition'] = transaction_df.apply(lambda x: 1 if (x['ctc_projection'] == 1 or x['listing_projection'] == 1 or x['offer_projection'] == 1 or x['compliance_projection'] == 1) else 0, axis=1)
-    transaction_df['tc_revenue'] = transaction_df[['listing_paid_amount', 'ctc_paid_amount', 'offer_prep_paid_amount', 'compliance_paid_amount']].sum(axis=1)
+    transaction_df['CTC Projection'] = transaction_df['Closing'].apply(lambda x: 0 if x == na_filler else 1)
+    transaction_df['Listing Projection'] = transaction_df.apply(lambda x: 1 if (x['Listing Started with Empower'] != na_filler and x['Listing Started with Empower'] >= x['listing_period_start'] and x['Listing Started with Empower'] <= x['listing_period_end']) else 0, axis=1)
+    transaction_df['Offer Projection'] = transaction_df.apply(lambda x: 1 if (x['Offer Started with Empower'] != na_filler and x['Offer Started with Empower'] >= x['offer_prep_period_start'] and x['Offer Started with Empower'] <= x['offer_prep_period_end']) else 0, axis=1)
+    transaction_df['Compliance Projection'] = transaction_df.apply(lambda x: 1 if (x['Compliance Started with Empower'] != na_filler and x['Compliance Started with Empower'] >= x['compliance_period_start'] and x['Compliance Started with Empower'] <= x['compliance_period_end']) else 0, axis=1)
+    transaction_df['Projection Condition'] = transaction_df.apply(lambda x: 1 if (x['CTC Projection'] == 1 or x['Listing Projection'] == 1 or x['Offer Projection'] == 1 or x['Compliance Projection'] == 1) else 0, axis=1)
+    transaction_df['Listing PAID Amount'] = pd.to_numeric(transaction_df['Listing PAID Amount'], errors='coerce', downcast='float')
+    transaction_df['CTC PAID Amount'] = pd.to_numeric(transaction_df['CTC PAID Amount'], errors='coerce', downcast='float')
+    transaction_df['Offer Prep PAID Amount'] = pd.to_numeric(transaction_df['Offer Prep PAID Amount'], errors='coerce', downcast='float')
+    transaction_df['Compliance PAID Amount'] = pd.to_numeric(transaction_df['Compliance PAID Amount'], errors='coerce', downcast='float')
+    transaction_df['TC Revenue'] = transaction_df[['Listing PAID Amount', 'CTC PAID Amount', 'Offer Prep PAID Amount', 'Compliance PAID Amount']].sum(axis=1)
     transaction_df = add_projected_amount(transaction_df)
     transaction_df = add_actual_amount(transaction_df)
     transaction_df = add_tc_revenue_amount(transaction_df)
@@ -246,16 +258,16 @@ def generate_payroll_report(enriched_transaction_df, mode):
             "Jenn McKinley"
         ]
 
-        selected_team_transaction_df = enriched_transaction_df[enriched_transaction_df["empower_tc_name"].isin(specific_teams)]
+        selected_team_transaction_df = enriched_transaction_df[enriched_transaction_df["Empower TC Name"].isin(specific_teams)]
         if mode == 'p':
-            values_name = 'projected_amount'
+            values_name = 'Projected Amount'
             columns_name = 'closing_periode'
         elif mode == 'a':
-            values_name = 'actual_amount'
+            values_name = 'Actual Amount'
             columns_name = 'ctc_periode'
         else:
             print("Mode is undefined!")
-        summary_df = selected_team_transaction_df.pivot_table(values=values_name, index='empower_tc_name', columns=columns_name, aggfunc='sum', fill_value=0)
+        summary_df = selected_team_transaction_df.pivot_table(values=values_name, index="Empower TC Name", columns=columns_name, aggfunc='sum', fill_value=0)
 
         summary_df['Total Result'] = summary_df.sum(axis=1)
         summary_df.loc['Total Result'] = summary_df.sum()
@@ -272,127 +284,121 @@ def generate_payroll_report(enriched_transaction_df, mode):
         pass
 
 
-def create_and_populate_google_sheet(service, spreadsheet_id, df, sheet_title):
-    """
-    Adds a new sheet to an existing Google Spreadsheet and populates it with data.
+# def create_and_populate_google_sheet(service, spreadsheet_id, df, sheet_title):
+#     """
+#     Adds a new sheet to an existing Google Spreadsheet and populates it with data.
 
-    :param service: Google Sheets API service object.
-    :param spreadsheet_id: ID of the Google Spreadsheet.
-    :param df: Pandas DataFrame containing the data.
-    :param sheet_title: Title for the new sheet.
-    """
-    try:
-        df = df.fillna("")
+#     :param service: Google Sheets API service object.
+#     :param spreadsheet_id: ID of the Google Spreadsheet.
+#     :param df: Pandas DataFrame containing the data.
+#     :param sheet_title: Title for the new sheet.
+#     """
+#     try:
+#         df = df.fillna("")
 
-        df = df.copy()  # Make a copy to avoid modifying the original DataFrame
-        for col in df.select_dtypes(include=['datetime', 'datetimetz']).columns:
-            df[col] = df[col].astype(str)
+#         df = df.copy()  # Make a copy to avoid modifying the original DataFrame
+#         for col in df.select_dtypes(include=['datetime', 'datetimetz']).columns:
+#             df[col] = df[col].astype(str)
 
-        # Add new sheet to the spreadsheet
-        requests = [{
-            "addSheet": {
-                "properties": {
-                    "title": sheet_title
-                }
-            }
-        }]
-        service.spreadsheets().batchUpdate(
-            spreadsheetId=spreadsheet_id,
-            body={"requests": requests}
-        ).execute()
+#         # Add new sheet to the spreadsheet
+#         requests = [{
+#             "addSheet": {
+#                 "properties": {
+#                     "title": sheet_title
+#                 }
+#             }
+#         }]
+#         service.spreadsheets().batchUpdate(
+#             spreadsheetId=spreadsheet_id,
+#             body={"requests": requests}
+#         ).execute()
 
-        # Convert DataFrame to list of lists for Google Sheets API
-        values = [df.columns.tolist()] + df.values.tolist()
+#         # Convert DataFrame to list of lists for Google Sheets API
+#         values = [df.columns.tolist()] + df.values.tolist()
 
-        # Update the new sheet with data
-        service.spreadsheets().values().update(
-            spreadsheetId=spreadsheet_id,
-            range=f"{sheet_title}!A1",
-            valueInputOption="RAW",
-            body={"values": values},
-        ).execute()
+#         # Update the new sheet with data
+#         service.spreadsheets().values().update(
+#             spreadsheetId=spreadsheet_id,
+#             range=f"{sheet_title}!A1",
+#             valueInputOption="RAW",
+#             body={"values": values},
+#         ).execute()
 
-        print(f"Sheet '{sheet_title}' added and populated successfully.")
-    except Exception as e:
-        print(f"Error populating Google Sheet: {e}")
+#         print(f"Sheet '{sheet_title}' added and populated successfully.")
+#     except Exception as e:
+#         print(f"Error populating Google Sheet: {e}")
 
 
-def create_google_sheet(dataframes, sheet_titles, spreadsheet_name):
-    """
-    Creates a Google Spreadsheet with multiple sheets, each populated with a different DataFrame.
+# def create_google_sheet(dataframes, sheet_titles, spreadsheet_name):
+#     """
+#     Creates a Google Spreadsheet with multiple sheets, each populated with a different DataFrame.
 
-    :param dataframes: List of DataFrames.
-    :param sheet_titles: List of sheet titles corresponding to each DataFrame.
-    :param spreadsheet_name: Name for the new Google Spreadsheet.
-    :return: ID of the created Google Spreadsheet.
-    """
-    start_time = time.time()
-    if not dataframes or len(dataframes) != len(sheet_titles):
-        print("DataFrames and sheet titles must be provided and match in length.")
-        return None
+#     :param dataframes: List of DataFrames.
+#     :param sheet_titles: List of sheet titles corresponding to each DataFrame.
+#     :param spreadsheet_name: Name for the new Google Spreadsheet.
+#     :return: ID of the created Google Spreadsheet.
+#     """
+#     start_time = time.time()
+#     if not dataframes or len(dataframes) != len(sheet_titles):
+#         print("DataFrames and sheet titles must be provided and match in length.")
+#         return None
 
-    # Set up Google Sheets API
-    scope = [
-        "https://www.googleapis.com/auth/spreadsheets",
-        "https://www.googleapis.com/auth/drive.file",
-    ]
-    creds = Credentials.from_service_account_file('../credentials.json', scopes=scope)
-    service = build("sheets", "v4", credentials=creds)
+#     # Set up Google Sheets API
+#     scope = [
+#         "https://www.googleapis.com/auth/spreadsheets",
+#         "https://www.googleapis.com/auth/drive.file",
+#     ]
+#     creds = Credentials.from_service_account_file('../credentials.json', scopes=scope)
+#     service = build("sheets", "v4", credentials=creds)
 
-    try:
-        # Create a new spreadsheet
-        spreadsheet = service.spreadsheets().create(
-            body={"properties": {"title": spreadsheet_name}}
-        ).execute()
-        spreadsheet_id = spreadsheet["spreadsheetId"]
+#     try:
+#         # Create a new spreadsheet
+#         spreadsheet = service.spreadsheets().create(
+#             body={"properties": {"title": spreadsheet_name}}
+#         ).execute()
+#         spreadsheet_id = spreadsheet["spreadsheetId"]
 
-        # Add each DataFrame to a separate sheet
-        for df, title in zip(dataframes, sheet_titles):
-            create_and_populate_google_sheet(service, spreadsheet_id, df, title)
+#         # Add each DataFrame to a separate sheet
+#         for df, title in zip(dataframes, sheet_titles):
+#             create_and_populate_google_sheet(service, spreadsheet_id, df, title)
 
-        # Set permissions to make the spreadsheet accessible
-        drive_service = build('drive', 'v3', credentials=creds)
-        permission_body = {
-            'type': 'anyone',   # Makes it accessible to anyone
-            'role': 'writer'    # Sets the permission to read-only
-        }
-        drive_service.permissions().create(
-            fileId=spreadsheet_id,
-            body=permission_body
-        ).execute()
+#         # Set permissions to make the spreadsheet accessible
+#         drive_service = build('drive', 'v3', credentials=creds)
+#         permission_body = {
+#             'type': 'anyone',   # Makes it accessible to anyone
+#             'role': 'writer'    # Sets the permission to read-only
+#         }
+#         drive_service.permissions().create(
+#             fileId=spreadsheet_id,
+#             body=permission_body
+#         ).execute()
 
-        end_time = time.time()
-        print(f"create_google_sheet() took {end_time - start_time:.2f} seconds")
-        print(f"Google Spreadsheet created with ID: {spreadsheet_id}")
-        return spreadsheet_id
+#         end_time = time.time()
+#         print(f"create_google_sheet() took {end_time - start_time:.2f} seconds")
+#         print(f"Google Spreadsheet created with ID: {spreadsheet_id}")
+#         return spreadsheet_id
 
-    except Exception as e:
-        print(f"Error creating Google Spreadsheet: {e}")
-        return None
+#     except Exception as e:
+#         print(f"Error creating Google Spreadsheet: {e}")
+#         return None
 
 
 if __name__ == "__main__":
     script_start_time = time.time()
-    # cek_data('../all_properties.parquet')
 
-    # transaction_df = extract_transaction_source('../all_properties.parquet')
-    transaction_df = pd.read_csv('transaction_source.csv')
+    transaction_df = extract_transaction_source('all_properties.parquet')
+
     enriched_transaction_df = transform_transaction_source(transaction_df)
     projected_payroll_report_df = generate_payroll_report(enriched_transaction_df, mode='p')
     actual_payroll_report_df = generate_payroll_report(enriched_transaction_df, mode='a')
-
-    # path = 'tc_payroll.xlsx'
-    # with pd.ExcelWriter(path, engine='openpyxl') as writer:
-    #     enriched_transaction_df.to_excel(writer, sheet_name='Transaction Source', index=False)
-    #     projected_payroll_report_df.to_excel(writer, sheet_name='TC Payroll Consolidated Projected')
-    #     actual_payroll_report_df.to_excel(writer, sheet_name='TC Payroll Consolidated Actual')
 
     # sheet_id = create_google_sheet(all_summaries)
     dataframes = [enriched_transaction_df, projected_payroll_report_df, actual_payroll_report_df]
     sheet_titles = ["transaction_data", "projected", "actual"]
     spreadsheet_name = "tc_payroll"
+    spreadsheet_id = '1KSmBLfhdCtir3FPad1afDRK4Zrfa1VXEbeHx9Ry36vU'
 
-    create_google_sheet(dataframes, sheet_titles, spreadsheet_name)
+    create_google_sheet(dataframes, sheet_titles, spreadsheet_name, spreadsheet_id)
 
     script_end_time = time.time()
     total_execution_time = script_end_time - script_start_time

@@ -82,7 +82,7 @@ def get_listing_started_summary(parquet_file_path):
 
 
 def execute_listing_started_summary():
-    parquet_file_path = "../all_properties.parquet"
+    parquet_file_path = "all_properties.parquet"
     summary = get_listing_started_summary(parquet_file_path)
     if summary:
         print(json.dumps(summary, indent=2))

@@ -51,7 +51,7 @@ def get_preferred_closing_all_other_month_summary(parquet_file_path):
         df = df[df["closing_date"].dt.year == current_year]
 
         specific_teams = list()
-        with open('../preferred_teams.csv') as file:
+        with open('preferred_teams.csv') as file:
             rows = csv.reader(file)
             for row in rows:
                 specific_teams.append(row[0])
@@ -79,7 +79,7 @@ def get_preferred_closing_all_other_month_summary(parquet_file_path):
 
 
 def execute_closing_summary():
-    parquet_file_path = "../all_properties.parquet"
+    parquet_file_path = "all_properties.parquet"
     summary = get_preferred_closing_all_other_month_summary(parquet_file_path)
     if summary:
         print(json.dumps(summary, indent=2))

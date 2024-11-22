@@ -80,7 +80,7 @@ def get_all_closing_current_month_summary(parquet_file_path):
 
 
 def execute_closing_summary():
-    parquet_file_path = "../all_properties.parquet"
+    parquet_file_path = "all_properties.parquet"
     summary = get_all_closing_current_month_summary(parquet_file_path)
     if summary:
         print(json.dumps(summary, indent=2))

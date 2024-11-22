@@ -63,7 +63,7 @@ def get_ctc_closing_summary_seller(parquet_file_path):
         ]
 
         specific_teams = list()
-        with open('../ctc_teams.csv') as file:
+        with open('ctc_teams.csv') as file:
             rows = csv.reader(file)
             for row in rows:
                 specific_teams.append(row[0])
@@ -98,7 +98,7 @@ def get_ctc_closing_summary_seller(parquet_file_path):
 
 
 def execute_ctc_closing_summary_seller():
-    parquet_file_path = "../all_properties.parquet"
+    parquet_file_path = "all_properties.parquet"
     summary = get_ctc_closing_summary_seller(parquet_file_path)
     if summary:
         print(json.dumps(summary, indent=2))
