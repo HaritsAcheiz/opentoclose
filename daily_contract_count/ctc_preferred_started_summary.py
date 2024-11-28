@@ -17,7 +17,7 @@ def get_ctc_preferred_started_summary(parquet_file_path):
     conn = duckdb.connect(database=":memory:")
 
     try:
-        query = f"SELECT * FROM '{parquet_file_path}'"
+        query = f"SELECT * FROM read_parquet('{parquet_file_path}')"
         df = conn.execute(query).fetchdf()
 
         def get_contract_status(field_values):

@@ -30,16 +30,16 @@ def extract_field_values(field_values, key):
     return None
 
 
-def extract_transaction_source(properties_file_path):
+def extract_transaction_source(properties_file_path_pattern):
     print('Extracting transaction data source...', end='')
     conn = duckdb.connect(database=":memory:")
     try:
-        query = f"SELECT * FROM '{properties_file_path}'"
+        conn = duckdb.connect(database=":memory:")
+        query = f"SELECT * FROM read_parquet('{properties_file_path_pattern}')"
         df = conn.execute(query).fetchdf()
-        # df.to_csv('pure_datasources.csv', index=False)
+        print("Data extraction complete.")
 
         transaction_schema = list()
-        # with open('transaction_schema.csv') as file:
         with open('Columns_Transaction_Source.csv') as file:
             rows = csv.reader(file)
             for row in rows:
@@ -48,8 +48,6 @@ def extract_transaction_source(properties_file_path):
         transaction_df = pd.DataFrame()
         for field in transaction_schema:
             transaction_df[field] = df['field_values'].apply(lambda x: extract_field_values(x, field))
-
-        # transaction_df.to_csv('transaction_source.csv', index=False)
 
         print('Done')
         return transaction_df
@@ -386,7 +384,7 @@ def generate_payroll_report(enriched_transaction_df, mode):
 if __name__ == "__main__":
     script_start_time = time.time()
 
-    transaction_df = extract_transaction_source('all_properties.parquet')
+    transaction_df = extract_transaction_source('datas/all_properties_*.parquet')
 
     enriched_transaction_df = transform_transaction_source(transaction_df)
     projected_payroll_report_df = generate_payroll_report(enriched_transaction_df, mode='p')

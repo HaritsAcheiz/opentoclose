@@ -40,7 +40,7 @@ from gsheetapi import *
 
 def concatenate_summaries():
     start_time = time.time()
-    parquet_file_path = "all_properties.parquet"
+    parquet_file_path = "datas/all_properties_*.parquet"
     summaries = [
         get_ctc_preferred_started_summary(parquet_file_path),
         get_ctc_preferred_closing_summary(parquet_file_path),
