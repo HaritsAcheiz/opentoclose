@@ -3,6 +3,9 @@ import csv
 import pandas as pd
 import json
 from gsheetapi import *
+from datetime import datetime
+
+na_filler = datetime(1899, 12, 30)
 
 
 def extract_field_values(field_values, key):
@@ -34,11 +37,9 @@ def create_staging_layer(properties_file_path):
         query = f"SELECT * FROM read_parquet('{properties_file_path}')"
         df = conn.execute(query).fetchdf()
 
-        transaction_schema = list()
         with open('Columns_Transaction_Source.csv') as file:
             rows = csv.reader(file)
-            for row in rows:
-                transaction_schema.append(row[0])
+            transaction_schema = [row[0] for row in rows]
 
         intermediate_trx_data = df['field_values'].map(lambda x: extract_field_values_batch(x, transaction_schema))
         intermediate_df = pd.DataFrame(intermediate_trx_data.tolist(), columns=transaction_schema)
@@ -48,6 +49,7 @@ def create_staging_layer(properties_file_path):
         transaction_df = transaction_df[transaction_df['Contract Status'] != 'AGENT ACCOUNT']
         transaction_df['Date Created'] = pd.to_datetime(transaction_df['Date Created'])
         transaction_df.sort_values('Date Created', inplace=True, ignore_index=True, ascending=False)
+
         error_df = transaction_df[pd.isna(transaction_df['Empower TC Name'])]
         transaction_df = transaction_df[~pd.isna(transaction_df['Empower TC Name'])]
 
@@ -65,8 +67,25 @@ def create_staging_layer(properties_file_path):
         agent_account_df = agent_account_df[agent_account_df['Contract Status'] == 'AGENT ACCOUNT']
         agent_account_df['Date Created'] = pd.to_datetime(agent_account_df['Date Created'])
         agent_account_df.sort_values('Date Created', inplace=True, ignore_index=True, ascending=False)
-        duplicated_agent_account_df = agent_account_df[~agent_account_df.duplicated('Contract Title', keep='first')].copy()
+        duplicated_agent_account_df = agent_account_df[agent_account_df.duplicated('Contract Title', keep='first')].copy()
         agent_account_df.drop_duplicates('Contract Title', keep='first', inplace=True, ignore_index=True)
+
+        # Join Transaction with Agent Account
+        transaction_df = transaction_df.merge(agent_account_df[['Contract Title', '1st Transaction Date', 'Reassigned Date', 'Brokerage', 'Agent Provided by']], how='left', left_on='Empower Agent Name', right_on='Contract Title')
+        transaction_df.rename({'Contract Title_x': 'Contract Title'}, inplace=True, axis=1)
+        transaction_df.drop(columns='Contract Title_y', inplace=True)
+
+        # Formating
+        with open('trx_order.csv') as file:
+            rows = csv.reader(file)
+            trx_order_columns = [row[0] for row in rows]
+        transaction_df = transaction_df[trx_order_columns]
+
+        with open('trx_date_columns.csv') as file:
+            rows = csv.reader(file)
+            trx_date_columns = [row[0] for row in rows]
+        transaction_df[trx_date_columns] = transaction_df[trx_date_columns].astype('datetime64[ns]')
+        transaction_df[trx_date_columns] = transaction_df[trx_date_columns].fillna(na_filler)
 
         return transaction_df, error_df, agent_account_df, duplicated_agent_account_df
 
