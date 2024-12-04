@@ -50,9 +50,6 @@ def create_staging_layer(properties_file_path):
         transaction_df['Date Created'] = pd.to_datetime(transaction_df['Date Created'])
         transaction_df.sort_values('Date Created', inplace=True, ignore_index=True, ascending=False)
 
-        error_df = transaction_df[pd.isna(transaction_df['Empower TC Name'])]
-        transaction_df = transaction_df[~pd.isna(transaction_df['Empower TC Name'])]
-
         agent_account_schema = list()
         with open('Columns_Agent_Account_Source.csv') as file:
             rows = csv.reader(file)
@@ -71,9 +68,15 @@ def create_staging_layer(properties_file_path):
         agent_account_df.drop_duplicates('Contract Title', keep='first', inplace=True, ignore_index=True)
 
         # Join Transaction with Agent Account
-        transaction_df = transaction_df.merge(agent_account_df[['Contract Title', '1st Transaction Date', 'Reassigned Date', 'Brokerage', 'Agent Provided by']], how='left', left_on='Empower Agent Name', right_on='Contract Title')
+        transaction_df = transaction_df.merge(agent_account_df[['Contract Title', '1st Transaction Date', 'Reassigned Date', 'Brokerage', 'Agent Provided by']], how='left', left_on='Empower Agent Name', right_on='Contract Title', indicator=True)
         transaction_df.rename({'Contract Title_x': 'Contract Title'}, inplace=True, axis=1)
         transaction_df.drop(columns='Contract Title_y', inplace=True)
+
+        error_df = transaction_df[transaction_df['_merge'] == 'left_only']
+        error_df.drop(columns='_merge', inplace=True)
+
+        transaction_df = transaction_df[transaction_df['_merge'] == 'both']
+        transaction_df.drop(columns='_merge', inplace=True)
 
         # Formating
         with open('trx_order.csv') as file:
@@ -86,6 +89,10 @@ def create_staging_layer(properties_file_path):
             trx_date_columns = [row[0] for row in rows]
         transaction_df[trx_date_columns] = transaction_df[trx_date_columns].astype('datetime64[ns]')
         transaction_df[trx_date_columns] = transaction_df[trx_date_columns].fillna(na_filler)
+
+        listing_df = ''
+
+        scrubed_transaction_df = ''
 
         return transaction_df, error_df, agent_account_df, duplicated_agent_account_df
 

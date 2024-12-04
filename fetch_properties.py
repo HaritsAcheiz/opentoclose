@@ -104,7 +104,7 @@ def delete_and_recreate_folder(folder_path):
 
 
 def fetch_and_save(api_token, filename_prefix="all_properties", limit=50):
-    offset = 15000
+    offset = 0
     while True:
         data = fetch_properties(api_token, limit, offset)
         if data is None or len(data) == 0:
