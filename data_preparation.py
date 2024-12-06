@@ -8,6 +8,25 @@ from datetime import datetime
 na_filler = datetime(1899, 12, 30)
 
 
+def correcting_ba_amount(df):
+    # Create a copy to avoid modifying the original DataFrame
+    df = df.copy()
+
+    # Conditions for Billing Amount replacement
+    billing_amount_blank = (pd.isna(df['Billing Amount'])) | (df['Billing Amount'] == 0) | (df['Billing Amount'] == '')
+
+    # Replace with Other Amount if available
+    other_amount_valid = (pd.notna(df['Other Amount'])) & (df['Other Amount'] != 0) & (df['Other Amount'] != '')
+    df.loc[billing_amount_blank & other_amount_valid, 'Billing Amount'] = df.loc[billing_amount_blank & other_amount_valid, 'Other Amount']
+
+    # Fill remaining blank rows based on Preferred Ai CTC
+    remaining_blank = billing_amount_blank & ~other_amount_valid
+    df.loc[remaining_blank & (df['Preferred  Ai  CTC'] == 'Yes'), 'Billing Amount'] = 99.00
+    df.loc[remaining_blank & (df['Preferred  Ai  CTC'] != 'Yes'), 'Billing Amount'] = 400.00
+
+    return df['Billing Amount'].to_list()
+
+
 def extract_field_values(field_values, key):
     try:
         values = json.loads(field_values)
@@ -90,9 +109,109 @@ def create_staging_layer(properties_file_path):
         transaction_df[trx_date_columns] = transaction_df[trx_date_columns].astype('datetime64[ns]')
         transaction_df[trx_date_columns] = transaction_df[trx_date_columns].fillna(na_filler)
 
-        listing_df = ''
+        with open('trx_columns_need_fillna_0.csv') as file:
+            rows = csv.reader(file)
+            trx_columns_need_fillna_0 = [row[0] for row in rows]
 
-        scrubed_transaction_df = ''
+        with open('trx_columns_need_fillna_none.csv') as file:
+            rows = csv.reader(file)
+            trx_columns_need_fillna_none = [row[0] for row in rows]
+
+        transaction_df[trx_columns_need_fillna_0] = transaction_df[trx_columns_need_fillna_0].fillna(0)
+        transaction_df[trx_columns_need_fillna_0] = transaction_df[trx_columns_need_fillna_0].replace('', 0)
+        transaction_df[trx_columns_need_fillna_none] = transaction_df[trx_columns_need_fillna_none].fillna('none')
+        transaction_df[trx_columns_need_fillna_none] = transaction_df[trx_columns_need_fillna_none].replace('', 'none')
+
+        # Filtering
+        transaction_df.drop(
+            transaction_df[
+                transaction_df['Contract Title'].str.lower().str.contains('test')
+            ].index,
+            axis=0,
+            inplace=True
+        )
+
+        transaction_df.drop(
+            transaction_df[
+                transaction_df['Contract Title'].str.lower().str.contains('training')
+            ].index,
+            axis=0,
+            inplace=True
+        )
+
+        transaction_df.drop(
+            transaction_df[
+                transaction_df['Contract Title'].str.lower().str.contains('delete')
+            ].index,
+            axis=0,
+            inplace=True
+        )
+
+        transaction_df.drop(
+            transaction_df[
+                ((pd.isna(transaction_df['Empower TC Name'])) | (transaction_df['Empower TC Name'] == '')) & (transaction_df['CTC Started with Empower'] == na_filler) & (transaction_df['Listing Started with Empower'] == na_filler) & (transaction_df['Offer Started with Empower'] == na_filler) & (transaction_df['Compliance Started with Empower'] == na_filler)].index,
+            axis=0,
+            inplace=True
+        )
+
+        transaction_df.drop(
+            transaction_df[
+                ((pd.isna(transaction_df['Empower Agent Name'])) | (transaction_df['Empower Agent Name'] == '')) & (transaction_df['CTC Started with Empower'] == na_filler) & (transaction_df['Listing Started with Empower'] == na_filler) & (transaction_df['Offer Started with Empower'] == na_filler) & (transaction_df['Compliance Started with Empower'] == na_filler)].index,
+            axis=0,
+            inplace=True
+        )
+
+        # Correction
+        transaction_df.loc[
+            transaction_df[(
+                transaction_df['Contract Status'].isin([
+                    'Compliance - PAID',
+                    'Compliance - Ready to BILL',
+                    'CTC - Preferred - Terminated - No Change',
+                    'CTC - Terminated - No Change',
+                    'CTC - Preferred - Withdrawn',
+                    'CTC - Withdrawn',
+                    'Listing - PAID',
+                    'Listing - Pre-Listing',
+                ])
+            )].index,
+            'Closing'
+        ] = na_filler
+
+        print(transaction_df['CTC Started with Empower'].dtype)
+
+        transaction_df.loc[
+            transaction_df[
+                (transaction_df['CTC Started with Empower'].dt.year >= 2021) & (transaction_df['Listing Started with Empower'].dt.year >= 2021)
+            ].index,
+            ['Listing Started with Empower', 'Live on MLS Date', 'Listing PAID Date']
+        ] = na_filler
+
+        transaction_df.loc[
+            transaction_df[
+                (transaction_df['CTC Started with Empower'].dt.year >= 2021) & (transaction_df['Listing Started with Empower'].dt.year >= 2021)
+            ].index,
+            'Listing PAID Amount'
+        ] = 0
+
+        billing_status_list = transaction_df.loc[
+            transaction_df['Billing Status'] != 'none',
+            'Billing Status'].to_list()
+        transaction_df.loc[
+            transaction_df['Billing Status'] != 'none',
+            'Contract Status'] = billing_status_list
+
+        ba_amount_correction = transaction_df.loc[
+            ((transaction_df['Billing Amount'] == 0) | (pd.isna(transaction_df['Billing Amount'])) | (transaction_df['Billing Amount'] == '')) & (transaction_df['Closing'] != na_filler),
+            ['Billing Amount', 'Other Amount', 'Preferred  Ai  CTC']
+        ]
+
+        corrected_ba_amount = correcting_ba_amount(ba_amount_correction)
+
+        transaction_df.loc[
+            ((transaction_df['Billing Amount'] == 0) | (pd.isna(transaction_df['Billing Amount'])) | (transaction_df['Billing Amount'] == '')) & (transaction_df['Closing'] != na_filler),
+            'Billing Amount'
+        ] = corrected_ba_amount
 
         return transaction_df, error_df, agent_account_df, duplicated_agent_account_df
 
